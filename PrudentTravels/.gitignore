@@ -13,6 +13,7 @@ frontend/.env
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+frontend_server.log
 
 # Build-related files
 /frontend/build
