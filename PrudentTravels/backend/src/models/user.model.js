@@ -89,6 +89,18 @@ module.exports = (sequelize) => {
     isActive: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
+    },
+    isSuspended: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    suspendedAt: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    suspensionReason: {
+      type: DataTypes.TEXT,
+      allowNull: true
     }
   }, {
     timestamps: true,

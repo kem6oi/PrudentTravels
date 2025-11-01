@@ -244,6 +244,80 @@ const updateUserRole = async (req, res) => {
   }
 };
 
+/**
+ * Suspend user account
+ */
+const suspendUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body;
+
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return errorResponse(res, 'User not found', 404);
+    }
+
+    // Prevent suspending admin accounts
+    if (user.role === ROLES.ADMIN) {
+      return errorResponse(res, 'Cannot suspend admin accounts', 400);
+    }
+
+    // Check if already suspended
+    if (user.isSuspended) {
+      return errorResponse(res, 'User is already suspended', 400);
+    }
+
+    await user.update({
+      isSuspended: true,
+      suspendedAt: new Date(),
+      suspensionReason: reason || 'Account suspended by administrator'
+    });
+
+    // Send suspension email notification (only for travelers)
+    if (user.role === ROLES.TRAVELER) {
+      const emailService = require('../services/email.service');
+      await emailService.sendAccountSuspension(user);
+    }
+
+    return successResponse(res, user, 'User account suspended successfully');
+  } catch (error) {
+    console.error('Error suspending user:', error);
+    return errorResponse(res, 'Error suspending user account', 500);
+  }
+};
+
+/**
+ * Unsuspend user account
+ */
+const unsuspendUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findByPk(id);
+
+    if (!user) {
+      return errorResponse(res, 'User not found', 404);
+    }
+
+    // Check if user is suspended
+    if (!user.isSuspended) {
+      return errorResponse(res, 'User is not suspended', 400);
+    }
+
+    await user.update({
+      isSuspended: false,
+      suspendedAt: null,
+      suspensionReason: null
+    });
+
+    return successResponse(res, user, 'User account unsuspended successfully');
+  } catch (error) {
+    console.error('Error unsuspending user:', error);
+    return errorResponse(res, 'Error unsuspending user account', 500);
+  }
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -251,5 +325,7 @@ module.exports = {
   toggleUserStatus,
   deleteUser,
   getPlatformStats,
-  updateUserRole
+  updateUserRole,
+  suspendUser,
+  unsuspendUser
 };

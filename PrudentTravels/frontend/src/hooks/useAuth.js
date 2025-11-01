@@ -38,7 +38,20 @@ export const useAuth = () => {
       return { success: true };
     } catch (error) {
       const message = error.response?.data?.message || 'Login failed';
+      const isSuspended = error.response?.data?.suspended;
+      const suspensionReason = error.response?.data?.suspensionReason;
+      
       dispatch(loginFailure(message));
+      
+      if (isSuspended) {
+        // Store suspension info temporarily for the suspended page
+        localStorage.setItem('suspensionInfo', JSON.stringify({
+          suspended: true,
+          reason: suspensionReason
+        }));
+        return { success: false, error: message, suspended: true };
+      }
+      
       toast.error(message);
       return { success: false, error: message };
     }

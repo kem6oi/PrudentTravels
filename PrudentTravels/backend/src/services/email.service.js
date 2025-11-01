@@ -209,6 +209,51 @@ class EmailService {
       html
     });
   }
+
+  async sendAccountSuspension(user) {
+    const subject = 'Account Suspension Notice - PrudentTravels';
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #dc3545;">Account Suspension Notice</h2>
+        <p>Dear ${user.firstName} ${user.lastName},</p>
+        <p>We regret to inform you that your PrudentTravels account has been suspended.</p>
+        
+        <div style="background-color: #fff3cd; padding: 20px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #ffc107;">
+          <p style="margin: 0;"><strong>Suspension Details:</strong></p>
+          <p style="margin: 10px 0 0 0;"><strong>Date:</strong> ${new Date(user.suspendedAt).toLocaleDateString()}</p>
+          ${user.suspensionReason ? `<p style="margin: 10px 0 0 0;"><strong>Reason:</strong> ${user.suspensionReason}</p>` : ''}
+        </div>
+        
+        <p>While your account is suspended, you will not be able to:</p>
+        <ul style="color: #666;">
+          <li>Log in to your account</li>
+          <li>Make new bookings</li>
+          <li>Access your dashboard</li>
+          <li>Use PrudentTravels services</li>
+        </ul>
+        
+        <p><strong>What you can do:</strong></p>
+        <p>If you believe this suspension was made in error or would like to appeal this decision, please contact our support team immediately.</p>
+        
+        <a href="${process.env.CLIENT_URL}/contact" 
+           style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0;">
+          Contact Support
+        </a>
+        
+        <p>You can also reply directly to this email, and our support team will assist you.</p>
+        
+        <p>We appreciate your understanding.</p>
+        
+        <p>Best regards,<br>The PrudentTravels Team</p>
+      </div>
+    `;
+
+    return this.sendEmail({
+      to: user.email,
+      subject,
+      html
+    });
+  }
 }
 
 module.exports = new EmailService();

@@ -93,6 +93,16 @@ const login = async (req, res) => {
       });
     }
 
+    // Check if user is suspended
+    if (user.isSuspended) {
+      return res.status(403).json({
+        success: false,
+        message: 'Your account has been suspended.',
+        suspended: true,
+        suspensionReason: user.suspensionReason
+      });
+    }
+
     // Update last login
     await user.update({ lastLogin: new Date() });
 
