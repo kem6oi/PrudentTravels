@@ -1,0 +1,29 @@
+const express = require('express');
+const router = express.Router();
+const {
+  createPaymentIntent,
+  confirmPayment,
+  getPaymentDetails,
+  getUserPayments,
+  processRefund,
+  handleWebhook
+} = require('../controllers/payment.controller');
+const { protect } = require('../middleware/auth.middleware');
+const { authorize } = require('../middleware/role.middleware');
+
+// Webhook route (no authentication required, verified by Stripe signature)
+router.post('/webhook', express.raw({ type: 'application/json' }), handleWebhook);
+
+// Protected routes
+router.use(protect);
+
+// User payment routes
+router.post('/create-intent', createPaymentIntent);
+router.post('/confirm', confirmPayment);
+router.get('/my-payments', getUserPayments);
+router.get('/:id', getPaymentDetails);
+
+// Admin routes
+router.post('/refund', authorize('admin'), processRefund);
+
+module.exports = router;
