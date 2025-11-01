@@ -40,12 +40,17 @@ api.interceptors.response.use(
         window.location.href = '/login';
         toast.error('Session expired. Please login again.');
       } else if (status === 403) {
+        // Check if account is suspended
+        if (data?.suspended) {
+          // Don't show toast for suspension - let login handle it
+          return Promise.reject(error);
+        }
         toast.error('You do not have permission to perform this action.');
       } else if (status === 404) {
         toast.error('Resource not found.');
       } else if (status === 500) {
         toast.error('Server error. Please try again later.');
-      } else if (data?.message) {
+      } else if (data?.message && !data?.suspended) {
         toast.error(data.message);
       }
     } else if (error.request) {
@@ -131,10 +136,15 @@ export const apiEndpoints = {
   // Admin endpoints
   admin: {
     dashboard: '/admin/dashboard',
+    stats: '/admin/stats',
     users: {
       getAll: '/admin/users',
       getOne: (id) => `/admin/users/${id}`,
       update: (id) => `/admin/users/${id}`,
+      updateRole: (id) => `/admin/users/${id}/role`,
+      toggleStatus: (id) => `/admin/users/${id}/toggle-status`,
+      suspend: (id) => `/admin/users/${id}/suspend`,
+      unsuspend: (id) => `/admin/users/${id}/unsuspend`,
       delete: (id) => `/admin/users/${id}`,
     },
     analytics: '/admin/analytics',

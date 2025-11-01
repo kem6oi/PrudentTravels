@@ -9,6 +9,7 @@ import Destinations from '../pages/public/Destinations';
 import DestinationDetail from '../pages/public/DestinationDetail';
 import About from '../pages/public/About';
 import Contact from '../pages/public/Contact';
+import Suspended from '../pages/public/Suspended';
 
 // Auth Components
 import RegisterForm from '../components/auth/RegisterForm';
@@ -48,6 +49,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<RegisterForm />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/suspended" element={<Suspended />} />
       <Route path="/destinations" element={<Destinations />} />
       <Route path="/destinations/:id" element={<DestinationDetail />} />
       <Route path="/about" element={<About />} />

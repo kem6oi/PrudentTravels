@@ -28,6 +28,9 @@ const LoginForm = () => {
       } else {
         navigate('/user/dashboard');
       }
+    } else if (result.suspended) {
+      // Redirect to suspended page if account is suspended
+      navigate('/suspended');
     }
   };
 
