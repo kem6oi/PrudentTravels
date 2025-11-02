@@ -5,7 +5,6 @@ import Modal from '../../components/common/Modal';
 import { HiPlus } from 'react-icons/hi';
 
 const FAQManager = () => {
-  const [faqs, setFaqs] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   return (

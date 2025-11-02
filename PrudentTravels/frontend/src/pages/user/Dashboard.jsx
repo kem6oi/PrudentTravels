@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { HiCalendar, HiHeart, HiStar, HiTicket } from 'react-icons/hi';
+import { HiCalendar, HiHeart, HiStar } from 'react-icons/hi';
 import { FaPlane } from 'react-icons/fa';
 import Sidebar from '../../components/common/Sidebar';
 import Navbar from '../../components/common/Navbar';

@@ -10,7 +10,6 @@ import toast from 'react-hot-toast';
 const AddDestination = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [selectedImages, setSelectedImages] = useState([]);
 
   const {
     register,
