@@ -9,7 +9,7 @@ const FAQManager = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Navbar title="FAQ Manager" />

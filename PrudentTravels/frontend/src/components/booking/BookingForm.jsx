@@ -49,7 +49,7 @@ const BookingForm = ({ onSubmit, initialData = {}, destination }) => {
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
       {/* Guest Count */}
-      <div className="bg-gray-50 rounded-lg p-6">
+      <div className="bg-sky-50 rounded-lg p-6">
         <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <HiUsers />
           Number of Guests
@@ -122,7 +122,7 @@ const BookingForm = ({ onSubmit, initialData = {}, destination }) => {
       </div>
 
       {/* Contact Information */}
-      <div className="bg-gray-50 rounded-lg p-6">
+      <div className="bg-sky-50 rounded-lg p-6">
         <h3 className="font-semibold text-gray-900 mb-4">Contact Information</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
