@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import Sidebar from '../../components/common/Sidebar';
 import Navbar from '../../components/common/Navbar';
 import Loader from '../../components/common/Loader';
-import { DESTINATION_CATEGORIES } from '../../utils/constants';
 import api, { apiEndpoints } from '../../services/api';
 import toast from 'react-hot-toast';
 
@@ -13,7 +12,6 @@ const EditDestination = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [destination, setDestination] = useState(null);
 
   const {
     register,
@@ -24,13 +22,13 @@ const EditDestination = () => {
 
   useEffect(() => {
     fetchDestination();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchDestination = async () => {
     try {
       const response = await api.get(apiEndpoints.destinations.getOne(id));
       const dest = response.data.data;
-      setDestination(dest);
       reset({
         ...dest,
         durationDays: dest.duration?.days || 1,
