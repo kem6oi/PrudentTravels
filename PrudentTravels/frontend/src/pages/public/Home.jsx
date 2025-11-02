@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaSearch, FaGlobe, FaHeart, FaStar, FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 import { HiShieldCheck, HiCurrencyDollar, HiUserGroup } from 'react-icons/hi';
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';

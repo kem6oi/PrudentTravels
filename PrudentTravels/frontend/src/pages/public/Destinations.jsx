@@ -27,6 +27,7 @@ const Destinations = () => {
 
   useEffect(() => {
     fetchDestinations();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, pagination.currentPage]);
 
   const fetchDestinations = async () => {

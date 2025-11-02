@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HiUsers, HiGlobe, HiCalendar, HiCurrencyDollar, HiTrendingUp } from 'react-icons/hi';
+import { HiUsers, HiGlobe, HiCalendar, HiCurrencyDollar } from 'react-icons/hi';
 import Sidebar from '../../components/common/Sidebar';
 import Navbar from '../../components/common/Navbar';
 import { Line, Bar } from 'react-chartjs-2';
@@ -16,10 +16,10 @@ const AdminDashboard = () => {
     totalBookings: 0,
     totalRevenue: 0,
   });
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchDashboardData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchDashboardData = async () => {
@@ -28,8 +28,6 @@ const AdminDashboard = () => {
       setStats(response.data.data || stats);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
-    } finally {
-      setLoading(false);
     }
   };
 
