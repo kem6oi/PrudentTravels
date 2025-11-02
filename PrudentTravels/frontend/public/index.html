@@ -1,20 +1,218 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#3b82f6" />
-    <meta
-      name="description"
-      content="PrudentTravels - Discover amazing destinations and create unforgettable memories with our carefully curated travel experiences."
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <title>PrudentTravels - Your Gateway to Amazing Adventures</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-  </body>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrudentTravels | Your Journey, Perfectly Planned</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-sky-100 text-gray-800 font-body">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="header">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold font-display text-white">PrudentTravels</a>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#destinations" class="text-white/80 hover:text-white transition">Destinations</a>
+                <a href="#why-us" class="text-white/80 hover:text-white transition">Why Us</a>
+                <a href="#contact" class="text-white/80 hover:text-white transition">Contact</a>
+            </nav>
+            <a href="#contact" class="hidden md:block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-5 rounded-full transition-transform duration-300 hover:scale-105">
+                Plan Your Trip
+            </a>
+            <button id="mobile-menu-button" class="md:hidden text-white">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/90 backdrop-blur-sm">
+             <a href="#destinations" class="block text-gray-800 text-center py-3 hover:bg-gray-100">Destinations</a>
+             <a href="#why-us" class="block text-gray-800 text-center py-3 hover:bg-gray-100">Why Us</a>
+             <a href="#contact" class="block text-gray-800 text-center py-3 hover:bg-gray-100">Contact</a>
+             <div class="p-4">
+                <a href="#contact" class="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full transition-transform duration-300 hover:scale-105">
+                    Plan Your Trip
+                </a>
+             </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center text-white">
+        <div class="absolute inset-0 bg-black opacity-40 z-10"></div>
+        <img src="https://www.findingtheuniverse.com/wp-content/uploads/2015/09/Grand252520canyon252520sunrise252520Mather252520Point2525206_by_Laurence252520Norah25255B325255D.jpg" alt="Epic sunrise over the Grand Canyon" class="absolute inset-0 w-full h-full object-cover">
+        <div class="relative z-20 text-center px-4">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold font-display leading-tight mb-4 animate-fade-in-up">Your Journey, Perfectly Planned.</h1>
+            <p class="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto animate-fade-in-up" style="animation-delay: 0.2s;">Discover unforgettable destinations with bespoke travel experiences crafted by experts.</p>
+            <a href="#destinations" class="bg-white text-blue-600 font-bold py-4 px-8 rounded-full text-lg hover:bg-blue-100 transition-transform duration-300 hover:scale-105 inline-block animate-fade-in-up" style="animation-delay: 0.4s;">
+                Explore Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <main id="destinations" class="py-20 lg:py-32 bg-sky-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold font-display text-slate-800 scroll-fade-in">Find Your Next Adventure</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto scroll-fade-in">From majestic peaks to ancient marvels, your dream vacation awaits.</p>
+            </div>
+
+            <!-- Category: Breathtaking Landscapes -->
+            <div class="mb-20 scroll-fade-in">
+                <h3 class="text-3xl font-bold font-display mb-8 text-slate-700">Breathtaking Landscapes</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <img src="https://i.ontraport.com/224876.f779a378d80d06d3141bfe2c15f84112.JPEG" alt="Grand Canyon landscape" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <h4 class="text-2xl font-bold text-white">The Grand Canyon</h4>
+                            <p class="text-white/90 mt-1">A testament to nature's artistry.</p>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <img src="https://images.pexels.com/photos/20216411/pexels-photo-20216411/free-photo-of-drone-shot-of-blue-ocean.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Vast blue ocean from above" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <h4 class="text-2xl font-bold text-white">Azure Oceans</h4>
+                            <p class="text-white/90 mt-1">Dive into endless blue.</p>
+                        </div>
+                    </div>
+                     <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <img src="https://morethanjustparks.com/wp-content/uploads/2022/05/point-imperial-sunrise-grand-canyon.jpg" alt="Sunrise at Point Imperial" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <h4 class="text-2xl font-bold text-white">Imperial Point Sunrise</h4>
+                            <p class="text-white/90 mt-1">Witness the world awaken.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category: Ancient Wonders -->
+            <div class="mb-20 scroll-fade-in">
+                <h3 class="text-3xl font-bold font-display mb-8 text-slate-700">Ancient Wonders</h3>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <img src="https://images.fineartamerica.com/images-medium-large-5/1-sunset-at-the-pyramids-giza-cairo-nick-brundle-photography.jpg" alt="Pyramids of Giza at sunset" class="w-full h-96 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <h4 class="text-2xl font-bold text-white">Giza Necropolis</h4>
+                            <p class="text-white/90 mt-1">Journey through millennia of history.</p>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <img src="https://th-thumbnailer.cdn-si-edu.com/P0o2SN-JADz-ZSFcCLD_WwWff04=/fit-in/1072x0/https://tf-cmsv2-photocontest-smithsonianmag-prod-approved.s3.amazonaws.com/e6418c24-fa75-4f56-9db2-7b705aafd1cb.jpg" alt="The Great Pyramid against a sunset sky" class="w-full h-96 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <h4 class="text-2xl font-bold text-white">The Great Pyramids</h4>
+                            <p class="text-white/90 mt-1">Marvels of ancient engineering.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category: Pristine Beaches -->
+            <div class="scroll-fade-in">
+                <h3 class="text-3xl font-bold font-display mb-8 text-slate-700">Pristine Beaches</h3>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                     <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <img src="https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/tropical-caribbean-white-sand-beach-paradise-at-sunset-dave-allen.jpg" alt="Caribbean white sand beach" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <h4 class="text-2xl font-bold text-white">Caribbean Sunset</h4>
+                            <p class="text-white/90 mt-1">Where golden hour never ends.</p>
+                        </div>
+                    </div>
+                    <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <img src="https://previews.123rf.com/images/grafner/grafner1705/grafner170500013/79006816-tropical-paradise-beach-with-white-sand-and-coco-palms-travel-tourism-wide-panorama-background.jpg" alt="Tropical paradise with palm trees" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <h4 class="text-2xl font-bold text-white">Tropical Paradise</h4>
+                            <p class="text-white/90 mt-1">Your own slice of heaven.</p>
+                        </div>
+                    </div>
+                     <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                        <img src="https://media.istockphoto.com/id/1145297304/photo/tropical-paradise-beach.jpg?s=612x612&w=0&k=20&c=E5eYEArLTb9ECfUUv29K39xgnErTKOO2IP8lrHnipKU=" alt="Turquoise water and white sand" class="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 p-6">
+                            <h4 class="text-2xl font-bold text-white">Secluded Shores</h4>
+                            <p class="text-white/90 mt-1">Escape the everyday.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Why Choose Us Section -->
+    <section id="why-us" class="py-20 lg:py-32 bg-sky-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold font-display text-slate-800 scroll-fade-in">Why Choose PrudentTravels?</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto scroll-fade-in">We turn your travel dreams into reality with unmatched service and expertise.</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-12 text-center">
+                <div class="scroll-fade-in">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full mx-auto mb-4">
+                        <i data-lucide="compass" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-display mb-2">Expert-Led Itineraries</h3>
+                    <p class="text-gray-600">Every trip is meticulously planned by our seasoned travel experts to ensure a seamless and enriching experience.</p>
+                </div>
+                <div class="scroll-fade-in">
+                    <div class="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full mx-auto mb-4">
+                        <i data-lucide="award" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-display mb-2">Unbeatable Value</h3>
+                    <p class="text-gray-600">We leverage our global network to provide you with luxury experiences at the most competitive prices.</p>
+                </div>
+                <div class="scroll-fade-in">
+                     <div class="flex items-center justify-center h-16 w-16 bg-blue-100 text-blue-600 rounded-full mx-auto mb-4">
+                        <i data-lucide="heart-handshake" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-display mb-2">Dedicated Support</h3>
+                    <p class="text-gray-600">From the moment you book until you return home, our team is available 24/7 to assist you with anything you need.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-slate-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-3 gap-8 text-center md:text-left">
+                <div>
+                    <h3 class="text-xl font-bold font-display mb-4">PrudentTravels</h3>
+                    <p class="text-slate-400">Your journey, perfectly planned.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold font-display mb-4">Contact Us</h3>
+                    <ul class="text-slate-400 space-y-2">
+                        <li><a href="mailto:hello@prudenttravels.com" class="hover:text-white transition">hello@prudenttravels.com</a></li>
+                        <li><a href="tel:+1234567890" class="hover:text-white transition">+1 (234) 567-890</a></li>
+                    </ul>
+                </div>
+                 <div>
+                    <h3 class="text-xl font-bold font-display mb-4">Follow Us</h3>
+                    <div class="flex justify-center md:justify-start space-x-4">
+                        <a href="#" class="text-slate-400 hover:text-white transition"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-white transition"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-white transition"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-slate-700 pt-8 text-center text-slate-500">
+                <p>&copy; 2025 PrudentTravels. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
 </html>
