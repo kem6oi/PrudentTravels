@@ -108,7 +108,7 @@ const DestinationDetailPage = () => {
   ].filter(Boolean);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-sky-50">
       <Header />
 
       <div className="container-custom section-padding py-8">

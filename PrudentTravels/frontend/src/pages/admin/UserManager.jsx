@@ -94,7 +94,7 @@ const UserManager = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Navbar title="Manage Users" />
@@ -106,7 +106,7 @@ const UserManager = () => {
             <div className="card overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+                  <thead className="bg-sky-50">
                     <tr>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                         User
@@ -127,7 +127,7 @@ const UserManager = () => {
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {users.map((user) => (
-                      <tr key={user.id} className="hover:bg-gray-50">
+                      <tr key={user.id} className="hover:bg-sky-50">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-gray-900">
                             {user.firstName} {user.lastName}
@@ -208,7 +208,7 @@ const UserManager = () => {
             <div className="flex space-x-3">
               <button
                 onClick={closeSuspendModal}
-                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-sky-50"
                 disabled={actionLoading}
               >
                 Cancel

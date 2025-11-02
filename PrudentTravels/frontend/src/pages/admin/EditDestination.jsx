@@ -70,7 +70,7 @@ const EditDestination = () => {
 
   if (loading) {
     return (
-      <div className="flex h-screen bg-gray-50">
+      <div className="flex h-screen bg-sky-50">
         <Sidebar />
         <div className="flex-1">
           <Navbar title="Edit Destination" />
@@ -81,7 +81,7 @@ const EditDestination = () => {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Navbar title="Edit Destination" />
