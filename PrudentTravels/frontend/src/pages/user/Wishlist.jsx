@@ -26,17 +26,6 @@ const Wishlist = () => {
     }
   };
 
-  const handleRemoveFromWishlist = async (destinationId) => {
-    try {
-      await api.delete(apiEndpoints.wishlist.remove, {
-        data: { destinationId },
-      });
-      toast.success('Removed from wishlist');
-      fetchWishlist();
-    } catch (error) {
-      toast.error('Failed to remove from wishlist');
-    }
-  };
 
   return (
     <div className="flex h-screen bg-sky-50">

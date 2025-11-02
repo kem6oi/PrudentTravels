@@ -15,6 +15,7 @@ const TicketDetail = () => {
 
   useEffect(() => {
     fetchTicket();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchTicket = async () => {

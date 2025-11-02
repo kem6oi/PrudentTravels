@@ -4,7 +4,7 @@ import Navbar from '../../components/common/Navbar';
 import Loader from '../../components/common/Loader';
 import api, { apiEndpoints } from '../../services/api';
 import toast from 'react-hot-toast';
-import { FaBan, FaCheck, FaTrash, FaEye } from 'react-icons/fa';
+import { FaBan, FaCheck } from 'react-icons/fa';
 
 const UserManager = () => {
   const [users, setUsers] = useState([]);
