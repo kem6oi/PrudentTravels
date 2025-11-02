@@ -250,7 +250,7 @@ const Settings = () => {
   );
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Navbar title="Settings" />
@@ -270,7 +270,7 @@ const Settings = () => {
                       className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                         activeTab === tab.id
                           ? 'bg-primary-50 text-primary-600'
-                          : 'text-gray-700 hover:bg-gray-50'
+                          : 'text-gray-700 hover:bg-sky-50'
                       }`}
                     >
                       <tab.icon className="text-xl" />

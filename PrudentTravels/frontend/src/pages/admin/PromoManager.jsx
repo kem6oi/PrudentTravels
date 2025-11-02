@@ -38,7 +38,7 @@ const PromoManager = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Navbar title="Promo Codes" />
@@ -57,7 +57,7 @@ const PromoManager = () => {
 
           <div className="card overflow-hidden">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-sky-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                     Code

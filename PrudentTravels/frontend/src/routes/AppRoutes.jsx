@@ -5,6 +5,7 @@ import ProtectedRoute from '../components/auth/ProtectedRoute';
 // Public Pages
 import Home from '../pages/public/Home';
 import Login from '../pages/public/Login';
+import Register from '../pages/public/Register';
 import Destinations from '../pages/public/Destinations';
 import DestinationDetail from '../pages/public/DestinationDetail';
 import About from '../pages/public/About';
@@ -12,7 +13,6 @@ import Contact from '../pages/public/Contact';
 import Suspended from '../pages/public/Suspended';
 
 // Auth Components
-import RegisterForm from '../components/auth/RegisterForm';
 import ForgotPassword from '../components/auth/ForgotPassword';
 
 // User Pages
@@ -47,7 +47,7 @@ const AppRoutes = () => {
       {/* Public Routes */}
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<RegisterForm />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/suspended" element={<Suspended />} />
       <Route path="/destinations" element={<Destinations />} />

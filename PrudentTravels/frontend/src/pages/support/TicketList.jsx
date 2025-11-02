@@ -31,7 +31,7 @@ const TicketList = () => {
   );
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Navbar title="Support Tickets" />
@@ -56,7 +56,7 @@ const TicketList = () => {
           ) : (
             <div className="card overflow-hidden">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="bg-sky-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
                       Ticket ID
@@ -80,7 +80,7 @@ const TicketList = () => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredTickets.map((ticket) => (
-                    <tr key={ticket.id} className="hover:bg-gray-50">
+                    <tr key={ticket.id} className="hover:bg-sky-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Link to={`/support/tickets/${ticket.id}`} className="text-primary-600 hover:underline">
                           #{ticket.id}
