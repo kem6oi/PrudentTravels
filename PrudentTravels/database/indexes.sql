@@ -1,6 +1,9 @@
 -- PrudentTravels Additional Performance Indexes
 -- This file contains additional indexes for optimal query performance
 
+-- Enable pg_trgm extension for fuzzy text search
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+
 -- ============================================
 -- COMPOSITE INDEXES for Common Query Patterns
 -- ============================================
@@ -226,9 +229,6 @@ CREATE INDEX IF NOT EXISTS idx_destinations_search_covering
 -- ============================================
 -- TEXT SEARCH INDEXES
 -- ============================================
-
--- Enable pg_trgm extension for fuzzy text search (if not already enabled)
-CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 -- Destinations: Search by city (fuzzy matching)
 CREATE INDEX IF NOT EXISTS idx_destinations_city_trgm 
