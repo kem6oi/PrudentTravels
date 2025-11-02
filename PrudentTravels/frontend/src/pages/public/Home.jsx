@@ -80,10 +80,14 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
             <Link to="/destinations" className="btn-primary text-lg px-8 py-4">
               Explore Destinations
               <FaArrowRight className="ml-2 inline" />
+            </Link>
+            <Link to="/register" className="btn bg-white text-primary-600 hover:bg-gray-100 text-lg px-8 py-4">
+              Get Started
             </Link>
           </motion.div>
         </div>
@@ -144,9 +148,12 @@ const Home = () => {
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Join thousands of travelers who trust PrudentTravels for their adventures
           </p>
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link to="/register" className="btn bg-white text-primary-600 hover:bg-gray-100 px-8 py-3">
               Sign Up Now
+            </Link>
+            <Link to="/login" className="btn-outline border-white text-white hover:bg-white hover:text-primary-600 px-8 py-3">
+              Login
             </Link>
             <Link to="/destinations" className="btn-outline border-white text-white hover:bg-white hover:text-primary-600 px-8 py-3">
               Browse Destinations
