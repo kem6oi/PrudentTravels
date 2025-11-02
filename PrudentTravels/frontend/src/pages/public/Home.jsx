@@ -6,6 +6,7 @@ import { HiShieldCheck, HiCurrencyDollar, HiUserGroup } from 'react-icons/hi';
 import Header from '../../components/common/Header';
 import Footer from '../../components/common/Footer';
 import DestinationGrid from '../../components/destination/DestinationGrid';
+import LoginForm from '../../components/auth/LoginForm';
 import api, { apiEndpoints } from '../../services/api';
 
 const Home = () => {
@@ -50,7 +51,7 @@ const Home = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative h-[600px] flex items-center justify-center overflow-hidden">
+      <section className="relative overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -60,36 +61,67 @@ const Home = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40"></div>
         </div>
 
-        <div className="relative z-10 container-custom section-padding text-center text-white">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-6xl font-display font-bold mb-6"
-          >
-            Discover Your Next Adventure
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto"
-          >
-            Explore breathtaking destinations around the world with PrudentTravels
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          >
-            <Link to="/destinations" className="btn-primary text-lg px-8 py-4">
-              Explore Destinations
-              <FaArrowRight className="ml-2 inline" />
-            </Link>
-            <Link to="/register" className="btn bg-white text-primary-600 hover:bg-gray-100 text-lg px-8 py-4">
-              Get Started
-            </Link>
-          </motion.div>
+        <div className="relative z-10 container-custom section-padding py-16 lg:py-24">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr,0.9fr] items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-white text-center lg:text-left space-y-6"
+            >
+              <span className="inline-flex items-center px-4 py-2 text-sm font-semibold bg-white/10 rounded-full backdrop-blur-sm border border-white/20">
+                Seamless access for travelers & admins
+              </span>
+              <h1 className="text-4xl md:text-6xl font-display font-bold leading-tight">
+                Discover Your Next Adventure
+              </h1>
+              <p className="text-lg md:text-2xl text-white/90 max-w-2xl mx-auto lg:mx-0">
+                Explore breathtaking destinations around the world and manage every journey from a single login.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
+                <Link to="/destinations" className="btn-primary text-lg px-8 py-4">
+                  Explore Destinations
+                  <FaArrowRight className="ml-2 inline" />
+                </Link>
+                <Link
+                  to="/register"
+                  className="btn bg-white text-primary-600 hover:bg-gray-100 text-lg px-8 py-4"
+                >
+                  Create Traveler Account
+                </Link>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="w-full max-w-md mx-auto lg:mx-0"
+            >
+              <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sm:p-8">
+                <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-wide text-primary-600">
+                      Portal Login
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      Travelers, admins and support teams sign in below
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {['Traveler', 'Admin', 'Support'].map((role) => (
+                      <span
+                        key={role}
+                        className="px-3 py-1 text-xs font-semibold uppercase tracking-wide bg-primary-50 text-primary-700 rounded-full"
+                      >
+                        {role}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <LoginForm />
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
