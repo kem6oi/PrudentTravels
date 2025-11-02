@@ -5,8 +5,8 @@
 -- CREATE DATABASE prudent_travels;
 -- \c prudent_travels;
 
--- Enable UUID extension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- Note: Using gen_random_uuid() which is built into PostgreSQL 13+
+-- No extension needed
 
 -- Create ENUM types
 CREATE TYPE user_role AS ENUM ('admin', 'traveler', 'support');
@@ -19,7 +19,7 @@ CREATE TYPE destination_difficulty AS ENUM ('Easy', 'Moderate', 'Challenging', '
 
 -- Users table
 CREATE TABLE IF NOT EXISTS "Users" (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     "firstName" VARCHAR(255) NOT NULL,
     "lastName" VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS "Users" (
 
 -- Destinations table
 CREATE TABLE IF NOT EXISTS "Destinations" (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) UNIQUE NOT NULL,
     description TEXT NOT NULL,
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS "Destinations" (
 
 -- Bookings table
 CREATE TABLE IF NOT EXISTS "Bookings" (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     "bookingNumber" VARCHAR(255) UNIQUE NOT NULL,
     "userId" UUID NOT NULL REFERENCES "Users"(id) ON DELETE CASCADE,
     "destinationId" UUID NOT NULL REFERENCES "Destinations"(id) ON DELETE CASCADE,
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS "Bookings" (
 
 -- Payments table
 CREATE TABLE IF NOT EXISTS "Payments" (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     "bookingId" UUID NOT NULL REFERENCES "Bookings"(id) ON DELETE CASCADE,
     "userId" UUID NOT NULL REFERENCES "Users"(id) ON DELETE CASCADE,
     "transactionId" VARCHAR(255) UNIQUE NOT NULL,
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS "Payments" (
 
 -- Reviews table
 CREATE TABLE IF NOT EXISTS "Reviews" (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     "userId" UUID NOT NULL REFERENCES "Users"(id) ON DELETE CASCADE,
     "destinationId" UUID NOT NULL REFERENCES "Destinations"(id) ON DELETE CASCADE,
     "bookingId" UUID REFERENCES "Bookings"(id) ON DELETE SET NULL,
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS "Reviews" (
 
 -- Support Tickets table
 CREATE TABLE IF NOT EXISTS "SupportTickets" (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     "ticketNumber" VARCHAR(255) UNIQUE NOT NULL,
     "userId" UUID NOT NULL REFERENCES "Users"(id) ON DELETE CASCADE,
     "assignedTo" UUID REFERENCES "Users"(id) ON DELETE SET NULL,
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS "SupportTickets" (
 
 -- Promo Codes table
 CREATE TABLE IF NOT EXISTS "PromoCodes" (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     code VARCHAR(50) UNIQUE NOT NULL,
     description VARCHAR(255),
     "discountType" VARCHAR(20) NOT NULL CHECK ("discountType" IN ('percentage', 'fixed')),
@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS "PromoCodes" (
 
 -- Destination Images table
 CREATE TABLE IF NOT EXISTS "DestinationImages" (
-    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     "destinationId" UUID NOT NULL REFERENCES "Destinations"(id) ON DELETE CASCADE,
     url VARCHAR(255) NOT NULL,
     caption VARCHAR(255),
