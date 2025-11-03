@@ -21,9 +21,26 @@ const DestinationCard = ({ destination, index = 0 }) => {
     category = [],
   } = destination;
 
+  // Validate that we have a proper ID or slug for navigation
+  const destinationLink = slug || id;
+  
+  // Log warning if destination data is malformed
+  if (!destinationLink || destinationLink === 'undefined' || destinationLink === 'null') {
+    console.warn('DestinationCard: Invalid destination data - missing id or slug', { 
+      destination, 
+      id, 
+      slug 
+    });
+  }
+
   const discountPercentage = originalPrice
     ? Math.round(((originalPrice - price) / originalPrice) * 100)
     : 0;
+
+  // Don't render if destination data is invalid
+  if (!destinationLink || destinationLink === 'undefined' || destinationLink === 'null') {
+    return null;
+  }
 
   return (
     <motion.div
@@ -32,7 +49,7 @@ const DestinationCard = ({ destination, index = 0 }) => {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="card group cursor-pointer overflow-hidden hover:shadow-xl transition-all duration-300"
     >
-      <Link to={`/destinations/${slug || id}`}>
+      <Link to={`/destinations/${destinationLink}`}>
         {/* Image Section */}
         <div className="relative h-48 overflow-hidden">
           <img
