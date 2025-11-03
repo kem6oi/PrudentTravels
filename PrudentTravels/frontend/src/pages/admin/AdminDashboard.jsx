@@ -6,6 +6,7 @@ import Navbar from '../../components/common/Navbar';
 import { Line, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import api, { apiEndpoints } from '../../services/api';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend);
 
@@ -87,10 +88,11 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-sky-50">
-      <Sidebar />
-      <div className="flex-1 overflow-auto">
-        <Navbar title="Admin Dashboard" />
+    <SidebarProvider>
+      <div className="flex h-screen bg-sky-50">
+        <Sidebar />
+        <div className="flex-1 overflow-auto">
+          <Navbar title="Admin Dashboard" />
         
         <main className="p-8">
           {/* Stats Grid */}
@@ -144,6 +146,7 @@ const AdminDashboard = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

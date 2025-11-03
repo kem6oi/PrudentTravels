@@ -2,16 +2,31 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { FaBell, FaUserCircle } from 'react-icons/fa';
+import { HiMenu } from 'react-icons/hi';
+import { useSidebar } from '../../contexts/SidebarContext';
 
 const Navbar = ({ title = 'Dashboard' }) => {
   const user = useSelector((state) => state.auth.user);
+  const { toggleSidebar } = useSidebar();
 
   return (
     <nav className="bg-white shadow-sm border-b sticky top-0 z-30">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Title */}
-          <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+          {/* Left Section with Menu Button and Title */}
+          <div className="flex items-center space-x-4">
+            {/* Menu Toggle Button */}
+            <button
+              onClick={toggleSidebar}
+              className="p-2 text-gray-600 hover:text-primary-600 hover:bg-sky-50 rounded-lg transition-colors"
+              aria-label="Toggle sidebar"
+            >
+              <HiMenu className="w-6 h-6" />
+            </button>
+
+            {/* Title */}
+            <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+          </div>
 
           {/* Right Section */}
           <div className="flex items-center space-x-4">

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from '../../components/common/Sidebar';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import { Line, Bar, Pie } from 'react-chartjs-2';
 
@@ -47,6 +48,7 @@ const Analytics = () => {
   };
 
   return (
+    <SidebarProvider>
     <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
@@ -89,6 +91,7 @@ const Analytics = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

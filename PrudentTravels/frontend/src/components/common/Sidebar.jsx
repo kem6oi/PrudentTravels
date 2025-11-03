@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { 
-  HiHome, 
-  HiUser, 
-  HiCalendar, 
-  HiStar, 
-  HiCog, 
+import {
+  HiHome,
+  HiUser,
+  HiCalendar,
+  HiStar,
+  HiCog,
   HiHeart,
   HiLogout,
   HiChartBar,
@@ -18,11 +18,13 @@ import {
 import { FaGlobe } from 'react-icons/fa';
 import { logout } from '../../store/slices/authSlice';
 import toast from 'react-hot-toast';
+import { useSidebar } from '../../contexts/SidebarContext';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
+  const { isExpanded, collapseSidebar } = useSidebar();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -64,52 +66,88 @@ const Sidebar = () => {
   const menuItems = getMenuItems();
 
   return (
-    <aside className="bg-white border-r h-screen sticky top-0 w-64 flex-shrink-0">
-      <div className="flex flex-col h-full">
-        {/* Logo */}
-        <div className="p-6 border-b">
-          <NavLink to="/" className="flex items-center space-x-2">
-            <FaGlobe className="text-primary-600 text-2xl" />
-            <span className="font-display text-xl font-bold gradient-text">
-              PrudentTravels
-            </span>
-          </NavLink>
-        </div>
+    <>
+      {/* Overlay for mobile when sidebar is expanded */}
+      {isExpanded && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          onClick={collapseSidebar}
+        />
+      )}
 
-        {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto py-6 custom-scrollbar">
-          <div className="space-y-1 px-3">
-            {menuItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                    isActive
-                      ? 'bg-primary-50 text-primary-600'
-                      : 'text-gray-700 hover:bg-sky-50'
-                  }`
-                }
+      {/* Sidebar */}
+      <aside
+        className={`
+          bg-white border-r h-screen sticky top-0 flex-shrink-0 z-50
+          transition-all duration-300 ease-in-out
+          ${isExpanded ? 'w-64' : 'w-0 lg:w-20'}
+          ${isExpanded ? 'fixed lg:relative' : 'hidden lg:block'}
+        `}
+      >
+        <div className="flex flex-col h-full">
+          {/* Logo */}
+          <div className={`border-b ${isExpanded ? 'p-6' : 'p-4'} transition-all duration-300`}>
+            <NavLink to="/" className={`flex items-center ${isExpanded ? 'space-x-2' : 'justify-center'}`}>
+              <FaGlobe className={`text-primary-600 ${isExpanded ? 'text-2xl' : 'text-xl'} transition-all duration-300`} />
+              <span
+                className={`font-display text-xl font-bold gradient-text whitespace-nowrap overflow-hidden transition-all duration-300 ${
+                  isExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0'
+                }`}
               >
-                <item.icon className="w-5 h-5" />
-                <span className="font-medium">{item.label}</span>
-              </NavLink>
-            ))}
+                PrudentTravels
+              </span>
+            </NavLink>
           </div>
-        </nav>
 
-        {/* Logout Button */}
-        <div className="p-4 border-t">
-          <button
-            onClick={handleLogout}
-            className="flex items-center space-x-3 px-4 py-3 w-full text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
-          >
-            <HiLogout className="w-5 h-5" />
-            <span className="font-medium">Logout</span>
-          </button>
+          {/* Navigation */}
+          <nav className="flex-1 overflow-y-auto py-6 custom-scrollbar">
+            <div className={`space-y-1 ${isExpanded ? 'px-3' : 'px-2'}`}>
+              {menuItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `flex items-center ${isExpanded ? 'space-x-3 px-4' : 'justify-center px-3'} py-3 rounded-lg transition-all duration-300 ${
+                      isActive
+                        ? 'bg-primary-50 text-primary-600'
+                        : 'text-gray-700 hover:bg-sky-50'
+                    }`
+                  }
+                  title={!isExpanded ? item.label : undefined}
+                >
+                  <item.icon className="w-5 h-5 flex-shrink-0" />
+                  <span
+                    className={`font-medium whitespace-nowrap overflow-hidden transition-all duration-300 ${
+                      isExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0'
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                </NavLink>
+              ))}
+            </div>
+          </nav>
+
+          {/* Logout Button */}
+          <div className={`border-t ${isExpanded ? 'p-4' : 'p-2'}`}>
+            <button
+              onClick={handleLogout}
+              className={`flex items-center ${isExpanded ? 'space-x-3 px-4' : 'justify-center px-3'} py-3 w-full text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all duration-300`}
+              title={!isExpanded ? 'Logout' : undefined}
+            >
+              <HiLogout className="w-5 h-5 flex-shrink-0" />
+              <span
+                className={`font-medium whitespace-nowrap overflow-hidden transition-all duration-300 ${
+                  isExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0'
+                }`}
+              >
+                Logout
+              </span>
+            </button>
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 };
 

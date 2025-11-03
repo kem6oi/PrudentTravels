@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Sidebar from '../../components/common/Sidebar';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import { DESTINATION_CATEGORIES } from '../../utils/constants';
 import api, { apiEndpoints } from '../../services/api';
@@ -43,6 +44,7 @@ const AddDestination = () => {
   };
 
   return (
+    <SidebarProvider>
     <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
@@ -217,6 +219,7 @@ const AddDestination = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

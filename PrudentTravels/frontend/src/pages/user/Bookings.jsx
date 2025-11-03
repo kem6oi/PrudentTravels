@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HiCalendar, HiUsers, HiClock } from 'react-icons/hi';
 import Sidebar from '../../components/common/Sidebar';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import Loader from '../../components/common/Loader';
 import api, { apiEndpoints } from '../../services/api';
@@ -67,6 +68,7 @@ const Bookings = () => {
   ];
 
   return (
+    <SidebarProvider>
     <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
@@ -207,6 +209,7 @@ const Bookings = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 
