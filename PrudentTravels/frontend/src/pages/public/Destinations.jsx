@@ -41,11 +41,28 @@ const Destinations = () => {
         ),
       };
 
+      console.log('[Destinations] Fetching with params:', params);
       const response = await api.get(apiEndpoints.destinations.getAll, { params });
-      setDestinations(response.data.data?.destinations || []);
+      
+      const destinations = response.data.data?.destinations || [];
+      console.log('[Destinations] Received destinations:', destinations.length);
+      
+      // Log any destinations with missing id or slug
+      destinations.forEach((dest, index) => {
+        if (!dest.id && !dest.slug) {
+          console.warn(`[Destinations] Destination at index ${index} is missing both id and slug:`, dest);
+        }
+      });
+      
+      setDestinations(destinations);
       setPagination(response.data.data?.pagination || pagination);
     } catch (error) {
-      console.error('Error fetching destinations:', error);
+      console.error('[Destinations] Error fetching destinations:', error);
+      console.error('[Destinations] Error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      });
     } finally {
       setLoading(false);
     }

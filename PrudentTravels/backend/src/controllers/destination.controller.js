@@ -102,7 +102,12 @@ const getDestinations = async (req, res) => {
       }
     });
   } catch (error) {
-    console.error(error);
+    console.error('[getDestinations] Error fetching destinations');
+    console.error(`[getDestinations] Error name: ${error.name}`);
+    console.error(`[getDestinations] Error message: ${error.message}`);
+    console.error('[getDestinations] Query parameters:', req.query);
+    console.error('[getDestinations] Full error stack:', error.stack);
+    
     res.status(500).json({
       success: false,
       message: 'Error fetching destinations',
@@ -115,6 +120,8 @@ const getDestinations = async (req, res) => {
 const getDestination = async (req, res) => {
   try {
     const { id } = req.params;
+
+    console.log(`[getDestination] Fetching destination with ID/slug: ${id}`);
 
     const destination = await Destination.findOne({
       where: { 
@@ -148,11 +155,14 @@ const getDestination = async (req, res) => {
     });
 
     if (!destination) {
+      console.log(`[getDestination] Destination not found with ID/slug: ${id}`);
       return res.status(404).json({
         success: false,
         message: 'Destination not found'
       });
     }
+
+    console.log(`[getDestination] Successfully fetched destination: ${destination.name} (ID: ${destination.id})`);
 
     // Increment view count
     await destination.increment('viewCount');
@@ -162,7 +172,11 @@ const getDestination = async (req, res) => {
       data: destination
     });
   } catch (error) {
-    console.error(error);
+    console.error(`[getDestination] Error fetching destination with ID/slug: ${req.params.id}`);
+    console.error(`[getDestination] Error name: ${error.name}`);
+    console.error(`[getDestination] Error message: ${error.message}`);
+    console.error(`[getDestination] Full error stack:`, error.stack);
+    
     res.status(500).json({
       success: false,
       message: 'Error fetching destination',
@@ -407,6 +421,8 @@ const deleteDestination = async (req, res) => {
 // Get featured destinations
 const getFeaturedDestinations = async (req, res) => {
   try {
+    console.log('[getFeaturedDestinations] Fetching featured destinations');
+    
     const destinations = await Destination.findAll({
       where: {
         isFeatured: true,
@@ -416,12 +432,18 @@ const getFeaturedDestinations = async (req, res) => {
       order: [['rating', 'DESC'], ['bookingCount', 'DESC']]
     });
 
+    console.log(`[getFeaturedDestinations] Found ${destinations.length} featured destinations`);
+
     res.json({
       success: true,
       data: destinations
     });
   } catch (error) {
-    console.error(error);
+    console.error('[getFeaturedDestinations] Error fetching featured destinations');
+    console.error(`[getFeaturedDestinations] Error name: ${error.name}`);
+    console.error(`[getFeaturedDestinations] Error message: ${error.message}`);
+    console.error('[getFeaturedDestinations] Full error stack:', error.stack);
+    
     res.status(500).json({
       success: false,
       message: 'Error fetching featured destinations',
@@ -433,18 +455,26 @@ const getFeaturedDestinations = async (req, res) => {
 // Get popular destinations
 const getPopularDestinations = async (req, res) => {
   try {
+    console.log('[getPopularDestinations] Fetching popular destinations');
+    
     const destinations = await Destination.findAll({
       where: { isActive: true },
       order: [['bookingCount', 'DESC'], ['rating', 'DESC']],
       limit: 12
     });
 
+    console.log(`[getPopularDestinations] Found ${destinations.length} popular destinations`);
+
     res.json({
       success: true,
       data: destinations
     });
   } catch (error) {
-    console.error(error);
+    console.error('[getPopularDestinations] Error fetching popular destinations');
+    console.error(`[getPopularDestinations] Error name: ${error.name}`);
+    console.error(`[getPopularDestinations] Error message: ${error.message}`);
+    console.error('[getPopularDestinations] Full error stack:', error.stack);
+    
     res.status(500).json({
       success: false,
       message: 'Error fetching popular destinations',
@@ -458,9 +488,12 @@ const getRelatedDestinations = async (req, res) => {
   try {
     const { id } = req.params;
 
+    console.log(`[getRelatedDestinations] Fetching related destinations for ID: ${id}`);
+
     const destination = await Destination.findByPk(id);
 
     if (!destination) {
+      console.log(`[getRelatedDestinations] Destination not found with ID: ${id}`);
       return res.status(404).json({
         success: false,
         message: 'Destination not found'
@@ -488,12 +521,18 @@ const getRelatedDestinations = async (req, res) => {
       order: [['rating', 'DESC']]
     });
 
+    console.log(`[getRelatedDestinations] Found ${relatedDestinations.length} related destinations`);
+
     res.json({
       success: true,
       data: relatedDestinations
     });
   } catch (error) {
-    console.error(error);
+    console.error(`[getRelatedDestinations] Error fetching related destinations for ID: ${req.params.id}`);
+    console.error(`[getRelatedDestinations] Error name: ${error.name}`);
+    console.error(`[getRelatedDestinations] Error message: ${error.message}`);
+    console.error('[getRelatedDestinations] Full error stack:', error.stack);
+    
     res.status(500).json({
       success: false,
       message: 'Error fetching related destinations',

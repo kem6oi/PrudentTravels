@@ -28,11 +28,18 @@ const DestinationDetailPage = () => {
 
   const fetchDestination = async () => {
     try {
+      console.log(`[DestinationDetail] Fetching destination with ID/slug: ${id}`);
       const response = await api.get(apiEndpoints.destinations.getOne(id));
+      console.log('[DestinationDetail] Destination loaded successfully:', response.data.data?.name);
       setDestination(response.data.data);
     } catch (error) {
-      console.error('Error fetching destination:', error);
-      toast.error('Failed to load destination');
+      console.error(`[DestinationDetail] Error fetching destination with ID/slug: ${id}`, error);
+      console.error('[DestinationDetail] Error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      });
+      toast.error(error.response?.data?.message || 'Failed to load destination');
     } finally {
       setLoading(false);
     }
