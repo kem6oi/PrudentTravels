@@ -96,7 +96,7 @@ const SearchBar = ({ onSearch, onFilterChange, initialFilters = {} }) => {
                 className="input-field"
               >
                 <option value="">All Categories</option>
-                {DESTINATION_CATEGORIES.map((category) => (
+                {Array.isArray(DESTINATION_CATEGORIES) && DESTINATION_CATEGORIES.map((category) => (
                   <option key={category} value={category.toLowerCase()}>
                     {category}
                   </option>
