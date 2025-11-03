@@ -166,7 +166,6 @@ const Settings = () => {
         Save Preferences
       </button>
     </div>
-    </SidebarProvider>
   );
 
   const renderPreferencesTab = () => (
@@ -211,7 +210,6 @@ const Settings = () => {
         Save Preferences
       </button>
     </div>
-    </SidebarProvider>
   );
 
   const renderPrivacyTab = () => (
@@ -250,7 +248,6 @@ const Settings = () => {
         </p>
       </div>
     </div>
-    </SidebarProvider>
   );
 
   return (
