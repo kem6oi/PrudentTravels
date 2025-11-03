@@ -9,6 +9,7 @@ router.use(protect);
 router.use(isAdmin);
 
 // Dashboard and stats
+router.get('/dashboard', adminController.getPlatformStats);
 router.get('/stats', adminController.getPlatformStats);
 
 // User management
