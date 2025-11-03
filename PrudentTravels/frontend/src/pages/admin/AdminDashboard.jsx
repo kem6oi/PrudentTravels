@@ -26,7 +26,14 @@ const AdminDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       const response = await api.get(apiEndpoints.admin.dashboard);
-      setStats(response.data.data || stats);
+      // Merge with default values to ensure all fields exist
+      setStats({
+        totalUsers: 0,
+        totalDestinations: 0,
+        totalBookings: 0,
+        totalRevenue: 0,
+        ...response.data.data,
+      });
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     }
@@ -57,7 +64,7 @@ const AdminDashboard = () => {
     {
       icon: HiCurrencyDollar,
       label: 'Revenue',
-      value: `$${stats.totalRevenue.toLocaleString()}`,
+      value: `$${(stats.totalRevenue || 0).toLocaleString()}`,
       color: 'bg-yellow-500',
       link: '/admin/analytics',
     },
