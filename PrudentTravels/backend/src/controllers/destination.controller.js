@@ -167,11 +167,47 @@ const createDestination = async (req, res) => {
   try {
     const destinationData = req.body;
 
-    // Handle main image
+    // Validate required fields
+    if (!destinationData.name) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors: [{ field: 'name', message: 'Destination name is required' }]
+      });
+    }
+
+    if (!destinationData.shortDescription) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors: [{ field: 'shortDescription', message: 'Short description is required' }]
+      });
+    }
+
+    // Handle main image - support both file upload and URL string
     if (req.files && req.files.mainImage) {
-      // In production, upload to Cloudinary
-      // For now, store local path
+      // File upload - In production, upload to Cloudinary
       destinationData.mainImage = `/uploads/${req.files.mainImage[0].filename}`;
+    } else if (!destinationData.mainImage) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors: [{ field: 'mainImage', message: 'Main image is required (either upload a file or provide a URL)' }]
+      });
+    }
+    // If mainImage is already a URL string in the body, use it as is
+
+    // Handle duration - support both object and separate fields
+    if (!destinationData.duration) {
+      destinationData.duration = {
+        days: parseInt(destinationData.durationDays) || 1,
+        nights: parseInt(destinationData.durationNights) || 0
+      };
+    }
+
+    // Handle category - ensure it's an array
+    if (destinationData.category && typeof destinationData.category === 'string') {
+      destinationData.category = [destinationData.category];
     }
 
     // Create destination
@@ -206,7 +242,22 @@ const createDestination = async (req, res) => {
       data: destinationWithImages
     });
   } catch (error) {
-    console.error(error);
+    console.error('Error creating destination:', error);
+    
+    // Handle Sequelize validation errors
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      const errors = error.errors.map(err => ({
+        field: err.path,
+        message: err.message
+      }));
+      
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: 'Error creating destination',
@@ -230,9 +281,24 @@ const updateDestination = async (req, res) => {
       });
     }
 
-    // Handle main image update
+    // Handle main image update - support both file upload and URL string
     if (req.files && req.files.mainImage) {
+      // File upload - In production, upload to Cloudinary
       updates.mainImage = `/uploads/${req.files.mainImage[0].filename}`;
+    }
+    // If mainImage is a URL string in the body, it will be used as is
+
+    // Handle duration - support both object and separate fields
+    if (updates.durationDays || updates.durationNights) {
+      updates.duration = {
+        days: parseInt(updates.durationDays) || destination.duration.days,
+        nights: parseInt(updates.durationNights) || destination.duration.nights
+      };
+    }
+
+    // Handle category - ensure it's an array
+    if (updates.category && typeof updates.category === 'string') {
+      updates.category = [updates.category];
     }
 
     // Update destination
@@ -274,7 +340,22 @@ const updateDestination = async (req, res) => {
       data: updatedDestination
     });
   } catch (error) {
-    console.error(error);
+    console.error('Error updating destination:', error);
+    
+    // Handle Sequelize validation errors
+    if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
+      const errors = error.errors.map(err => ({
+        field: err.path,
+        message: err.message
+      }));
+      
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: 'Error updating destination',

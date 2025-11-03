@@ -5,12 +5,14 @@ import Sidebar from '../../components/common/Sidebar';
 import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import { DESTINATION_CATEGORIES } from '../../utils/constants';
-import api, { apiEndpoints } from '../../services/api';
+import { destinationService } from '../../services/destination.service';
 import toast from 'react-hot-toast';
 
 const AddDestination = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [mainImage, setMainImage] = useState(null);
+  const [mainImagePreview, setMainImagePreview] = useState(null);
 
   const {
     register,
@@ -18,12 +20,31 @@ const AddDestination = () => {
     formState: { errors },
   } = useForm();
 
+  const handleMainImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setMainImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setMainImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      // In a real app, you'd upload images first
+      // Validate main image
+      if (!mainImage) {
+        toast.error('Please select a main image');
+        setLoading(false);
+        return;
+      }
+
       const destinationData = {
         ...data,
+        mainImage: mainImage,
         price: parseFloat(data.price),
         originalPrice: data.originalPrice ? parseFloat(data.originalPrice) : null,
         maxGroupSize: parseInt(data.maxGroupSize),
@@ -33,11 +54,15 @@ const AddDestination = () => {
         },
       };
 
-      await api.post(apiEndpoints.destinations.create, destinationData);
+      await destinationService.create(destinationData);
       toast.success('Destination added successfully');
       navigate('/admin/destinations');
     } catch (error) {
-      toast.error('Failed to add destination');
+      console.error('Error adding destination:', error);
+      const errorMessage = error.response?.data?.errors 
+        ? error.response.data.errors.map(e => e.message).join(', ')
+        : error.response?.data?.message || 'Failed to add destination';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -69,14 +94,15 @@ const AddDestination = () => {
                       {errors.name && <p className="error-text">{errors.name.message}</p>}
                     </div>
                     <div>
-                      <label htmlFor="slug" className="label">URL Slug *</label>
+                      <label htmlFor="slug" className="label">URL Slug (optional)</label>
                       <input
                         id="slug"
                         type="text"
-                        {...register('slug', { required: 'Slug is required' })}
+                        {...register('slug')}
                         className="input-field"
+                        placeholder="Leave blank to auto-generate from name"
                       />
-                      {errors.slug && <p className="error-text">{errors.slug.message}</p>}
+                      <p className="text-sm text-gray-600 mt-1">Will be auto-generated from name if left blank</p>
                     </div>
                     <div>
                       <label htmlFor="city" className="label">City *</label>
@@ -107,10 +133,51 @@ const AddDestination = () => {
                   <textarea
                     id="description"
                     rows="6"
-                    {...register('description', { required: 'Description is required' })}
+                    {...register('description', { required: 'Description is required', minLength: { value: 50, message: 'Description must be at least 50 characters' } })}
                     className="input-field resize-none"
                   />
                   {errors.description && <p className="error-text">{errors.description.message}</p>}
+                </div>
+
+                {/* Short Description */}
+                <div>
+                  <label htmlFor="shortDescription" className="label">Short Description *</label>
+                  <textarea
+                    id="shortDescription"
+                    rows="3"
+                    {...register('shortDescription', { 
+                      required: 'Short description is required',
+                      maxLength: { value: 500, message: 'Short description must not exceed 500 characters' }
+                    })}
+                    className="input-field resize-none"
+                    placeholder="A brief summary of the destination (max 500 characters)"
+                  />
+                  {errors.shortDescription && <p className="error-text">{errors.shortDescription.message}</p>}
+                </div>
+
+                {/* Main Image */}
+                <div>
+                  <h3 className="text-xl font-bold mb-4">Images</h3>
+                  <div>
+                    <label htmlFor="mainImage" className="label">Main Image *</label>
+                    <input
+                      id="mainImage"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleMainImageChange}
+                      className="input-field"
+                    />
+                    {mainImagePreview && (
+                      <div className="mt-4">
+                        <img 
+                          src={mainImagePreview} 
+                          alt="Preview" 
+                          className="w-full max-w-md h-64 object-cover rounded-lg"
+                        />
+                      </div>
+                    )}
+                    {!mainImage && <p className="text-sm text-gray-600 mt-1">Please upload a main image for the destination</p>}
+                  </div>
                 </div>
 
                 {/* Pricing */}

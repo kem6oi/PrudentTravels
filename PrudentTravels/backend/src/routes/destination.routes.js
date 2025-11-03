@@ -12,6 +12,7 @@ const {
 } = require('../controllers/destination.controller');
 const { protect, optionalAuth } = require('../middleware/auth.middleware');
 const { isAdmin } = require('../middleware/role.middleware');
+const { validateDestination } = require('../middleware/validation.middleware');
 const upload = require('../middleware/upload.middleware');
 
 // Public routes
@@ -31,6 +32,7 @@ router.post(
     { name: 'mainImage', maxCount: 1 },
     { name: 'images', maxCount: 10 }
   ]),
+  validateDestination,
   createDestination
 );
 
