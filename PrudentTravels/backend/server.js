@@ -1,6 +1,7 @@
 const app = require('./src/app');
 const { testConnection, sequelize } = require('./src/config/database');
 const { createInitialAdmin } = require('./src/utils/seeders');
+const { initializeDatabase } = require('./src/utils/initDatabase');
 
 const PORT = process.env.PORT || 5000;
 
@@ -10,22 +11,19 @@ const startServer = async () => {
     // Test database connection
     await testConnection();
 
-    // Sync database models
+    // Initialize database
     if (process.env.NODE_ENV === 'development') {
       // In development, allow schema alterations
       await sequelize.sync({ alter: true });
       console.log('✅ Database models synchronized (development mode)');
-
-      // Create initial admin user if not exists
-      await createInitialAdmin();
     } else {
-      // In production, create tables if they don't exist, but don't alter existing ones
-      await sequelize.sync({ force: false });
-      console.log('✅ Database models synchronized (production mode)');
-
-      // Create initial admin user if not exists
-      await createInitialAdmin();
+      // In production, use safer initialization to avoid Sequelize sync issues
+      console.log('🔧 Initializing production database...');
+      await initializeDatabase();
     }
+
+    // Create initial admin user if not exists (both dev and prod)
+    await createInitialAdmin();
 
     // Start listening
     const server = app.listen(PORT, () => {
