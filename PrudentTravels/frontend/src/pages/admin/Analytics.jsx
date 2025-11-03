@@ -1,30 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../../components/common/Sidebar';
 import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
+import Loader from '../../components/common/Loader';
 import { Line, Bar, Pie } from 'react-chartjs-2';
+import api, { apiEndpoints } from '../../services/api';
+import toast from 'react-hot-toast';
 
 const Analytics = () => {
-  const [dateRange, setDateRange] = useState('7days');
+  const [dateRange, setDateRange] = useState('30days');
+  const [loading, setLoading] = useState(true);
+  const [analyticsData, setAnalyticsData] = useState(null);
+  const [revenueAnalytics, setRevenueAnalytics] = useState([]);
+  const [popularDestinations, setPopularDestinations] = useState([]);
 
+  useEffect(() => {
+    fetchAnalytics();
+  }, [dateRange]);
+
+  const fetchAnalytics = async () => {
+    setLoading(true);
+    try {
+      // Fetch multiple analytics endpoints in parallel
+      const [dashboardRes, revenueRes, popularDestRes] = await Promise.all([
+        api.get(apiEndpoints.admin.dashboard),
+        api.get('/admin/analytics/revenue', { params: { period: 'month' } }),
+        api.get('/admin/analytics/popular-destinations', { params: { limit: 5 } })
+      ]);
+
+      setAnalyticsData(dashboardRes.data.data);
+      setRevenueAnalytics(revenueRes.data.data || []);
+      setPopularDestinations(popularDestRes.data.data || []);
+    } catch (error) {
+      console.error('Error fetching analytics:', error);
+      toast.error('Failed to load analytics data');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Prepare chart data from real backend data
   const revenueData = {
-    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    labels: revenueAnalytics.map(r => r.period || 'N/A'),
     datasets: [
       {
         label: 'Revenue',
-        data: [45000, 52000, 48000, 61000],
+        data: revenueAnalytics.map(r => parseFloat(r.revenue) || 0),
         borderColor: 'rgb(59, 130, 246)',
         backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        tension: 0.4,
       },
     ],
   };
 
   const destinationData = {
-    labels: ['Beach', 'Mountain', 'City', 'Cultural', 'Adventure'],
+    labels: popularDestinations.map(d => d.name || 'Unknown'),
     datasets: [
       {
-        label: 'Bookings by Category',
-        data: [300, 250, 180, 150, 220],
+        label: 'Bookings',
+        data: popularDestinations.map(d => parseInt(d.bookingCount) || 0),
         backgroundColor: [
           'rgba(59, 130, 246, 0.5)',
           'rgba(16, 185, 129, 0.5)',
@@ -36,16 +70,36 @@ const Analytics = () => {
     ],
   };
 
-  const userGrowthData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+  const bookingStatusData = {
+    labels: ['Pending', 'Confirmed', 'Completed'],
     datasets: [
       {
-        label: 'New Users',
-        data: [120, 190, 150, 250, 220, 300],
+        label: 'Bookings by Status',
+        data: [
+          analyticsData?.bookings?.pending || 0,
+          analyticsData?.bookings?.confirmed || 0,
+          analyticsData?.bookings?.completed || 0,
+        ],
         backgroundColor: 'rgba(16, 185, 129, 0.5)',
       },
     ],
   };
+
+  if (loading) {
+    return (
+      <SidebarProvider>
+        <div className="flex h-screen bg-sky-50">
+          <Sidebar />
+          <div className="flex-1 overflow-auto">
+            <Navbar title="Analytics" />
+            <main className="p-8">
+              <Loader />
+            </main>
+          </div>
+        </div>
+      </SidebarProvider>
+    );
+  }
 
   return (
     <SidebarProvider>
@@ -55,36 +109,53 @@ const Analytics = () => {
         <Navbar title="Analytics" />
         
         <main className="p-8">
-          {/* Date Range Selector */}
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Analytics Overview</h2>
-            <select
-              value={dateRange}
-              onChange={(e) => setDateRange(e.target.value)}
-              className="input-field w-48"
-            >
-              <option value="7days">Last 7 Days</option>
-              <option value="30days">Last 30 Days</option>
-              <option value="90days">Last 90 Days</option>
-              <option value="year">This Year</option>
-            </select>
+          {/* Summary Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="card p-6">
+              <p className="text-gray-600 text-sm mb-1">Total Users</p>
+              <p className="text-3xl font-bold text-gray-900">{analyticsData?.users?.total || 0}</p>
+              <p className="text-sm text-gray-500 mt-1">{analyticsData?.users?.active || 0} active</p>
+            </div>
+            <div className="card p-6">
+              <p className="text-gray-600 text-sm mb-1">Total Bookings</p>
+              <p className="text-3xl font-bold text-gray-900">{analyticsData?.bookings?.total || 0}</p>
+              <p className="text-sm text-gray-500 mt-1">{analyticsData?.bookings?.pending || 0} pending</p>
+            </div>
+            <div className="card p-6">
+              <p className="text-gray-600 text-sm mb-1">Total Destinations</p>
+              <p className="text-3xl font-bold text-gray-900">{analyticsData?.destinations?.total || 0}</p>
+              <p className="text-sm text-gray-500 mt-1">{analyticsData?.destinations?.active || 0} active</p>
+            </div>
+            <div className="card p-6">
+              <p className="text-gray-600 text-sm mb-1">Total Revenue</p>
+              <p className="text-3xl font-bold text-gray-900">${(analyticsData?.revenue?.total || 0).toLocaleString()}</p>
+              <p className="text-sm text-gray-500 mt-1">This month: ${(analyticsData?.revenue?.thisMonth || 0).toLocaleString()}</p>
+            </div>
           </div>
 
           {/* Charts Grid */}
           <div className="space-y-6">
             <div className="card p-6">
-              <h3 className="text-xl font-bold mb-4">Revenue Trends</h3>
-              <Line data={revenueData} options={{ responsive: true, maintainAspectRatio: true }} />
+              <h3 className="text-xl font-bold mb-4">Revenue Trends (Monthly)</h3>
+              {revenueAnalytics.length > 0 ? (
+                <Line data={revenueData} options={{ responsive: true, maintainAspectRatio: true }} />
+              ) : (
+                <p className="text-gray-500 text-center py-8">No revenue data available</p>
+              )}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="card p-6">
-                <h3 className="text-xl font-bold mb-4">Bookings by Category</h3>
-                <Pie data={destinationData} options={{ responsive: true }} />
+                <h3 className="text-xl font-bold mb-4">Popular Destinations</h3>
+                {popularDestinations.length > 0 ? (
+                  <Pie data={destinationData} options={{ responsive: true }} />
+                ) : (
+                  <p className="text-gray-500 text-center py-8">No destination data available</p>
+                )}
               </div>
               <div className="card p-6">
-                <h3 className="text-xl font-bold mb-4">User Growth</h3>
-                <Bar data={userGrowthData} options={{ responsive: true }} />
+                <h3 className="text-xl font-bold mb-4">Bookings by Status</h3>
+                <Bar data={bookingStatusData} options={{ responsive: true }} />
               </div>
             </div>
           </div>
