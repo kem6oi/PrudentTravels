@@ -69,14 +69,15 @@ const EditDestination = () => {
 
   if (loading) {
     return (
-    <SidebarProvider>
-      <div className="flex h-screen bg-sky-50">
-        <Sidebar />
-        <div className="flex-1">
-          <Navbar title="Edit Destination" />
-          <Loader fullScreen />
+      <SidebarProvider>
+        <div className="flex h-screen bg-sky-50">
+          <Sidebar />
+          <div className="flex-1">
+            <Navbar title="Edit Destination" />
+            <Loader fullScreen />
+          </div>
         </div>
-      </div>
+      </SidebarProvider>
     );
   }
 

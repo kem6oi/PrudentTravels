@@ -27,9 +27,8 @@ const TicketList = () => {
     }
   };
 
-  const filteredTickets = tickets.filter(t => 
+  const filteredTickets = tickets.filter(t =>
     filter === 'all' || t.status === filter
-    </SidebarProvider>
   );
 
   return (

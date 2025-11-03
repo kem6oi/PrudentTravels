@@ -28,9 +28,8 @@ const BookingManager = () => {
     }
   };
 
-  const filteredBookings = bookings.filter(b => 
+  const filteredBookings = bookings.filter(b =>
     filter === 'all' || b.status === filter
-    </SidebarProvider>
   );
 
   return (

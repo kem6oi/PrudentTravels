@@ -111,7 +111,6 @@ const Settings = () => {
         {loading ? 'Updating...' : 'Update Password'}
       </button>
     </form>
-    </SidebarProvider>
   );
 
   const renderNotificationsTab = () => (

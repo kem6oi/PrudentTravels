@@ -47,14 +47,15 @@ const TicketDetail = () => {
 
   if (loading) {
     return (
-    <SidebarProvider>
-      <div className="flex h-screen bg-sky-50">
-        <Sidebar />
-        <div className="flex-1">
-          <Navbar title="Ticket Details" />
-          <Loader fullScreen />
+      <SidebarProvider>
+        <div className="flex h-screen bg-sky-50">
+          <Sidebar />
+          <div className="flex-1">
+            <Navbar title="Ticket Details" />
+            <Loader fullScreen />
+          </div>
         </div>
-      </div>
+      </SidebarProvider>
     );
   }
 

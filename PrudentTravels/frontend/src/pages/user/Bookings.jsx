@@ -105,7 +105,6 @@ const Bookings = () => {
                 const totalGuests = (booking.adults || 0) + (booking.children || 0) + (booking.infants || 0);
 
                 return (
-    <SidebarProvider>
                   <div key={booking.id} className="card p-6">
                     <div className="flex flex-col md:flex-row gap-6">
                       {/* Destination Image */}

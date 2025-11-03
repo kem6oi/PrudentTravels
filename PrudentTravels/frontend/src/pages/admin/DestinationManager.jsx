@@ -46,7 +46,6 @@ const DestinationManager = () => {
   const filteredDestinations = destinations.filter(dest =>
     dest.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     dest.country.toLowerCase().includes(searchQuery.toLowerCase())
-    </SidebarProvider>
   );
 
   return (
