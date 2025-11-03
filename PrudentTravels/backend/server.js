@@ -12,8 +12,16 @@ const startServer = async () => {
 
     // Sync database models
     if (process.env.NODE_ENV === 'development') {
+      // In development, allow schema alterations
       await sequelize.sync({ alter: true });
-      console.log('✅ Database models synchronized');
+      console.log('✅ Database models synchronized (development mode)');
+
+      // Create initial admin user if not exists
+      await createInitialAdmin();
+    } else {
+      // In production, create tables if they don't exist, but don't alter existing ones
+      await sequelize.sync({ force: false });
+      console.log('✅ Database models synchronized (production mode)');
 
       // Create initial admin user if not exists
       await createInitialAdmin();

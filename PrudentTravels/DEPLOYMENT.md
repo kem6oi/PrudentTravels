@@ -42,6 +42,7 @@ Go to [render.com](https://render.com) and sign up.
    PORT=5000
 
    # Database - Use the Internal Database URL from step 2
+   # IMPORTANT: Copy the entire Internal Database URL from Render PostgreSQL dashboard
    DATABASE_URL=postgresql://user:password@host/database
 
    # JWT
@@ -49,6 +50,8 @@ Go to [render.com](https://render.com) and sign up.
    JWT_EXPIRE=7d
 
    # Email (Gmail example)
+   # NOTE: For Gmail, use an App Password, not your regular password
+   # Generate at: https://myaccount.google.com/apppasswords
    EMAIL_HOST=smtp.gmail.com
    EMAIL_PORT=587
    EMAIL_USER=your_email@gmail.com
@@ -56,23 +59,35 @@ Go to [render.com](https://render.com) and sign up.
    EMAIL_FROM=PrudentTravels <noreply@prudenttravels.com>
 
    # Frontend URL (will be your Vercel URL)
+   # Update this after deploying frontend
    FRONTEND_URL=https://your-app.vercel.app
 
    # CORS
    CORS_ORIGIN=https://your-app.vercel.app
    ```
 
+   **⚠️ CRITICAL**: Make sure `DATABASE_URL` is set correctly. The backend now automatically:
+   - Uses `DATABASE_URL` if available (Render/Heroku format)
+   - Falls back to individual DB credentials for local development
+   - Creates all database tables automatically on first run
+
 5. Click "Create Web Service"
 6. Wait for deployment to complete
 7. **Save your API URL** (e.g., `https://prudenttravels-api.onrender.com`)
 
-### 4. Run Database Migrations
+### 4. Verify Database Setup
 
-Once deployed, go to the "Shell" tab in Render and run:
-```bash
-npm run migrate
-npm run seed  # Optional: Add sample data
-```
+The backend automatically creates all database tables on first run using Sequelize sync.
+
+**Optional**: To check if tables were created successfully:
+1. Go to your Render service → "Logs" tab
+2. Look for: `✅ Database models synchronized (production mode)`
+3. You should also see: `✅ Database connection has been established successfully`
+
+**Note**: An initial admin user is automatically created with credentials:
+- Email: `admin@prudenttravels.com`
+- Password: `Admin@123`
+- **⚠️ Change this password immediately after first login!**
 
 ## Frontend Deployment (Vercel)
 
@@ -141,15 +156,27 @@ If you already deployed but forgot to add environment variables:
 2. Set `CORS_ORIGIN` to your Vercel URL
 3. Restart the backend service
 
-### Issue: 500 Internal Server Error
+### Issue: Registration fails with "Error registering user"
 
-**Cause**: Backend database connection issues.
+**Cause**: Database tables don't exist or database connection failed.
 
 **Solutions**:
-1. Verify `DATABASE_URL` is correct in Render
+1. Check Render logs for database connection errors
+2. Verify `DATABASE_URL` is correctly set in environment variables
+3. Ensure database is running on Render
+4. Look for `✅ Database models synchronized` in logs
+5. If tables aren't created, manually restart the backend service
+
+### Issue: 500 Internal Server Error
+
+**Cause**: Backend database connection issues or missing environment variables.
+
+**Solutions**:
+1. Verify `DATABASE_URL` is correct in Render (copy from PostgreSQL Internal Database URL)
 2. Check database is running and accessible
-3. Run migrations: `npm run migrate`
-4. Check backend logs in Render
+3. Verify `JWT_SECRET` is set
+4. Check backend logs in Render for specific error messages
+5. Ensure `NODE_ENV=production` is set
 
 ### Issue: Routes return 404
 
