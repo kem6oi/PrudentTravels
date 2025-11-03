@@ -26,13 +26,23 @@ const AdminDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       const response = await api.get(apiEndpoints.admin.dashboard);
-      // Merge with default values to ensure all fields exist
+      const data = response.data.data;
+      
+      // Map the nested backend response to flat structure
       setStats({
-        totalUsers: 0,
-        totalDestinations: 0,
-        totalBookings: 0,
-        totalRevenue: 0,
-        ...response.data.data,
+        totalUsers: data?.users?.total || 0,
+        totalDestinations: data?.destinations?.total || 0,
+        totalBookings: data?.bookings?.total || 0,
+        totalRevenue: data?.revenue?.total || 0,
+        activeUsers: data?.users?.active || 0,
+        verifiedUsers: data?.users?.verified || 0,
+        pendingBookings: data?.bookings?.pending || 0,
+        confirmedBookings: data?.bookings?.confirmed || 0,
+        completedBookings: data?.bookings?.completed || 0,
+        activeDestinations: data?.destinations?.active || 0,
+        monthlyRevenue: data?.revenue?.thisMonth || 0,
+        openTickets: data?.support?.openTickets || 0,
+        resolvedTickets: data?.support?.resolvedTickets || 0,
       });
     } catch (error) {
       console.error('Error fetching dashboard data:', error);

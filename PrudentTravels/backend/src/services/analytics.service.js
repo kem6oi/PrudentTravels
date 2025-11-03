@@ -167,24 +167,32 @@ class AnalyticsService {
             attributes: [],
             where: {
               status: { [Op.in]: ['confirmed', 'completed'] }
-            }
+            },
+            required: false
           },
           {
             model: Review,
             as: 'reviews',
-            attributes: []
+            attributes: [],
+            required: false
           }
         ],
         group: ['Destination.id'],
         order: [[sequelize.literal('bookingCount'), 'DESC']],
         limit,
-        subQuery: false
+        subQuery: false,
+        raw: true
       });
 
-      return destinations.map(d => d.toJSON());
+      return destinations.map(d => ({
+        ...d,
+        bookingCount: parseInt(d.bookingCount) || 0,
+        averageRating: parseFloat(d.averageRating) || 0
+      }));
     } catch (error) {
       console.error('Error fetching popular destinations:', error);
-      throw error;
+      // Return empty array instead of throwing error
+      return [];
     }
   }
 
