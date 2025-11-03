@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HiPlus, HiPencil, HiTrash, HiSearch } from 'react-icons/hi';
 import Sidebar from '../../components/common/Sidebar';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import Loader from '../../components/common/Loader';
 import api, { apiEndpoints } from '../../services/api';
@@ -45,9 +46,11 @@ const DestinationManager = () => {
   const filteredDestinations = destinations.filter(dest =>
     dest.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     dest.country.toLowerCase().includes(searchQuery.toLowerCase())
+    </SidebarProvider>
   );
 
   return (
+    <SidebarProvider>
     <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
@@ -154,6 +157,7 @@ const DestinationManager = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

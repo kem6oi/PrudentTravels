@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HiStar } from 'react-icons/hi';
 import Sidebar from '../../components/common/Sidebar';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import ReviewCard from '../../components/reviews/ReviewCard';
 import Modal from '../../components/common/Modal';
@@ -63,6 +64,7 @@ const Reviews = () => {
   };
 
   return (
+    <SidebarProvider>
     <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
@@ -131,6 +133,7 @@ const Reviews = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

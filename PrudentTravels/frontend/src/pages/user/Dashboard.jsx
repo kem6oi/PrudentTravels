@@ -7,6 +7,7 @@ import Sidebar from '../../components/common/Sidebar';
 import Navbar from '../../components/common/Navbar';
 import api, { apiEndpoints } from '../../services/api';
 import { format } from 'date-fns';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 
 const Dashboard = () => {
   const user = useSelector((state) => state.auth.user);
@@ -79,10 +80,11 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-sky-50">
-      <Sidebar />
-      <div className="flex-1 overflow-auto">
-        <Navbar title="Dashboard" />
+    <SidebarProvider>
+      <div className="flex h-screen bg-sky-50">
+        <Sidebar />
+        <div className="flex-1 overflow-auto">
+          <Navbar title="Dashboard" />
         
         <main className="p-8">
           {/* Welcome Section */}
@@ -183,6 +185,7 @@ const Dashboard = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

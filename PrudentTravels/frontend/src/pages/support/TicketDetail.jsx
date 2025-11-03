@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Sidebar from '../../components/common/Sidebar';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import Loader from '../../components/common/Loader';
 import { format } from 'date-fns';
@@ -46,6 +47,7 @@ const TicketDetail = () => {
 
   if (loading) {
     return (
+    <SidebarProvider>
       <div className="flex h-screen bg-sky-50">
         <Sidebar />
         <div className="flex-1">
@@ -57,6 +59,7 @@ const TicketDetail = () => {
   }
 
   return (
+    <SidebarProvider>
     <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
@@ -117,6 +120,7 @@ const TicketDetail = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

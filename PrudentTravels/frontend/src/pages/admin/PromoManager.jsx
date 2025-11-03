@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HiPlus } from 'react-icons/hi';
 import Sidebar from '../../components/common/Sidebar';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import Modal from '../../components/common/Modal';
 import { useForm } from 'react-hook-form';
@@ -38,6 +39,7 @@ const PromoManager = () => {
   };
 
   return (
+    <SidebarProvider>
     <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
@@ -122,6 +124,7 @@ const PromoManager = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

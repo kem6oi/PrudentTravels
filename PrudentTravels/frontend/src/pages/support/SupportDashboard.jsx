@@ -4,6 +4,7 @@ import { HiTicket, HiClock, HiCheckCircle, HiExclamation } from 'react-icons/hi'
 import Sidebar from '../../components/common/Sidebar';
 import Navbar from '../../components/common/Navbar';
 import api, { apiEndpoints } from '../../services/api';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 
 const SupportDashboard = () => {
   const [stats, setStats] = useState({
@@ -40,10 +41,11 @@ const SupportDashboard = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-sky-50">
-      <Sidebar />
-      <div className="flex-1 overflow-auto">
-        <Navbar title="Support Dashboard" />
+    <SidebarProvider>
+      <div className="flex h-screen bg-sky-50">
+        <Sidebar />
+        <div className="flex-1 overflow-auto">
+          <Navbar title="Support Dashboard" />
         
         <main className="p-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-8">Support Dashboard</h1>
@@ -77,6 +79,7 @@ const SupportDashboard = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

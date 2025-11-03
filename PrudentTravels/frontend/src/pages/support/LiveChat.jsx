@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Sidebar from '../../components/common/Sidebar';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import { HiPaperAirplane } from 'react-icons/hi';
 
@@ -16,6 +17,7 @@ const LiveChat = () => {
   };
 
   return (
+    <SidebarProvider>
     <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
@@ -68,6 +70,7 @@ const LiveChat = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

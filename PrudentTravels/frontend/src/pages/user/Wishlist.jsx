@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HiHeart } from 'react-icons/hi';
 import Sidebar from '../../components/common/Sidebar';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import DestinationGrid from '../../components/destination/DestinationGrid';
 import api, { apiEndpoints } from '../../services/api';
@@ -27,6 +28,7 @@ const Wishlist = () => {
   };
 
   return (
+    <SidebarProvider>
     <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
@@ -65,6 +67,7 @@ const Wishlist = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/common/Sidebar';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import Loader from '../../components/common/Loader';
 import api, { apiEndpoints } from '../../services/api';
@@ -94,6 +95,7 @@ const UserManager = () => {
   };
 
   return (
+    <SidebarProvider>
     <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
@@ -225,6 +227,7 @@ const UserManager = () => {
         </div>
       )}
     </div>
+    </SidebarProvider>
   );
 };
 

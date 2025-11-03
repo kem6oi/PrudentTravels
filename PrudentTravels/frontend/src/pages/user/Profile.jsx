@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { HiUser, HiMail, HiPhone, HiCamera } from 'react-icons/hi';
 import Sidebar from '../../components/common/Sidebar';
+import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
 import { updateUser } from '../../store/slices/authSlice';
 import api, { apiEndpoints } from '../../services/api';
@@ -52,6 +53,7 @@ const Profile = () => {
   };
 
   return (
+    <SidebarProvider>
     <div className="flex h-screen bg-sky-50">
       <Sidebar />
       <div className="flex-1 overflow-auto">
@@ -215,6 +217,7 @@ const Profile = () => {
         </main>
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 
