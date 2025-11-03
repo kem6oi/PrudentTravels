@@ -42,8 +42,8 @@ const Destinations = () => {
       };
 
       const response = await api.get(apiEndpoints.destinations.getAll, { params });
-      setDestinations(response.data.data || []);
-      setPagination(response.data.pagination || pagination);
+      setDestinations(response.data.data?.destinations || []);
+      setPagination(response.data.data?.pagination || pagination);
     } catch (error) {
       console.error('Error fetching destinations:', error);
     } finally {

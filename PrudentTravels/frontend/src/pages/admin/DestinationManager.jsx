@@ -19,8 +19,11 @@ const DestinationManager = () => {
 
   const fetchDestinations = async () => {
     try {
-      const response = await api.get(apiEndpoints.destinations.getAll);
-      setDestinations(response.data.data || []);
+      // Fetch all destinations (active and inactive) for admin view
+      const response = await api.get(apiEndpoints.destinations.getAll, {
+        params: { active: 'all' }
+      });
+      setDestinations(response.data.data?.destinations || []);
     } catch (error) {
       console.error('Error fetching destinations:', error);
       toast.error('Failed to load destinations');
@@ -129,9 +132,9 @@ const DestinationManager = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`badge ${
-                          destination.status === 'active' ? 'badge-success' : 'badge-danger'
+                          destination.isActive ? 'badge-success' : 'badge-danger'
                         }`}>
-                          {destination.status || 'active'}
+                          {destination.isActive ? 'Active' : 'Inactive'}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

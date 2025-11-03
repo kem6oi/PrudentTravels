@@ -17,13 +17,22 @@ const getDestinations = async (req, res) => {
       sortBy = 'createdAt',
       sortOrder = 'DESC',
       featured,
-      active = true
+      active
     } = req.query;
 
     // Build where clause
     const where = {};
 
-    if (active !== undefined) where.isActive = active === 'true';
+    // By default, show only active destinations unless explicitly filtering
+    // Use 'active=all' to show all destinations (for admin)
+    if (active !== undefined) {
+      if (active !== 'all') {
+        where.isActive = active === 'true';
+      }
+      // If active === 'all', don't add isActive filter at all
+    } else {
+      where.isActive = true;
+    }
     if (featured !== undefined) where.isFeatured = featured === 'true';
     if (country) where.country = country;
     if (city) where.city = city;
