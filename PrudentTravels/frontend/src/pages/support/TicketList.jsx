@@ -27,7 +27,8 @@ const TicketList = () => {
     }
   };
 
-  const filteredTickets = tickets.filter(t =>
+  const safeTickets = Array.isArray(tickets) ? tickets : [];
+  const filteredTickets = safeTickets.filter(t =>
     filter === 'all' || t.status === filter
   );
 

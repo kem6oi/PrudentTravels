@@ -60,11 +60,14 @@ const Bookings = () => {
 
   const filteredBookings = getFilteredBookings();
 
+  // Ensure bookings is always an array
+  const safeBookings = Array.isArray(bookings) ? bookings : [];
+
   const filters = [
-    { value: 'all', label: 'All Bookings', count: bookings.length },
-    { value: 'upcoming', label: 'Upcoming', count: bookings.filter(b => b.status === 'confirmed').length },
-    { value: 'past', label: 'Past', count: bookings.filter(b => b.status === 'completed').length },
-    { value: 'cancelled', label: 'Cancelled', count: bookings.filter(b => b.status === 'cancelled').length },
+    { value: 'all', label: 'All Bookings', count: safeBookings.length },
+    { value: 'upcoming', label: 'Upcoming', count: safeBookings.filter(b => b.status === 'confirmed').length },
+    { value: 'past', label: 'Past', count: safeBookings.filter(b => b.status === 'completed').length },
+    { value: 'cancelled', label: 'Cancelled', count: safeBookings.filter(b => b.status === 'cancelled').length },
   ];
 
   return (

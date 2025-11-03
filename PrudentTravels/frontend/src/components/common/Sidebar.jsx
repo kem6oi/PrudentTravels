@@ -60,7 +60,8 @@ const Sidebar = () => {
       ],
     };
 
-    return baseItems[user?.role] || baseItems.traveler;
+    const items = baseItems[user?.role] || baseItems.traveler;
+    return Array.isArray(items) ? items : baseItems.traveler;
   };
 
   const menuItems = getMenuItems();
