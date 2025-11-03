@@ -2,12 +2,37 @@ const app = require('./src/app');
 const { testConnection, sequelize } = require('./src/config/database');
 const { createInitialAdmin } = require('./src/utils/seeders');
 const { initializeDatabase } = require('./src/utils/initDatabase');
+const fs = require('fs');
+const path = require('path');
 
 const PORT = process.env.PORT || 5000;
+
+// Ensure uploads directory exists
+const ensureUploadDirectories = () => {
+  const uploadsDir = path.join(__dirname, 'uploads');
+  const tempDir = path.join(uploadsDir, 'temp');
+  
+  try {
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+      console.log('✅ Created uploads directory');
+    }
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+      console.log('✅ Created uploads/temp directory');
+    }
+  } catch (error) {
+    console.error('❌ Error creating upload directories:', error);
+    throw error;
+  }
+};
 
 // Start server
 const startServer = async () => {
   try {
+    // Ensure upload directories exist
+    ensureUploadDirectories();
+    
     // Test database connection
     await testConnection();
 

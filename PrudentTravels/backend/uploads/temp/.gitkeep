@@ -1,0 +1,2 @@
+# This file ensures the uploads/temp directory is tracked by git
+# Temporary uploaded files will be stored here before being uploaded to Cloudinary
