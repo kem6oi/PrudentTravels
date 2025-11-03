@@ -43,7 +43,8 @@ const DestinationManager = () => {
     }
   };
 
-  const filteredDestinations = destinations.filter(dest =>
+  const safeDestinations = Array.isArray(destinations) ? destinations : [];
+  const filteredDestinations = safeDestinations.filter(dest =>
     dest.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     dest.country.toLowerCase().includes(searchQuery.toLowerCase())
   );

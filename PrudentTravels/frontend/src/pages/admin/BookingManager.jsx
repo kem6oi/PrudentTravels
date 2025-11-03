@@ -28,7 +28,8 @@ const BookingManager = () => {
     }
   };
 
-  const filteredBookings = bookings.filter(b =>
+  const safeBookings = Array.isArray(bookings) ? bookings : [];
+  const filteredBookings = safeBookings.filter(b =>
     filter === 'all' || b.status === filter
   );
 
