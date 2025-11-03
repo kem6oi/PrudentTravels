@@ -120,6 +120,18 @@ const validateDestination = [
   body('minGroupSize')
     .optional()
     .isInt({ min: 1 }).withMessage('Invalid min group size'),
+  // Custom validation function to check mainImage in either body or files
+  (req, res, next) => {
+    // Check if mainImage exists in body (URL string) or files (uploaded file)
+    if (!req.body.mainImage && !(req.files && req.files.mainImage)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        errors: [{ field: 'mainImage', message: 'Main image is required' }]
+      });
+    }
+    next();
+  },
   validate
 ];
 
