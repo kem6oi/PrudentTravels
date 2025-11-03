@@ -134,6 +134,7 @@ const getDestination = async (req, res) => {
         {
           model: DestinationImage,
           as: 'images',
+          separate: true,
           order: [['order', 'ASC']]
         },
         {
@@ -148,6 +149,7 @@ const getDestination = async (req, res) => {
           ],
           where: { isPublished: true },
           required: false,
+          separate: true,
           limit: 10,
           order: [['createdAt', 'DESC']]
         }
