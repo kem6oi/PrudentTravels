@@ -8,7 +8,6 @@ import api, { apiEndpoints } from '../../services/api';
 import toast from 'react-hot-toast';
 
 const Analytics = () => {
-  const [dateRange, setDateRange] = useState('30days');
   const [loading, setLoading] = useState(true);
   const [analyticsData, setAnalyticsData] = useState(null);
   const [revenueAnalytics, setRevenueAnalytics] = useState([]);
@@ -17,7 +16,7 @@ const Analytics = () => {
   useEffect(() => {
     fetchAnalytics();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dateRange]);
+  }, []);
 
   const fetchAnalytics = async () => {
     setLoading(true);
