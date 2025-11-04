@@ -55,12 +55,24 @@ const Booking = () => {
   };
 
   const handleBookingSubmit = async (formData) => {
+    // Validate dates are selected
+    if (!bookingData.checkInDate || !bookingData.checkOutDate) {
+      toast.error('Please select check-in and check-out dates');
+      setCurrentStep(1);
+      return;
+    }
+
     const fullBookingData = {
       ...bookingData,
       ...formData,
       destinationId: id,
       userId: user?.id,
+      // Ensure dates are in the correct format
+      checkInDate: bookingData.checkInDate,
+      checkOutDate: bookingData.checkOutDate,
     };
+
+    console.log('[Booking] Submitting booking data:', fullBookingData);
 
     try {
       const response = await api.post(apiEndpoints.bookings.create, fullBookingData);

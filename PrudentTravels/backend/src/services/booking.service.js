@@ -22,11 +22,18 @@ class BookingService {
         throw new Error('Destination is not available for booking');
       }
 
-      // Calculate number of nights
-      const nights = calculateDays(bookingData.checkInDate, bookingData.checkOutDate);
+      // Validate dates
+      if (!bookingData.checkInDate || !bookingData.checkOutDate) {
+        throw new Error('Check-in and check-out dates are required');
+      }
 
-      // Calculate pricing
-      const basePrice = destination.pricePerNight * nights;
+      // Calculate number of nights (or days for day trips)
+      const nights = calculateDays(bookingData.checkInDate, bookingData.checkOutDate) || 1;
+
+      // Calculate pricing based on per-person price from destination
+      const numberOfGuests = (bookingData.adults || 1) + (bookingData.children || 0);
+      const pricePerPerson = Number(destination.price) || 0;
+      const basePrice = pricePerPerson * numberOfGuests;
       const taxes = (basePrice * 0.1); // 10% tax
       let discount = 0;
 
