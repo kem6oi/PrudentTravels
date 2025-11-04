@@ -46,12 +46,19 @@ const Booking = () => {
   };
 
   const handleDateSelect = (checkIn, checkOut) => {
+    console.log('[Booking] Date selected:', { checkIn, checkOut });
+
     setBookingData({
       ...bookingData,
       checkInDate: checkIn,
       checkOutDate: checkOut,
     });
-    setCurrentStep(2);
+
+    // Only advance to step 2 if BOTH dates are selected
+    if (checkIn && checkOut) {
+      console.log('[Booking] Both dates selected, advancing to step 2');
+      setCurrentStep(2);
+    }
   };
 
   const handleBookingSubmit = async (formData) => {
