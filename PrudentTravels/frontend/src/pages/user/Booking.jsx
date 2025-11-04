@@ -27,6 +27,11 @@ const Booking = () => {
   });
   const [currentStep, setCurrentStep] = useState(1); // 1: Dates, 2: Details, 3: Payment
 
+  // Debug: Log bookingData changes
+  useEffect(() => {
+    console.log('[Booking] bookingData updated:', bookingData);
+  }, [bookingData]);
+
   useEffect(() => {
     fetchDestination();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -170,13 +175,29 @@ const Booking = () => {
                     destination={destination}
                     onDateSelect={handleDateSelect}
                   />
-                  {bookingData.checkInDate && bookingData.checkOutDate && (
+
+                  {/* Debug info */}
+                  <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded text-sm">
+                    <p className="font-semibold">Debug Info:</p>
+                    <p>Check-in: {bookingData.checkInDate ? bookingData.checkInDate.toString() : 'Not selected'}</p>
+                    <p>Check-out: {bookingData.checkOutDate ? bookingData.checkOutDate.toString() : 'Not selected'}</p>
+                    <p>Both dates selected: {(bookingData.checkInDate && bookingData.checkOutDate) ? 'YES' : 'NO'}</p>
+                  </div>
+
+                  {bookingData.checkInDate && bookingData.checkOutDate ? (
                     <button
-                      onClick={() => setCurrentStep(2)}
+                      onClick={() => {
+                        console.log('[Booking] Continue button clicked');
+                        setCurrentStep(2);
+                      }}
                       className="mt-6 w-full btn-primary py-3"
                     >
                       Continue to Details
                     </button>
+                  ) : (
+                    <div className="mt-6 p-4 bg-gray-100 rounded text-center text-gray-600">
+                      Please select both check-in and check-out dates to continue
+                    </div>
                   )}
                 </div>
               )}
