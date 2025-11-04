@@ -56,14 +56,15 @@ const Destinations = () => {
       
       setDestinations(destinations);
 
-      // Map backend pagination response to frontend state
+      // Update only totalPages and totalItems from server response
+      // Don't update currentPage to avoid triggering the useEffect again
       const backendPagination = response.data.data?.pagination;
       if (backendPagination) {
-        setPagination({
-          currentPage: backendPagination.page,
+        setPagination(prev => ({
+          ...prev,
           totalPages: backendPagination.totalPages,
           totalItems: backendPagination.total,
-        });
+        }));
       }
     } catch (error) {
       console.error('[Destinations] Error fetching destinations:', error);
@@ -80,11 +81,15 @@ const Destinations = () => {
   const handleSearch = (query) => {
     setFilters({ ...filters, search: query });
     updateSearchParams({ ...filters, search: query });
+    // Reset to page 1 when search changes
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
   };
 
   const handleFilterChange = (newFilters) => {
     setFilters({ ...filters, ...newFilters });
     updateSearchParams({ ...filters, ...newFilters });
+    // Reset to page 1 when filters change
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
   };
 
   const updateSearchParams = (newFilters) => {

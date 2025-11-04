@@ -123,13 +123,16 @@ const getDestination = async (req, res) => {
 
     console.log(`[getDestination] Fetching destination with ID/slug: ${id}`);
 
+    // Check if id is a valid UUID format
+    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+
+    // Build where clause based on whether it's a UUID or slug
+    const where = isUUID
+      ? { [Op.or]: [{ id }, { slug: id }] }
+      : { slug: id };
+
     const destination = await Destination.findOne({
-      where: { 
-        [Op.or]: [
-          { id },
-          { slug: id }
-        ]
-      },
+      where,
       include: [
         {
           model: DestinationImage,
