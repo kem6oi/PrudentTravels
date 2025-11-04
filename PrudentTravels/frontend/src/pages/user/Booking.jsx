@@ -75,13 +75,26 @@ const Booking = () => {
     }
 
     const fullBookingData = {
-      ...bookingData,
-      ...formData,
       destinationId: id,
       userId: user?.id,
-      // Ensure dates are in the correct format
-      checkInDate: bookingData.checkInDate,
-      checkOutDate: bookingData.checkOutDate,
+      // Ensure dates are in YYYY-MM-DD format for DATEONLY type
+      checkInDate: bookingData.checkInDate instanceof Date
+        ? bookingData.checkInDate.toISOString().split('T')[0]
+        : bookingData.checkInDate,
+      checkOutDate: bookingData.checkOutDate instanceof Date
+        ? bookingData.checkOutDate.toISOString().split('T')[0]
+        : bookingData.checkOutDate,
+      // Ensure guest counts are integers
+      adults: parseInt(formData.adults) || 1,
+      children: parseInt(formData.children) || 0,
+      infants: parseInt(formData.infants) || 0,
+      // Other fields
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      specialRequests: formData.specialRequests || '',
+      promoCode: formData.promoCode || '',
     };
 
     console.log('[Booking] Submitting booking data:', fullBookingData);
@@ -95,7 +108,11 @@ const Booking = () => {
       }
     } catch (error) {
       console.error('Error creating booking:', error);
-      toast.error(error.response?.data?.message || 'Failed to create booking');
+      console.error('Error response:', error.response?.data);
+      console.error('Error status:', error.response?.status);
+
+      const errorMessage = error.response?.data?.message || error.response?.data?.error || 'Failed to create booking';
+      toast.error(errorMessage);
     }
   };
 
