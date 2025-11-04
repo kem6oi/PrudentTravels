@@ -19,8 +19,8 @@ const upload = require('../middleware/upload.middleware');
 router.get('/', optionalAuth, getDestinations);
 router.get('/featured', getFeaturedDestinations);
 router.get('/popular', getPopularDestinations);
-router.get('/:id', optionalAuth, getDestination);
 router.get('/:id/related', getRelatedDestinations);
+router.get('/:id', optionalAuth, getDestination);
 
 // Admin routes
 router.use(protect);
