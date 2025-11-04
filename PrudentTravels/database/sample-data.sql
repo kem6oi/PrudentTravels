@@ -1,5 +1,6 @@
 -- PrudentTravels Sample Data
 -- This file contains sample data for testing and development
+-- Safe to run multiple times (uses ON CONFLICT to handle duplicates)
 
 -- ============================================
 -- 1. USERS
@@ -9,12 +10,28 @@
 
 -- Admin User
 INSERT INTO "Users" (id, "firstName", "lastName", email, password, phone, role, avatar, bio, "emailVerified", "isActive", "isSuspended", "lastLogin", "createdAt", "updatedAt") VALUES
-('a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1', 'Admin', 'User', 'admin@prudenttravels.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1234567890', 'admin', 'https://i.pravatar.cc/300?img=1', 'System administrator with full access to all features', true, true, false, NOW() - INTERVAL '1 hour', NOW() - INTERVAL '6 months', NOW());
+('a1a1a1a1-a1a1-a1a1-a1a1-a1a1a1a1a1a1', 'Admin', 'User', 'admin@prudenttravels.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1234567890', 'admin', 'https://i.pravatar.cc/300?img=1', 'System administrator with full access to all features', true, true, false, NOW() - INTERVAL '1 hour', NOW() - INTERVAL '6 months', NOW())
+ON CONFLICT (email) DO UPDATE SET
+    "firstName" = EXCLUDED."firstName",
+    "lastName" = EXCLUDED."lastName",
+    phone = EXCLUDED.phone,
+    role = EXCLUDED.role,
+    avatar = EXCLUDED.avatar,
+    bio = EXCLUDED.bio,
+    "updatedAt" = NOW();
 
 -- Support Staff
 INSERT INTO "Users" (id, "firstName", "lastName", email, password, phone, role, avatar, bio, "emailVerified", "isActive", "isSuspended", "lastLogin", "createdAt", "updatedAt") VALUES
 ('b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2', 'Sarah', 'Johnson', 'sarah.support@prudenttravels.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1234567891', 'support', 'https://i.pravatar.cc/300?img=5', 'Customer support specialist helping travelers worldwide', true, true, false, NOW() - INTERVAL '2 hours', NOW() - INTERVAL '5 months', NOW()),
-('b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3', 'Michael', 'Chen', 'michael.support@prudenttravels.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1234567892', 'support', 'https://i.pravatar.cc/300?img=12', 'Dedicated to providing excellent customer service', true, true, false, NOW() - INTERVAL '30 minutes', NOW() - INTERVAL '4 months', NOW());
+('b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3', 'Michael', 'Chen', 'michael.support@prudenttravels.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1234567892', 'support', 'https://i.pravatar.cc/300?img=12', 'Dedicated to providing excellent customer service', true, true, false, NOW() - INTERVAL '30 minutes', NOW() - INTERVAL '4 months', NOW())
+ON CONFLICT (email) DO UPDATE SET
+    "firstName" = EXCLUDED."firstName",
+    "lastName" = EXCLUDED."lastName",
+    phone = EXCLUDED.phone,
+    role = EXCLUDED.role,
+    avatar = EXCLUDED.avatar,
+    bio = EXCLUDED.bio,
+    "updatedAt" = NOW();
 
 -- Active Travelers
 INSERT INTO "Users" (id, "firstName", "lastName", email, password, phone, role, avatar, bio, address, preferences, "emailVerified", "isActive", "isSuspended", "lastLogin", "createdAt", "updatedAt") VALUES
@@ -22,11 +39,30 @@ INSERT INTO "Users" (id, "firstName", "lastName", email, password, phone, role, 
 ('c2c2c2c2-c2c2-c2c2-c2c2-c2c2c2c2c2c2', 'Emily', 'Davis', 'emily.davis@email.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1555234567', 'traveler', 'https://i.pravatar.cc/300?img=20', 'Love exploring new cultures and cuisines', '{"street": "456 Oak Ave", "city": "Los Angeles", "state": "CA", "country": "USA", "zipCode": "90001"}', '{"newsletter": true, "notifications": true, "currency": "USD", "language": "en"}', true, true, false, NOW() - INTERVAL '1 day', NOW() - INTERVAL '8 months', NOW()),
 ('c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3', 'David', 'Martinez', 'david.martinez@email.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1555345678', 'traveler', 'https://i.pravatar.cc/300?img=33', 'Nature lover and hiking enthusiast', '{"street": "789 Pine Rd", "city": "Denver", "state": "CO", "country": "USA", "zipCode": "80201"}', '{"newsletter": false, "notifications": true, "currency": "USD", "language": "en"}', true, true, false, NOW() - INTERVAL '5 hours', NOW() - INTERVAL '6 months', NOW()),
 ('c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4', 'Lisa', 'Anderson', 'lisa.anderson@email.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1555456789', 'traveler', 'https://i.pravatar.cc/300?img=45', 'Travel blogger sharing experiences from around the world', '{"street": "321 Elm St", "city": "Miami", "state": "FL", "country": "USA", "zipCode": "33101"}', '{"newsletter": true, "notifications": true, "currency": "USD", "language": "en"}', true, true, false, NOW() - INTERVAL '2 days', NOW() - INTERVAL '3 months', NOW()),
-('c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5', 'Robert', 'Wilson', 'robert.wilson@email.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1555567890', 'traveler', 'https://i.pravatar.cc/300?img=52', 'Retired teacher exploring the world', '{"street": "654 Maple Dr", "city": "Seattle", "state": "WA", "country": "USA", "zipCode": "98101"}', '{"newsletter": true, "notifications": false, "currency": "USD", "language": "en"}', true, true, false, NOW() - INTERVAL '12 hours', NOW() - INTERVAL '2 years', NOW());
+('c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5', 'Robert', 'Wilson', 'robert.wilson@email.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1555567890', 'traveler', 'https://i.pravatar.cc/300?img=52', 'Retired teacher exploring the world', '{"street": "654 Maple Dr", "city": "Seattle", "state": "WA", "country": "USA", "zipCode": "98101"}', '{"newsletter": true, "notifications": false, "currency": "USD", "language": "en"}', true, true, false, NOW() - INTERVAL '12 hours', NOW() - INTERVAL '2 years', NOW())
+ON CONFLICT (email) DO UPDATE SET
+    "firstName" = EXCLUDED."firstName",
+    "lastName" = EXCLUDED."lastName",
+    phone = EXCLUDED.phone,
+    role = EXCLUDED.role,
+    avatar = EXCLUDED.avatar,
+    bio = EXCLUDED.bio,
+    address = EXCLUDED.address,
+    preferences = EXCLUDED.preferences,
+    "updatedAt" = NOW();
 
 -- Suspended User
 INSERT INTO "Users" (id, "firstName", "lastName", email, password, phone, role, avatar, bio, "emailVerified", "isActive", "isSuspended", "suspendedAt", "suspensionReason", "lastLogin", "createdAt", "updatedAt") VALUES
-('d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1', 'Suspended', 'User', 'suspended.user@email.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1555678901', 'traveler', 'https://i.pravatar.cc/300?img=60', 'Account suspended for policy violations', true, false, true, NOW() - INTERVAL '7 days', 'Multiple failed payment attempts and suspicious activity detected. Please contact support for more information.', NOW() - INTERVAL '8 days', NOW() - INTERVAL '4 months', NOW());
+('d1d1d1d1-d1d1-d1d1-d1d1-d1d1d1d1d1d1', 'Suspended', 'User', 'suspended.user@email.com', '$2a$10$XQKmBvCQPGxJkE.jP5nVbOqC5p6FQ9UqPqH7yqJ3p1rKKKqVqPJWO', '+1555678901', 'traveler', 'https://i.pravatar.cc/300?img=60', 'Account suspended for policy violations', true, false, true, NOW() - INTERVAL '7 days', 'Multiple failed payment attempts and suspicious activity detected. Please contact support for more information.', NOW() - INTERVAL '8 days', NOW() - INTERVAL '4 months', NOW())
+ON CONFLICT (email) DO UPDATE SET
+    "firstName" = EXCLUDED."firstName",
+    "lastName" = EXCLUDED."lastName",
+    phone = EXCLUDED.phone,
+    "isActive" = EXCLUDED."isActive",
+    "isSuspended" = EXCLUDED."isSuspended",
+    "suspendedAt" = EXCLUDED."suspendedAt",
+    "suspensionReason" = EXCLUDED."suspensionReason",
+    "updatedAt" = NOW();
 
 -- ============================================
 -- 2. DESTINATIONS
@@ -49,7 +85,34 @@ INSERT INTO "Destinations" (id, name, slug, description, "shortDescription", "ma
 ('d5d5d5d5-5555-5555-5555-555555555555', 'Tanzania Safari Adventure', 'tanzania-safari-adventure', 'Embark on the wildlife adventure of a lifetime with this 9-day Tanzania safari. Witness the Great Migration in Serengeti, explore the stunning Ngorongoro Crater, and encounter the Big Five in their natural habitat. Stay in luxury tented camps, enjoy game drives led by expert guides, and experience the raw beauty of African wilderness. Visit Maasai villages and learn about traditional culture. An unforgettable journey for wildlife enthusiasts.', 'Witness the Great Migration and Big Five on luxury safari through Serengeti and Ngorongoro Crater with expert guides.', 'https://images.unsplash.com/photo-1516426122078-c23e76319801', 'Tanzania', 'Arusha', 'Serengeti Road, Arusha', '{"latitude": -3.3869, "longitude": 36.6830}', 3499.00, 4299.00, 'USD', '{"days": 9, "nights": 8}', ARRAY['Adventure', 'Wildlife', 'Nature'], ARRAY['Big Five game drives', 'Great Migration viewing', 'Ngorongoro Crater tour', 'Maasai village visit', 'Hot air balloon safari (optional)'], ARRAY['Luxury tented camp accommodation', 'All meals included', 'All game drives & park fees', '4x4 safari vehicle', 'Professional guide', 'Airport transfers'], ARRAY['International flights', 'Visa fees', 'Travel insurance', 'Hot air balloon safari ($550)', 'Tips for guides and staff', 'Personal expenses'], '[{"day": 1, "title": "Arrival in Arusha", "description": "Airport pickup, hotel check-in, safari briefing"}, {"day": 2, "title": "Tarangire National Park", "description": "Full day game drive, elephant herds, baobab trees"}, {"day": 3, "title": "Serengeti Arrival", "description": "Drive to Serengeti, afternoon game drive"}, {"day": 4, "title": "Central Serengeti", "description": "Full day exploring central plains, big cat territory"}, {"day": 5, "title": "Great Migration Area", "description": "Witness the Great Migration, river crossings (seasonal)"}, {"day": 6, "title": "Ngorongoro Crater", "description": "Full day in the crater, dense wildlife viewing"}, {"day": 7, "title": "Crater Highlands", "description": "Explore crater highlands, Maasai village visit"}, {"day": 8, "title": "Lake Manyara", "description": "Tree-climbing lions, flamingos, diverse ecosystems"}, {"day": 9, "title": "Departure", "description": "Morning at leisure, transfer to Kilimanjaro Airport"}]', 8, 2, 'Moderate', '{"min": 12, "max": 70}', ARRAY['English', 'Swahili'], 5.0, 164, 298, ARRAY['safari', 'wildlife', 'africa', 'serengeti', 'big-five', 'migration', 'adventure'], 'Tanzania Safari - 9 Day Wildlife Adventure Tour', 'Experience the ultimate African safari in Tanzania. Witness the Great Migration, see the Big Five, and stay in luxury camps.', ARRAY['Tanzania safari', 'Serengeti tour', 'wildlife safari', 'African adventure', 'Ngorongoro Crater'], true, true, 8956, NOW() - INTERVAL '4 months', NOW()),
 
 -- Iceland Adventure
-('d6d6d6d6-6666-6666-6666-666666666666', 'Iceland Northern Lights Experience', 'iceland-northern-lights-experience', 'Discover the land of fire and ice on this spectacular 7-day Iceland adventure. Chase the magical Northern Lights, relax in geothermal hot springs, explore ice caves, and witness powerful waterfalls. Visit the famous Blue Lagoon, walk on black sand beaches, see massive glaciers, and explore the Golden Circle. Experience Iceland''s unique landscape of volcanoes, geysers, and dramatic coastlines in the heart of winter.', 'Chase Northern Lights, explore ice caves, relax in hot springs, and discover Iceland''s dramatic landscapes and waterfalls.', 'https://images.unsplash.com/photo-1504829857797-ddff29c27927', 'Iceland', 'Reykjavik', 'Hallgrímskirkja, 101 Reykjavík', '{"latitude": 64.1466, "longitude": -21.9426}', 2799.00, 3399.00, 'USD', '{"days": 7, "nights": 6}', ARRAY['Adventure', 'Nature', 'Photography'], ARRAY['Northern Lights hunting (3 nights)', 'Ice cave exploration', 'Blue Lagoon entry', 'Golden Circle tour', 'Glacier hiking'], ARRAY['4-star hotel accommodation', 'Daily breakfast', '4x4 vehicle with driver-guide', 'All entrance fees & permits', 'Airport transfers', 'Winter gear provided'], ARRAY['International flights', 'Lunch and dinner', 'Travel insurance', 'Optional helicopter tour', 'Personal expenses'], '[{"day": 1, "title": "Arrival & Reykjavik", "description": "Airport pickup, city orientation, evening Northern Lights hunt"}, {"day": 2, "title": "Golden Circle", "description": "Þingvellir National Park, Geysir, Gullfoss waterfall"}, {"day": 3, "title": "South Coast", "description": "Seljalandsfoss, Skógafoss, black sand beach, Northern Lights"}, {"day": 4, "title": "Ice Cave Adventure", "description": "Glacier hiking, natural ice cave exploration"}, {"day": 5, "title": "Jökulsárlón", "description": "Glacier lagoon, diamond beach, seal watching"}, {"day": 6, "title": "Blue Lagoon", "description": "Relaxation in geothermal spa, evening city exploration"}, {"day": 7, "title": "Departure", "description": "Free morning, transfer to Keflavik Airport"}]', 12, 2, 'Moderate', '{"min": 18, "max": 65}', ARRAY['English', 'Icelandic'], 4.8, 156, 334, ARRAY['northern-lights', 'iceland', 'glacier', 'ice-cave', 'adventure', 'photography'], 'Iceland Northern Lights - 7 Day Winter Adventure', 'Hunt for Northern Lights and explore Iceland''s stunning winter landscapes. Ice caves, hot springs, and dramatic scenery await.', ARRAY['Northern Lights tour', 'Iceland adventure', 'Blue Lagoon', 'ice cave', 'glacier hiking'], true, true, 7654, NOW() - INTERVAL '3 months', NOW());
+('d6d6d6d6-6666-6666-6666-666666666666', 'Iceland Northern Lights Experience', 'iceland-northern-lights-experience', 'Discover the land of fire and ice on this spectacular 7-day Iceland adventure. Chase the magical Northern Lights, relax in geothermal hot springs, explore ice caves, and witness powerful waterfalls. Visit the famous Blue Lagoon, walk on black sand beaches, see massive glaciers, and explore the Golden Circle. Experience Iceland''s unique landscape of volcanoes, geysers, and dramatic coastlines in the heart of winter.', 'Chase Northern Lights, explore ice caves, relax in hot springs, and discover Iceland''s dramatic landscapes and waterfalls.', 'https://images.unsplash.com/photo-1504829857797-ddff29c27927', 'Iceland', 'Reykjavik', 'Hallgrímskirkja, 101 Reykjavík', '{"latitude": 64.1466, "longitude": -21.9426}', 2799.00, 3399.00, 'USD', '{"days": 7, "nights": 6}', ARRAY['Adventure', 'Nature', 'Photography'], ARRAY['Northern Lights hunting (3 nights)', 'Ice cave exploration', 'Blue Lagoon entry', 'Golden Circle tour', 'Glacier hiking'], ARRAY['4-star hotel accommodation', 'Daily breakfast', '4x4 vehicle with driver-guide', 'All entrance fees & permits', 'Airport transfers', 'Winter gear provided'], ARRAY['International flights', 'Lunch and dinner', 'Travel insurance', 'Optional helicopter tour', 'Personal expenses'], '[{"day": 1, "title": "Arrival & Reykjavik", "description": "Airport pickup, city orientation, evening Northern Lights hunt"}, {"day": 2, "title": "Golden Circle", "description": "Þingvellir National Park, Geysir, Gullfoss waterfall"}, {"day": 3, "title": "South Coast", "description": "Seljalandsfoss, Skógafoss, black sand beach, Northern Lights"}, {"day": 4, "title": "Ice Cave Adventure", "description": "Glacier hiking, natural ice cave exploration"}, {"day": 5, "title": "Jökulsárlón", "description": "Glacier lagoon, diamond beach, seal watching"}, {"day": 6, "title": "Blue Lagoon", "description": "Relaxation in geothermal spa, evening city exploration"}, {"day": 7, "title": "Departure", "description": "Free morning, transfer to Keflavik Airport"}]', 12, 2, 'Moderate', '{"min": 18, "max": 65}', ARRAY['English', 'Icelandic'], 4.8, 156, 334, ARRAY['northern-lights', 'iceland', 'glacier', 'ice-cave', 'adventure', 'photography'], 'Iceland Northern Lights - 7 Day Winter Adventure', 'Hunt for Northern Lights and explore Iceland''s stunning winter landscapes. Ice caves, hot springs, and dramatic scenery await.', ARRAY['Northern Lights tour', 'Iceland adventure', 'Blue Lagoon', 'ice cave', 'glacier hiking'], true, true, 7654, NOW() - INTERVAL '3 months', NOW())
+ON CONFLICT (slug) DO UPDATE SET
+    name = EXCLUDED.name,
+    description = EXCLUDED.description,
+    "shortDescription" = EXCLUDED."shortDescription",
+    "mainImage" = EXCLUDED."mainImage",
+    country = EXCLUDED.country,
+    city = EXCLUDED.city,
+    address = EXCLUDED.address,
+    coordinates = EXCLUDED.coordinates,
+    price = EXCLUDED.price,
+    "originalPrice" = EXCLUDED."originalPrice",
+    duration = EXCLUDED.duration,
+    category = EXCLUDED.category,
+    highlights = EXCLUDED.highlights,
+    included = EXCLUDED.included,
+    "notIncluded" = EXCLUDED."notIncluded",
+    itinerary = EXCLUDED.itinerary,
+    "maxGroupSize" = EXCLUDED."maxGroupSize",
+    "minGroupSize" = EXCLUDED."minGroupSize",
+    difficulty = EXCLUDED.difficulty,
+    "ageRange" = EXCLUDED."ageRange",
+    languages = EXCLUDED.languages,
+    tags = EXCLUDED.tags,
+    "seoTitle" = EXCLUDED."seoTitle",
+    "seoDescription" = EXCLUDED."seoDescription",
+    "seoKeywords" = EXCLUDED."seoKeywords",
+    "updatedAt" = NOW();
 
 -- ============================================
 -- 3. DESTINATION IMAGES
@@ -67,7 +130,8 @@ INSERT INTO "DestinationImages" ("destinationId", url, caption, "isMain", "order
 -- Swiss Alps images
 ('d3d3d3d3-3333-3333-3333-333333333333', 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7', 'Matterhorn peak', true, 0, NOW(), NOW()),
 ('d3d3d3d3-3333-3333-3333-333333333333', 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4', 'Alpine meadow trail', false, 1, NOW(), NOW()),
-('d3d3d3d3-3333-3333-3333-333333333333', 'https://images.unsplash.com/photo-1531973576160-7125cd663d86', 'Mountain lake', false, 2, NOW(), NOW());
+('d3d3d3d3-3333-3333-3333-333333333333', 'https://images.unsplash.com/photo-1531973576160-7125cd663d86', 'Mountain lake', false, 2, NOW(), NOW())
+ON CONFLICT ("destinationId", url) DO NOTHING;
 
 -- ============================================
 -- 4. PROMO CODES
@@ -77,7 +141,14 @@ INSERT INTO "PromoCodes" (id, code, description, "discountType", "discountValue"
 ('f1f1f1f1-f1f1-f1f1-f1f1-f1f1f1f1f1f1', 'WELCOME20', 'Welcome discount for new customers', 'percentage', 20.00, 500.00, 200.00, NOW() - INTERVAL '1 month', NOW() + INTERVAL '2 months', 100, 23, 1, true, 'Valid for first-time bookings only. Minimum purchase $500.', NOW() - INTERVAL '1 month', NOW()),
 ('f2f2f2f2-f2f2-f2f2-f2f2-f2f2f2f2f2f2', 'SUMMER2025', 'Summer special discount', 'percentage', 15.00, 1000.00, 300.00, NOW() - INTERVAL '15 days', NOW() + INTERVAL '3 months', 200, 45, 1, true, 'Valid for summer destinations. Minimum purchase $1000.', NOW() - INTERVAL '15 days', NOW()),
 ('f3f3f3f3-f3f3-f3f3-f3f3-f3f3f3f3f3f3', 'EARLYBIRD', 'Early bird booking discount', 'fixed', 100.00, 1500.00, NULL, NOW(), NOW() + INTERVAL '6 months', NULL, 12, 1, true, 'Book 60 days in advance. Minimum purchase $1500.', NOW(), NOW()),
-('f4f4f4f4-f4f4-f4f4-f4f4-f4f4f4f4f4f4', 'FLASH50', 'Flash sale discount', 'fixed', 50.00, 800.00, NULL, NOW() - INTERVAL '30 days', NOW() - INTERVAL '1 day', 50, 50, 1, false, 'Limited time flash sale. Expired.', NOW() - INTERVAL '30 days', NOW());
+('f4f4f4f4-f4f4-f4f4-f4f4-f4f4f4f4f4f4', 'FLASH50', 'Flash sale discount', 'fixed', 50.00, 800.00, NULL, NOW() - INTERVAL '30 days', NOW() - INTERVAL '1 day', 50, 50, 1, false, 'Limited time flash sale. Expired.', NOW() - INTERVAL '30 days', NOW())
+ON CONFLICT (code) DO UPDATE SET
+    description = EXCLUDED.description,
+    "discountType" = EXCLUDED."discountType",
+    "discountValue" = EXCLUDED."discountValue",
+    "minimumPurchase" = EXCLUDED."minimumPurchase",
+    "maximumDiscount" = EXCLUDED."maximumDiscount",
+    "updatedAt" = NOW();
 
 -- ============================================
 -- 5. BOOKINGS
@@ -96,7 +167,11 @@ INSERT INTO "Bookings" (id, "bookingNumber", "userId", "destinationId", "checkIn
 ('b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5', 'PT202409001', 'c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5', 'd5d5d5d5-5555-5555-5555-555555555555', '2025-09-15', '2025-09-23', 2, 0, 0, 2, 6998.00, 699.80, 0.00, 7697.80, 'USD', 'completed', 'success', 'credit_card', NULL, NULL, '{"leadGuest": {"name": "Robert Wilson", "email": "robert.wilson@email.com", "phone": "+1555567890"}}', NOW() - INTERVAL '90 days', NOW()),
 
 -- Cancelled booking
-('b6b6b6b6-b6b6-b6b6-b6b6-b6b6b6b6b6b6', 'PT202410005', 'c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1', 'd6d6d6d6-6666-6666-6666-666666666666', '2026-03-01', '2026-03-07', 2, 0, 0, 2, 5598.00, 559.80, 0.00, 6157.80, 'USD', 'cancelled', 'refunded', 'credit_card', NULL, NULL, '{"leadGuest": {"name": "John Smith", "email": "john.smith@email.com", "phone": "+1555123456"}}', NOW() - INTERVAL '15 days', NOW());
+('b6b6b6b6-b6b6-b6b6-b6b6-b6b6b6b6b6b6', 'PT202410005', 'c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1', 'd6d6d6d6-6666-6666-6666-666666666666', '2026-03-01', '2026-03-07', 2, 0, 0, 2, 5598.00, 559.80, 0.00, 6157.80, 'USD', 'cancelled', 'refunded', 'credit_card', NULL, NULL, '{"leadGuest": {"name": "John Smith", "email": "john.smith@email.com", "phone": "+1555123456"}}', NOW() - INTERVAL '15 days', NOW())
+ON CONFLICT ("bookingNumber") DO UPDATE SET
+    status = EXCLUDED.status,
+    "paymentStatus" = EXCLUDED."paymentStatus",
+    "updatedAt" = NOW();
 
 -- ============================================
 -- 6. PAYMENTS
@@ -110,7 +185,10 @@ INSERT INTO "Payments" (id, "bookingId", "userId", "transactionId", amount, curr
 ('faa5faa5-faa5-faa5-faa5-faa5faa5faa5', 'b5b5b5b5-b5b5-b5b5-b5b5-b5b5b5b5b5b5', 'c5c5c5c5-c5c5-c5c5-c5c5-c5c5c5c5c5c5', 'TXN20240901001', 7697.80, 'USD', 'success', 'credit_card', 'stripe', 'ch_3PqRsT4u5v6w7x8y9b', '{"status": "succeeded", "brand": "amex", "last4": "1111"}', NOW() - INTERVAL '90 days', NOW()),
 
 -- Refunded payment
-('faa6faa6-faa6-faa6-faa6-faa6faa6faa6', 'b6b6b6b6-b6b6-b6b6-b6b6-b6b6b6b6b6b6', 'c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1', 'TXN20241001004', 6157.80, 'USD', 'refunded', 'credit_card', 'stripe', 'ch_3PqRsT4u5v6w7x8y9c', '{"status": "refunded", "brand": "visa", "last4": "4242"}', NOW() - INTERVAL '15 days', NOW());
+('faa6faa6-faa6-faa6-faa6-faa6faa6faa6', 'b6b6b6b6-b6b6-b6b6-b6b6-b6b6b6b6b6b6', 'c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1', 'TXN20241001004', 6157.80, 'USD', 'refunded', 'credit_card', 'stripe', 'ch_3PqRsT4u5v6w7x8y9c', '{"status": "refunded", "brand": "visa", "last4": "4242"}', NOW() - INTERVAL '15 days', NOW())
+ON CONFLICT ("transactionId") DO UPDATE SET
+    status = EXCLUDED.status,
+    "updatedAt" = NOW();
 
 -- ============================================
 -- 7. REVIEWS
@@ -121,7 +199,14 @@ INSERT INTO "Reviews" (id, "userId", "destinationId", "bookingId", rating, title
 ('e2e2e2e2-e2e2-e2e2-e2e2-e2e2e2e2e2e2', 'c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1', 'd1d1d1d1-1111-1111-1111-111111111111', NULL, 4, 'Magical Paris Adventure', 'Paris was everything we dreamed of and more! The skip-the-line access saved us hours of waiting. The Louvre tour was fascinating and the Seine River cruise at sunset was incredibly romantic. The French cooking class was a highlight. Our only complaint was that some days felt rushed and we would have liked more free time to explore on our own. Overall, a wonderful experience!', ARRAY['Skip-the-line access', 'Great guide', 'Romantic atmosphere', 'Cooking class was fun'], ARRAY['Some days felt rushed', 'Expensive dinners not included'], 18, false, true, NOW() - INTERVAL '35 days', NOW()),
 ('e3e3e3e3-e3e3-e3e3-e3e3-e3e3e3e3e3e3', 'c2c2c2c2-c2c2-c2c2-c2c2-c2c2c2c2c2c2', 'd4d4d4d4-4444-4444-4444-444444444444', NULL, 5, 'Life-Changing Wellness Retreat', 'The Bali wellness retreat was exactly what I needed. The daily yoga sessions overlooking rice terraces were absolutely peaceful. The spa treatments were heavenly and the organic food was delicious and healthy. The meditation workshops gave me tools I still use daily. The staff was incredibly caring and attentive. The temple visit and purification ceremony was a deeply spiritual experience. I left feeling completely rejuvenated.', ARRAY['Beautiful location', 'Excellent yoga instructors', 'Amazing spa treatments', 'Healthy delicious food', 'Very peaceful'], ARRAY['Could use more free time'], 31, false, true, NOW() - INTERVAL '25 days', NOW()),
 ('e4e4e4e4-e4e4-e4e4-e4e4-e4e4e4e4e4e4', 'c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3', 'd3d3d3d3-3333-3333-3333-333333333333', NULL, 5, 'Epic Mountain Adventure', 'The Swiss Alps trek was challenging but absolutely worth it! The views were stunning at every turn. Seeing the Matterhorn up close was a dream come true. The mountain huts were cozy and the Swiss meals were hearty and delicious. Our guide was experienced and made us feel safe throughout. The Five Lakes Trail was spectacular. This trip pushed me physically but the sense of accomplishment was incredible. Highly recommend for anyone who loves hiking!', ARRAY['Stunning scenery', 'Professional guide', 'Great group', 'Mountain huts experience', 'Well paced'], ARRAY['Physically demanding', 'Weather dependent'], 15, false, true, NOW() - INTERVAL '10 days', NOW()),
-('e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5', 'c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4', 'd2d2d2d2-2222-2222-2222-222222222222', NULL, 5, 'Tokyo Was Amazing!', 'What an incredible introduction to Japan! The blend of ancient traditions and modern technology was fascinating. The tea ceremony was so peaceful and our guide explained the cultural significance beautifully. Mount Fuji was breathtaking. The Tsukiji Fish Market tour was amazing - fresh sushi for breakfast! Shibuya and Harajuku were so fun and vibrant. Our guide was patient with all our questions and took great photos. Tokyo Skytree views were spectacular. Already planning to return!', ARRAY['Perfect mix of traditional and modern', 'Knowledgeable guide', 'Mount Fuji trip', 'Great food experiences', 'Easy transportation with JR Pass'], ARRAY['Could spend longer in some areas'], 42, false, true, NOW() - INTERVAL '5 days', NOW());
+('e5e5e5e5-e5e5-e5e5-e5e5-e5e5e5e5e5e5', 'c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4', 'd2d2d2d2-2222-2222-2222-222222222222', NULL, 5, 'Tokyo Was Amazing!', 'What an incredible introduction to Japan! The blend of ancient traditions and modern technology was fascinating. The tea ceremony was so peaceful and our guide explained the cultural significance beautifully. Mount Fuji was breathtaking. The Tsukiji Fish Market tour was amazing - fresh sushi for breakfast! Shibuya and Harajuku were so fun and vibrant. Our guide was patient with all our questions and took great photos. Tokyo Skytree views were spectacular. Already planning to return!', ARRAY['Perfect mix of traditional and modern', 'Knowledgeable guide', 'Mount Fuji trip', 'Great food experiences', 'Easy transportation with JR Pass'], ARRAY['Could spend longer in some areas'], 42, false, true, NOW() - INTERVAL '5 days', NOW())
+ON CONFLICT (id) DO UPDATE SET
+    rating = EXCLUDED.rating,
+    title = EXCLUDED.title,
+    comment = EXCLUDED.comment,
+    pros = EXCLUDED.pros,
+    cons = EXCLUDED.cons,
+    "updatedAt" = NOW();
 
 -- ============================================
 -- 8. SUPPORT TICKETS
@@ -141,44 +226,51 @@ INSERT INTO "SupportTickets" (id, "ticketNumber", "userId", "assignedTo", "booki
 ('74747474-7474-7474-7474-747474747474', 'TKT202410004', 'c1c1c1c1-c1c1-c1c1-c1c1-c1c1c1c1c1c1', 'b2b2b2b2-b2b2-b2b2-b2b2-b2b2b2b2b2b2', 'b6b6b6b6-b6b6-b6b6-b6b6-b6b6b6b6b6b6', 'Cancellation and refund request', 'Due to a family emergency, I need to cancel my Iceland booking (PT202410005). Please process a full refund. I understand there may be cancellation fees.', 'refund', 'resolved', 'high', NOW() - INTERVAL '12 days', 5, 'Sarah handled my emergency cancellation with compassion and efficiency. Received full refund within 5 business days. Thank you!', NOW() - INTERVAL '14 days', NOW()),
 
 -- Resolved general inquiry
-('75757575-7575-7575-7575-757575757575', 'TKT202410005', 'c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3', 'b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3', 'b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3', 'Equipment rental for Swiss Alps trek', 'This is my first trekking experience. What equipment is provided and what do I need to rent? Also, what''s the weather like in January?', 'general', 'resolved', 'medium', NOW() - INTERVAL '18 days', 4, 'Michael provided detailed information about equipment and weather. Very helpful!', NOW() - INTERVAL '21 days', NOW());
+('75757575-7575-7575-7575-757575757575', 'TKT202410005', 'c3c3c3c3-c3c3-c3c3-c3c3-c3c3c3c3c3c3', 'b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3', 'b3b3b3b3-b3b3-b3b3-b3b3-b3b3b3b3b3b3', 'Equipment rental for Swiss Alps trek', 'This is my first trekking experience. What equipment is provided and what do I need to rent? Also, what''s the weather like in January?', 'general', 'resolved', 'medium', NOW() - INTERVAL '18 days', 4, 'Michael provided detailed information about equipment and weather. Very helpful!', NOW() - INTERVAL '21 days', NOW())
+ON CONFLICT ("ticketNumber") DO UPDATE SET
+    status = EXCLUDED.status,
+    "assignedTo" = EXCLUDED."assignedTo",
+    "resolvedAt" = EXCLUDED."resolvedAt",
+    rating = EXCLUDED.rating,
+    feedback = EXCLUDED.feedback,
+    "updatedAt" = NOW();
 
 -- ============================================
 -- Update destination statistics
 -- ============================================
 
-UPDATE "Destinations" SET 
-    rating = 4.8, 
-    "reviewCount" = 2, 
+UPDATE "Destinations" SET
+    rating = 4.8,
+    "reviewCount" = 2,
     "bookingCount" = 2
 WHERE id = 'd1d1d1d1-1111-1111-1111-111111111111';
 
-UPDATE "Destinations" SET 
-    rating = 5.0, 
-    "reviewCount" = 1, 
+UPDATE "Destinations" SET
+    rating = 5.0,
+    "reviewCount" = 1,
     "bookingCount" = 1
 WHERE id = 'd2d2d2d2-2222-2222-2222-222222222222';
 
-UPDATE "Destinations" SET 
-    rating = 5.0, 
-    "reviewCount" = 1, 
+UPDATE "Destinations" SET
+    rating = 5.0,
+    "reviewCount" = 1,
     "bookingCount" = 1
 WHERE id = 'd3d3d3d3-3333-3333-3333-333333333333';
 
-UPDATE "Destinations" SET 
-    rating = 5.0, 
-    "reviewCount" = 1, 
+UPDATE "Destinations" SET
+    rating = 5.0,
+    "reviewCount" = 1,
     "bookingCount" = 1
 WHERE id = 'd4d4d4d4-4444-4444-4444-444444444444';
 
-UPDATE "Destinations" SET 
-    rating = 5.0, 
-    "reviewCount" = 1, 
+UPDATE "Destinations" SET
+    rating = 5.0,
+    "reviewCount" = 1,
     "bookingCount" = 1
 WHERE id = 'd5d5d5d5-5555-5555-5555-555555555555';
 
-UPDATE "Destinations" SET 
-    rating = 0, 
-    "reviewCount" = 0, 
+UPDATE "Destinations" SET
+    rating = 0,
+    "reviewCount" = 0,
     "bookingCount" = 1
 WHERE id = 'd6d6d6d6-6666-6666-6666-666666666666';
