@@ -1,14 +1,17 @@
 import React from 'react';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 
-const RatingStars = ({ 
-  rating = 0, 
-  size = 'medium', 
-  showNumber = true, 
+const RatingStars = ({
+  rating = 0,
+  size = 'medium',
+  showNumber = true,
   interactive = false,
   onRate,
-  className = '' 
+  className = ''
 }) => {
+  // Ensure rating is a valid number
+  const numericRating = Number(rating) || 0;
+
   const sizes = {
     small: 'text-sm',
     medium: 'text-base',
@@ -18,8 +21,8 @@ const RatingStars = ({
 
   const renderStar = (index) => {
     const starValue = index + 1;
-    const filled = rating >= starValue;
-    const halfFilled = rating >= starValue - 0.5 && rating < starValue;
+    const filled = numericRating >= starValue;
+    const halfFilled = numericRating >= starValue - 0.5 && numericRating < starValue;
 
     const handleClick = () => {
       if (interactive && onRate) {
@@ -65,7 +68,7 @@ const RatingStars = ({
       {[...Array(5)].map((_, index) => renderStar(index))}
       {showNumber && (
         <span className={`ml-1 font-medium text-gray-700 ${sizes[size]}`}>
-          {rating.toFixed(1)}
+          {numericRating.toFixed(1)}
         </span>
       )}
     </div>
