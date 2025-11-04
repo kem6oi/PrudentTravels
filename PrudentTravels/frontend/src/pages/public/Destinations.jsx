@@ -55,7 +55,16 @@ const Destinations = () => {
       });
       
       setDestinations(destinations);
-      setPagination(response.data.data?.pagination || pagination);
+
+      // Map backend pagination response to frontend state
+      const backendPagination = response.data.data?.pagination;
+      if (backendPagination) {
+        setPagination({
+          currentPage: backendPagination.page,
+          totalPages: backendPagination.totalPages,
+          totalItems: backendPagination.total,
+        });
+      }
     } catch (error) {
       console.error('[Destinations] Error fetching destinations:', error);
       console.error('[Destinations] Error details:', {
