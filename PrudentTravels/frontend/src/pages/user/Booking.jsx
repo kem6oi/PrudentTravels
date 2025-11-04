@@ -66,6 +66,32 @@ const Booking = () => {
     }
   };
 
+  // Helper function to safely format date to YYYY-MM-DD using local timezone
+  const formatDateToYYYYMMDD = (date) => {
+    if (!date) return null;
+
+    // If it's already a string in the right format, return it
+    if (typeof date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      return date;
+    }
+
+    // Convert to Date object if needed
+    const dateObj = date instanceof Date ? date : new Date(date);
+
+    // Validate the date
+    if (isNaN(dateObj.getTime())) {
+      console.error('[Booking] Invalid date:', date);
+      return null;
+    }
+
+    // Format using local timezone (not UTC) to avoid date shifting
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  };
+
   const handleBookingSubmit = async (formData) => {
     // Validate dates are selected
     if (!bookingData.checkInDate || !bookingData.checkOutDate) {
@@ -74,21 +100,38 @@ const Booking = () => {
       return;
     }
 
+    // Format dates safely
+    const checkInDateFormatted = formatDateToYYYYMMDD(bookingData.checkInDate);
+    const checkOutDateFormatted = formatDateToYYYYMMDD(bookingData.checkOutDate);
+
+    // Validate formatted dates
+    if (!checkInDateFormatted || !checkOutDateFormatted) {
+      toast.error('Invalid dates selected. Please try again.');
+      setCurrentStep(1);
+      return;
+    }
+
+    console.log('[Booking] Formatted dates:', {
+      checkIn: {
+        original: bookingData.checkInDate,
+        formatted: checkInDateFormatted
+      },
+      checkOut: {
+        original: bookingData.checkOutDate,
+        formatted: checkOutDateFormatted
+      }
+    });
+
     const fullBookingData = {
       destinationId: id,
-      userId: user?.id,
-      // Ensure dates are in YYYY-MM-DD format for DATEONLY type
-      checkInDate: bookingData.checkInDate instanceof Date
-        ? bookingData.checkInDate.toISOString().split('T')[0]
-        : bookingData.checkInDate,
-      checkOutDate: bookingData.checkOutDate instanceof Date
-        ? bookingData.checkOutDate.toISOString().split('T')[0]
-        : bookingData.checkOutDate,
+      // Dates in YYYY-MM-DD format for DATEONLY type
+      checkInDate: checkInDateFormatted,
+      checkOutDate: checkOutDateFormatted,
       // Ensure guest counts are integers
       adults: parseInt(formData.adults) || 1,
       children: parseInt(formData.children) || 0,
       infants: parseInt(formData.infants) || 0,
-      // Other fields
+      // Contact information
       firstName: formData.firstName,
       lastName: formData.lastName,
       email: formData.email,

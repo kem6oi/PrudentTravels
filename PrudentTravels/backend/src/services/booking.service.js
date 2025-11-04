@@ -11,10 +11,10 @@ class BookingService {
    */
   async createBooking(bookingData, userId) {
     try {
-      console.log('[BookingService] Creating booking with data:', {
+      console.log('[BookingService] Creating booking with data:', JSON.stringify({
         ...bookingData,
         userId
-      });
+      }, null, 2));
 
       // Check if destination exists and is available
       const destination = await Destination.findByPk(bookingData.destinationId);
@@ -85,8 +85,24 @@ class BookingService {
       console.error('[BookingService] Error details:', {
         name: error.name,
         message: error.message,
+        errors: error.errors?.map(e => ({
+          field: e.path,
+          message: e.message,
+          type: e.type,
+          value: e.value
+        })),
+        originalError: error.original?.message,
         stack: error.stack
       });
+
+      // Provide more user-friendly error message
+      if (error.name === 'SequelizeValidationError') {
+        const fieldErrors = error.errors.map(e => `${e.path}: ${e.message}`).join(', ');
+        throw new Error(`Validation error: ${fieldErrors}`);
+      } else if (error.name === 'SequelizeDatabaseError') {
+        throw new Error(`Database error: ${error.message}`);
+      }
+
       throw error;
     }
   }
