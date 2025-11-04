@@ -51,7 +51,8 @@ const validateLogin = [
 const validateBooking = [
   body('destinationId')
     .notEmpty().withMessage('Destination ID is required')
-    .isUUID().withMessage('Invalid destination ID'),
+    .matches(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)
+    .withMessage('Invalid destination ID format'),
   body('checkInDate')
     .notEmpty().withMessage('Check-in date is required')
     .isISO8601().withMessage('Invalid check-in date format'),

@@ -39,7 +39,11 @@ const Booking = () => {
 
   const fetchDestination = async () => {
     try {
+      console.log('[Booking] Fetching destination with slug:', id);
       const response = await api.get(apiEndpoints.destinations.getOne(id));
+      console.log('[Booking] Destination API response:', response.data);
+      console.log('[Booking] Destination object:', response.data.data);
+      console.log('[Booking] Destination ID (UUID):', response.data.data?.id);
       setDestination(response.data.data);
     } catch (error) {
       console.error('Error fetching destination:', error);
