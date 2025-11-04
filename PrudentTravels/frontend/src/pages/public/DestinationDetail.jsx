@@ -55,11 +55,20 @@ const DestinationDetailPage = () => {
   };
 
   const handleBookNow = () => {
+    console.log('[DestinationDetail] Book Now clicked', {
+      isAuthenticated,
+      id,
+      destination: destination?.name
+    });
+
     if (!isAuthenticated) {
+      console.log('[DestinationDetail] User not authenticated, redirecting to login');
       toast.error('Please login to book');
       navigate('/login');
       return;
     }
+
+    console.log('[DestinationDetail] Navigating to booking page:', `/booking/${id}`);
     navigate(`/booking/${id}`);
   };
 
