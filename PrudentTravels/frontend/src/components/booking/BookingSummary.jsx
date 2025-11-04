@@ -13,15 +13,15 @@ const BookingSummary = ({ booking, destination, editable = false, onEdit }) => {
     promoDiscount = 0,
   } = booking || {};
 
-  const nights = checkInDate && checkOutDate 
+  const nights = checkInDate && checkOutDate
     ? differenceInDays(new Date(checkOutDate), new Date(checkInDate))
     : 0;
 
   const totalGuests = adults + children + infants;
-  const pricePerPerson = destination?.price || 0;
-  const subtotal = pricePerPerson * (adults + children);
-  const discount = promoDiscount || 0;
-  const total = subtotal - discount;
+  const pricePerPerson = Number(destination?.price) || 0;
+  const subtotal = Number(pricePerPerson * (adults + children)) || 0;
+  const discount = Number(promoDiscount) || 0;
+  const total = Number(subtotal - discount) || 0;
 
   return (
     <div className="bg-white rounded-xl shadow-lg overflow-hidden sticky top-24">

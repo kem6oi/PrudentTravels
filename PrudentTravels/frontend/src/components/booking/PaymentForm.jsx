@@ -9,6 +9,9 @@ const PaymentForm = ({ amount, onSuccess, onCancel }) => {
   const [loading, setLoading] = useState(false);
   const [cardComplete, setCardComplete] = useState(false);
 
+  // Ensure amount is a valid number
+  const numericAmount = Number(amount) || 0;
+
   const CARD_ELEMENT_OPTIONS = {
     style: {
       base: {
@@ -77,7 +80,7 @@ const PaymentForm = ({ amount, onSuccess, onCancel }) => {
         <div className="text-center">
           <p className="text-gray-600 mb-2">Total Amount</p>
           <p className="text-4xl font-bold text-primary-600">
-            ${amount.toFixed(2)}
+            ${numericAmount.toFixed(2)}
           </p>
         </div>
       </div>
@@ -158,7 +161,7 @@ const PaymentForm = ({ amount, onSuccess, onCancel }) => {
           ) : (
             <>
               <HiLockClosed />
-              Pay ${amount.toFixed(2)}
+              Pay ${numericAmount.toFixed(2)}
             </>
           )}
         </button>
