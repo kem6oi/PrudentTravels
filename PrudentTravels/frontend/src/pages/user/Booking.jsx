@@ -27,6 +27,11 @@ const Booking = () => {
   });
   const [currentStep, setCurrentStep] = useState(1); // 1: Dates, 2: Details, 3: Payment
 
+  // Debug: Log bookingData changes
+  useEffect(() => {
+    console.log('[Booking] bookingData updated:', bookingData);
+  }, [bookingData]);
+
   useEffect(() => {
     fetchDestination();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,13 +75,26 @@ const Booking = () => {
     }
 
     const fullBookingData = {
-      ...bookingData,
-      ...formData,
       destinationId: id,
       userId: user?.id,
-      // Ensure dates are in the correct format
-      checkInDate: bookingData.checkInDate,
-      checkOutDate: bookingData.checkOutDate,
+      // Ensure dates are in YYYY-MM-DD format for DATEONLY type
+      checkInDate: bookingData.checkInDate instanceof Date
+        ? bookingData.checkInDate.toISOString().split('T')[0]
+        : bookingData.checkInDate,
+      checkOutDate: bookingData.checkOutDate instanceof Date
+        ? bookingData.checkOutDate.toISOString().split('T')[0]
+        : bookingData.checkOutDate,
+      // Ensure guest counts are integers
+      adults: parseInt(formData.adults) || 1,
+      children: parseInt(formData.children) || 0,
+      infants: parseInt(formData.infants) || 0,
+      // Other fields
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      specialRequests: formData.specialRequests || '',
+      promoCode: formData.promoCode || '',
     };
 
     console.log('[Booking] Submitting booking data:', fullBookingData);
@@ -90,7 +108,11 @@ const Booking = () => {
       }
     } catch (error) {
       console.error('Error creating booking:', error);
-      toast.error(error.response?.data?.message || 'Failed to create booking');
+      console.error('Error response:', error.response?.data);
+      console.error('Error status:', error.response?.status);
+
+      const errorMessage = error.response?.data?.message || error.response?.data?.error || 'Failed to create booking';
+      toast.error(errorMessage);
     }
   };
 
@@ -170,13 +192,29 @@ const Booking = () => {
                     destination={destination}
                     onDateSelect={handleDateSelect}
                   />
-                  {bookingData.checkInDate && bookingData.checkOutDate && (
+
+                  {/* Debug info */}
+                  <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded text-sm">
+                    <p className="font-semibold">Debug Info:</p>
+                    <p>Check-in: {bookingData.checkInDate ? bookingData.checkInDate.toString() : 'Not selected'}</p>
+                    <p>Check-out: {bookingData.checkOutDate ? bookingData.checkOutDate.toString() : 'Not selected'}</p>
+                    <p>Both dates selected: {(bookingData.checkInDate && bookingData.checkOutDate) ? 'YES' : 'NO'}</p>
+                  </div>
+
+                  {bookingData.checkInDate && bookingData.checkOutDate ? (
                     <button
-                      onClick={() => setCurrentStep(2)}
+                      onClick={() => {
+                        console.log('[Booking] Continue button clicked');
+                        setCurrentStep(2);
+                      }}
                       className="mt-6 w-full btn-primary py-3"
                     >
                       Continue to Details
                     </button>
+                  ) : (
+                    <div className="mt-6 p-4 bg-gray-100 rounded text-center text-gray-600">
+                      Please select both check-in and check-out dates to continue
+                    </div>
                   )}
                 </div>
               )}

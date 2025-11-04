@@ -11,6 +11,11 @@ class BookingService {
    */
   async createBooking(bookingData, userId) {
     try {
+      console.log('[BookingService] Creating booking with data:', {
+        ...bookingData,
+        userId
+      });
+
       // Check if destination exists and is available
       const destination = await Destination.findByPk(bookingData.destinationId);
 
@@ -45,13 +50,21 @@ class BookingService {
 
       const totalAmount = basePrice + taxes - discount;
 
+      // Prepare guest details
+      const guestDetails = bookingData.guestDetails || {
+        firstName: bookingData.firstName,
+        lastName: bookingData.lastName,
+        email: bookingData.email,
+        phone: bookingData.phone,
+      };
+
       // Create booking
       const booking = await Booking.create({
         userId,
         destinationId: bookingData.destinationId,
         checkInDate: bookingData.checkInDate,
         checkOutDate: bookingData.checkOutDate,
-        adults: bookingData.adults,
+        adults: bookingData.adults || 1,
         children: bookingData.children || 0,
         infants: bookingData.infants || 0,
         basePrice,
@@ -59,14 +72,21 @@ class BookingService {
         discount,
         totalAmount,
         currency: bookingData.currency || 'USD',
-        specialRequests: bookingData.specialRequests,
-        guestDetails: bookingData.guestDetails || {},
+        specialRequests: bookingData.specialRequests || null,
+        promoCode: bookingData.promoCode || null,
+        guestDetails,
         status: BOOKING_STATUS.PENDING
       });
 
+      console.log('[BookingService] Booking created successfully:', booking.id);
       return booking;
     } catch (error) {
-      console.error('Error creating booking:', error);
+      console.error('[BookingService] Error creating booking:', error.message);
+      console.error('[BookingService] Error details:', {
+        name: error.name,
+        message: error.message,
+        stack: error.stack
+      });
       throw error;
     }
   }
