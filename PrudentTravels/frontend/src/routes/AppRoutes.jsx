@@ -18,6 +18,7 @@ import ForgotPassword from '../components/auth/ForgotPassword';
 // User Pages
 import UserDashboard from '../pages/user/Dashboard';
 import UserProfile from '../pages/user/Profile';
+import UserBooking from '../pages/user/Booking';
 import UserBookings from '../pages/user/Bookings';
 import UserWishlist from '../pages/user/Wishlist';
 import UserReviews from '../pages/user/Reviews';
@@ -59,6 +60,7 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute allowedRoles={['traveler', 'admin', 'support']} />}>
         <Route path="/user/dashboard" element={<UserDashboard />} />
         <Route path="/user/profile" element={<UserProfile />} />
+        <Route path="/booking/:id" element={<UserBooking />} />
         <Route path="/user/bookings" element={<UserBookings />} />
         <Route path="/user/wishlist" element={<UserWishlist />} />
         <Route path="/user/reviews" element={<UserReviews />} />
