@@ -142,9 +142,9 @@ const DestinationCard = ({ destination, index = 0 }) => {
               <span className="text-gray-500 text-xs">per person</span>
             </div>
             
-            <button className="btn-primary py-2 px-4 text-sm">
+            <span className="btn-primary py-2 px-4 text-sm">
               View Details
-            </button>
+            </span>
           </div>
         </div>
       </Link>
