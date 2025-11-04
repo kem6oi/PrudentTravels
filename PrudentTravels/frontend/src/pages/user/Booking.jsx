@@ -123,7 +123,8 @@ const Booking = () => {
     });
 
     const fullBookingData = {
-      destinationId: id,
+      // Use destination.id (UUID) not the route param id (slug)
+      destinationId: destination.id,
       // Dates in YYYY-MM-DD format for DATEONLY type
       checkInDate: checkInDateFormatted,
       checkOutDate: checkOutDateFormatted,
@@ -154,7 +155,30 @@ const Booking = () => {
       console.error('Error response:', error.response?.data);
       console.error('Error status:', error.response?.status);
 
-      const errorMessage = error.response?.data?.message || error.response?.data?.error || 'Failed to create booking';
+      // Log detailed validation errors if available
+      if (error.response?.data?.errors) {
+        console.error('Validation errors:', JSON.stringify(error.response.data.errors, null, 2));
+      }
+
+      // Extract detailed error message
+      let errorMessage = 'Failed to create booking';
+
+      if (error.response?.data?.errors && Array.isArray(error.response.data.errors)) {
+        // Show the first validation error in detail
+        const firstError = error.response.data.errors[0];
+        if (typeof firstError === 'string') {
+          errorMessage = firstError;
+        } else if (firstError?.message) {
+          errorMessage = firstError.message;
+        } else if (firstError?.msg) {
+          errorMessage = firstError.msg;
+        }
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.response?.data?.error) {
+        errorMessage = error.response.data.error;
+      }
+
       toast.error(errorMessage);
     }
   };
