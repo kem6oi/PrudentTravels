@@ -2,6 +2,15 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    // Check if tables already exist
+    const tables = await queryInterface.showAllTables();
+
+    // If Users table exists, assume all tables are already created
+    if (tables.includes('Users')) {
+      console.log('⏭️  Database tables already exist, skipping creation');
+      return;
+    }
+
     // Create Users table
     await queryInterface.createTable('Users', {
       id: {
