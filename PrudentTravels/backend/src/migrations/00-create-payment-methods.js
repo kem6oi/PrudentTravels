@@ -2,6 +2,13 @@ const { DataTypes } = require('sequelize');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    // Check if PaymentMethods table already exists
+    const tables = await queryInterface.showAllTables();
+    if (tables.includes('PaymentMethods')) {
+      console.log('⏭️  PaymentMethods table already exists, skipping creation');
+      return;
+    }
+
     // Create PaymentMethods table
     await queryInterface.createTable('PaymentMethods', {
       id: {
@@ -119,13 +126,31 @@ module.exports = {
     });
 
     // Create indexes
-    await queryInterface.addIndex('PaymentMethods', ['country', 'isActive'], {
-      name: 'payment_methods_country_active_idx'
-    });
+    try {
+      await queryInterface.addIndex('PaymentMethods', ['country', 'isActive'], {
+        name: 'payment_methods_country_active_idx'
+      });
+      console.log('✅ Created index: payment_methods_country_active_idx');
+    } catch (error) {
+      if (error.message.includes('already exists')) {
+        console.log('⏭️  Index payment_methods_country_active_idx already exists');
+      } else {
+        throw error;
+      }
+    }
 
-    await queryInterface.addIndex('PaymentMethods', ['methodType'], {
-      name: 'payment_methods_type_idx'
-    });
+    try {
+      await queryInterface.addIndex('PaymentMethods', ['methodType'], {
+        name: 'payment_methods_type_idx'
+      });
+      console.log('✅ Created index: payment_methods_type_idx');
+    } catch (error) {
+      if (error.message.includes('already exists')) {
+        console.log('⏭️  Index payment_methods_type_idx already exists');
+      } else {
+        throw error;
+      }
+    }
 
     console.log('✅ Successfully created PaymentMethods table');
   },
