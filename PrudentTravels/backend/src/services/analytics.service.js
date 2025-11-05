@@ -105,25 +105,21 @@ class AnalyticsService {
    */
   async getRevenueAnalytics(period = 'month') {
     try {
-      let dateFormat;
       let groupBy;
 
+      // PostgreSQL-compatible date functions
       switch (period) {
         case 'day':
-          dateFormat = '%Y-%m-%d';
           groupBy = sequelize.fn('DATE', sequelize.col('createdAt'));
           break;
         case 'week':
-          dateFormat = '%Y-%U';
-          groupBy = sequelize.fn('YEARWEEK', sequelize.col('createdAt'));
+          groupBy = sequelize.fn('DATE_TRUNC', 'week', sequelize.col('createdAt'));
           break;
         case 'year':
-          dateFormat = '%Y';
-          groupBy = sequelize.fn('YEAR', sequelize.col('createdAt'));
+          groupBy = sequelize.fn('DATE_TRUNC', 'year', sequelize.col('createdAt'));
           break;
         default: // month
-          dateFormat = '%Y-%m';
-          groupBy = sequelize.fn('DATE_FORMAT', sequelize.col('createdAt'), '%Y-%m');
+          groupBy = sequelize.fn('DATE_TRUNC', 'month', sequelize.col('createdAt'));
       }
 
       const revenue = await Booking.findAll({
@@ -290,10 +286,11 @@ class AnalyticsService {
           [sequelize.fn('COUNT', sequelize.col('id')), 'count']
         ],
         group: [sequelize.fn('DATE', sequelize.col('createdAt'))],
-        order: [[sequelize.fn('DATE', sequelize.col('createdAt')), 'ASC']]
+        order: [[sequelize.fn('DATE', sequelize.col('createdAt')), 'ASC']],
+        raw: true
       });
 
-      return bookings.map(b => b.toJSON());
+      return bookings;
     } catch (error) {
       console.error('Error fetching booking trends:', error);
       throw error;
