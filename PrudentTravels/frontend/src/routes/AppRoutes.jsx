@@ -20,6 +20,7 @@ import UserDashboard from '../pages/user/Dashboard';
 import UserProfile from '../pages/user/Profile';
 import UserBooking from '../pages/user/Booking';
 import UserBookings from '../pages/user/Bookings';
+import UserBookingDetail from '../pages/user/BookingDetail';
 import UserWishlist from '../pages/user/Wishlist';
 import UserReviews from '../pages/user/Reviews';
 import UserSettings from '../pages/user/Settings';
@@ -62,6 +63,7 @@ const AppRoutes = () => {
         <Route path="/user/profile" element={<UserProfile />} />
         <Route path="/booking/:id" element={<UserBooking />} />
         <Route path="/user/bookings" element={<UserBookings />} />
+        <Route path="/user/bookings/:id" element={<UserBookingDetail />} />
         <Route path="/user/wishlist" element={<UserWishlist />} />
         <Route path="/user/reviews" element={<UserReviews />} />
         <Route path="/user/settings" element={<UserSettings />} />
