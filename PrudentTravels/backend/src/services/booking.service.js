@@ -36,11 +36,11 @@ class BookingService {
       const nights = calculateDays(bookingData.checkInDate, bookingData.checkOutDate) || 1;
 
       // Calculate pricing based on per-person price from destination
-      const numberOfGuests = (bookingData.adults || 1) + (bookingData.children || 0);
+      const numberOfGuests = (Number(bookingData.adults) || 1) + (Number(bookingData.children) || 0);
       const pricePerPerson = Number(destination.price) || 0;
-      const basePrice = pricePerPerson * numberOfGuests;
-      const taxes = (basePrice * 0.1); // 10% tax
-      let discount = 0;
+      const basePrice = Number(pricePerPerson * numberOfGuests);
+      const taxes = Number(basePrice * 0.1); // 10% tax
+      let discount = Number(0);
 
       // Apply promo code if provided
       if (bookingData.promoCode) {
@@ -48,7 +48,7 @@ class BookingService {
         // For now, just a placeholder
       }
 
-      const totalAmount = basePrice + taxes - discount;
+      const totalAmount = Number(basePrice + taxes - discount);
 
       // Prepare guest details
       const guestDetails = bookingData.guestDetails || {
@@ -64,9 +64,9 @@ class BookingService {
         destinationId: bookingData.destinationId,
         checkInDate: bookingData.checkInDate,
         checkOutDate: bookingData.checkOutDate,
-        adults: bookingData.adults || 1,
-        children: bookingData.children || 0,
-        infants: bookingData.infants || 0,
+        adults: Number(bookingData.adults) || 1,
+        children: Number(bookingData.children) || 0,
+        infants: Number(bookingData.infants) || 0,
         basePrice,
         taxes,
         discount,
@@ -79,7 +79,18 @@ class BookingService {
       });
 
       console.log('[BookingService] Booking created successfully:', booking.id);
-      return booking;
+
+      // Return booking with numeric values properly formatted
+      return {
+        ...booking.toJSON(),
+        basePrice: Number(booking.basePrice),
+        taxes: Number(booking.taxes),
+        discount: Number(booking.discount),
+        totalAmount: Number(booking.totalAmount),
+        adults: Number(booking.adults),
+        children: Number(booking.children),
+        infants: Number(booking.infants)
+      };
     } catch (error) {
       console.error('[BookingService] Error creating booking:', error.message);
       console.error('[BookingService] Error details:', {
@@ -137,7 +148,21 @@ class BookingService {
         ]
       });
 
-      return booking;
+      if (!booking) {
+        return null;
+      }
+
+      // Return booking with numeric values properly formatted
+      return {
+        ...booking.toJSON(),
+        basePrice: Number(booking.basePrice),
+        taxes: Number(booking.taxes),
+        discount: Number(booking.discount),
+        totalAmount: Number(booking.totalAmount),
+        adults: Number(booking.adults),
+        children: Number(booking.children),
+        infants: Number(booking.infants)
+      };
     } catch (error) {
       console.error('Error fetching booking:', error);
       throw error;
