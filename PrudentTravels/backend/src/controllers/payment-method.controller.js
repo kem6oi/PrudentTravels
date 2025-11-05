@@ -108,7 +108,13 @@ const getPaymentMethodById = async (req, res) => {
  */
 const createPaymentMethod = async (req, res) => {
   try {
-    const paymentMethod = await PaymentMethod.create(req.body);
+    // Sanitize numeric fields - convert empty strings to null
+    const data = { ...req.body };
+    if (data.minAmount === '' || data.minAmount === undefined) data.minAmount = null;
+    if (data.maxAmount === '' || data.maxAmount === undefined) data.maxAmount = null;
+    if (data.displayOrder === '' || data.displayOrder === undefined) data.displayOrder = 0;
+
+    const paymentMethod = await PaymentMethod.create(data);
 
     return createdResponse(res, paymentMethod, 'Payment method created successfully');
   } catch (error) {
@@ -130,7 +136,13 @@ const updatePaymentMethod = async (req, res) => {
       return errorResponse(res, 'Payment method not found', 404);
     }
 
-    await paymentMethod.update(req.body);
+    // Sanitize numeric fields - convert empty strings to null
+    const data = { ...req.body };
+    if (data.minAmount === '' || data.minAmount === undefined) data.minAmount = null;
+    if (data.maxAmount === '' || data.maxAmount === undefined) data.maxAmount = null;
+    if (data.displayOrder === '' || data.displayOrder === undefined) data.displayOrder = 0;
+
+    await paymentMethod.update(data);
 
     return successResponse(res, paymentMethod, 'Payment method updated successfully');
   } catch (error) {
