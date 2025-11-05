@@ -6,7 +6,10 @@ const {
   getPaymentDetails,
   getUserPayments,
   processRefund,
-  handleWebhook
+  handleWebhook,
+  getPendingPayments,
+  verifyPayment,
+  rejectPayment
 } = require('../controllers/payment.controller');
 const { protect } = require('../middleware/auth.middleware');
 const { authorize } = require('../middleware/role.middleware');
@@ -25,5 +28,8 @@ router.get('/:id', getPaymentDetails);
 
 // Admin routes
 router.post('/refund', authorize('admin'), processRefund);
+router.get('/pending', authorize('admin'), getPendingPayments);
+router.put('/:id/verify', authorize('admin'), verifyPayment);
+router.put('/:id/reject', authorize('admin'), rejectPayment);
 
 module.exports = router;

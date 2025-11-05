@@ -36,6 +36,7 @@ import BookingManager from '../pages/admin/BookingManager';
 import UserManager from '../pages/admin/UserManager';
 import PromoManager from '../pages/admin/PromoManager';
 import PaymentMethodManager from '../pages/admin/PaymentMethodManager';
+import PaymentVerification from '../pages/admin/PaymentVerification';
 import AdminSettings from '../pages/admin/Settings';
 
 // Support Pages
@@ -83,6 +84,7 @@ const AppRoutes = () => {
         <Route path="/admin/users" element={<UserManager />} />
         <Route path="/admin/promos" element={<PromoManager />} />
         <Route path="/admin/payment-methods" element={<PaymentMethodManager />} />
+        <Route path="/admin/payment-verification" element={<PaymentVerification />} />
         <Route path="/admin/settings" element={<AdminSettings />} />
       </Route>
 

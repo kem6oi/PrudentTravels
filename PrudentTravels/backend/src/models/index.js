@@ -44,6 +44,7 @@ Review.belongsTo(Booking, { foreignKey: 'bookingId', as: 'booking' });
 // Payment associations
 Payment.belongsTo(Booking, { foreignKey: 'bookingId', as: 'booking' });
 Payment.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+Payment.belongsTo(PaymentMethod, { foreignKey: 'paymentMethodId', as: 'paymentMethod' });
 
 // SupportTicket associations
 SupportTicket.belongsTo(User, { foreignKey: 'userId', as: 'user' });

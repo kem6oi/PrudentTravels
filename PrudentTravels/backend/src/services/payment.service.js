@@ -1,5 +1,5 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const { Payment, Booking, User } = require('../models');
+const { Payment, Booking, User, PaymentMethod, Destination } = require('../models');
 const { PAYMENT_STATUS, BOOKING_STATUS } = require('../config/constants');
 const emailService = require('./email.service');
 const notificationService = require('./notification.service');
@@ -326,6 +326,162 @@ class PaymentService {
       return payments;
     } catch (error) {
       console.error('Error fetching user payments:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get all pending payments for admin verification
+   */
+  async getPendingPayments() {
+    try {
+      const payments = await Payment.findAll({
+        where: {
+          status: 'pending',
+          method: 'manual'
+        },
+        include: [
+          {
+            model: Booking,
+            as: 'booking',
+            include: [
+              { model: Destination, as: 'destination' },
+              { model: User, as: 'user', attributes: ['id', 'firstName', 'lastName', 'email', 'phone'] }
+            ]
+          },
+          {
+            model: PaymentMethod,
+            as: 'paymentMethod'
+          },
+          {
+            model: User,
+            as: 'user',
+            attributes: ['id', 'firstName', 'lastName', 'email', 'phone']
+          }
+        ],
+        order: [['createdAt', 'ASC']]
+      });
+
+      return payments;
+    } catch (error) {
+      console.error('Error fetching pending payments:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Verify/approve a payment
+   */
+  async verifyPayment(paymentId, adminId) {
+    try {
+      const payment = await Payment.findByPk(paymentId, {
+        include: [
+          {
+            model: Booking,
+            as: 'booking',
+            include: [
+              { model: User, as: 'user' },
+              { model: Destination, as: 'destination' }
+            ]
+          }
+        ]
+      });
+
+      if (!payment) {
+        throw new Error('Payment not found');
+      }
+
+      if (payment.status !== 'pending') {
+        throw new Error('Payment is not pending verification');
+      }
+
+      // Update payment status
+      await payment.update({
+        status: 'success',
+        verifiedBy: adminId,
+        verifiedAt: new Date()
+      });
+
+      // Update booking status
+      const booking = payment.booking;
+      await booking.update({
+        status: BOOKING_STATUS.CONFIRMED,
+        paymentStatus: 'success',
+        paymentMethod: 'manual'
+      });
+
+      // Send confirmation emails
+      if (booking.user && booking.destination) {
+        try {
+          await emailService.sendBookingConfirmation(booking, booking.user, booking.destination);
+          await emailService.sendPaymentSuccess(payment, booking.user, booking);
+        } catch (emailError) {
+          console.error('Error sending confirmation emails:', emailError);
+          // Don't throw error if email fails - payment is already verified
+        }
+      }
+
+      return payment;
+    } catch (error) {
+      console.error('Error verifying payment:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Reject a payment
+   */
+  async rejectPayment(paymentId, adminId, reason) {
+    try {
+      const payment = await Payment.findByPk(paymentId, {
+        include: [
+          {
+            model: Booking,
+            as: 'booking',
+            include: [
+              { model: User, as: 'user' }
+            ]
+          }
+        ]
+      });
+
+      if (!payment) {
+        throw new Error('Payment not found');
+      }
+
+      if (payment.status !== 'pending') {
+        throw new Error('Payment is not pending verification');
+      }
+
+      // Update payment status
+      await payment.update({
+        status: 'failed',
+        verifiedBy: adminId,
+        verifiedAt: new Date(),
+        rejectionReason: reason
+      });
+
+      // Update booking payment status
+      await payment.booking.update({
+        paymentStatus: 'failed'
+      });
+
+      // Notify user about rejection
+      if (payment.booking.user) {
+        try {
+          await notificationService.sendNotification(
+            payment.booking.userId,
+            'payment_rejected',
+            { payment, booking: payment.booking, reason }
+          );
+        } catch (notifError) {
+          console.error('Error sending rejection notification:', notifError);
+        }
+      }
+
+      return payment;
+    } catch (error) {
+      console.error('Error rejecting payment:', error);
       throw error;
     }
   }
