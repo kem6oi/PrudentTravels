@@ -9,7 +9,7 @@ module.exports = {
 
     if (!tableDescription.paymentMethodId) {
       await queryInterface.addColumn('Payments', 'paymentMethodId', {
-        type: DataTypes.UUID,
+        type: Sequelize.UUID,
         allowNull: true,
         comment: 'Reference to payment method used',
         references: {
@@ -24,7 +24,7 @@ module.exports = {
 
     if (!tableDescription.transactionCode) {
       await queryInterface.addColumn('Payments', 'transactionCode', {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: true,
         comment: 'Transaction code/reference provided by user'
       });
@@ -33,7 +33,7 @@ module.exports = {
 
     if (!tableDescription.paymentProof) {
       await queryInterface.addColumn('Payments', 'paymentProof', {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: true,
         comment: 'URL to payment proof screenshot (if uploaded)'
       });
@@ -42,7 +42,7 @@ module.exports = {
 
     if (!tableDescription.verifiedBy) {
       await queryInterface.addColumn('Payments', 'verifiedBy', {
-        type: DataTypes.UUID,
+        type: Sequelize.UUID,
         allowNull: true,
         comment: 'Admin ID who verified the payment',
         references: {
@@ -57,7 +57,7 @@ module.exports = {
 
     if (!tableDescription.verifiedAt) {
       await queryInterface.addColumn('Payments', 'verifiedAt', {
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
         allowNull: true,
         comment: 'When the payment was verified'
       });
@@ -66,7 +66,7 @@ module.exports = {
 
     if (!tableDescription.rejectionReason) {
       await queryInterface.addColumn('Payments', 'rejectionReason', {
-        type: DataTypes.TEXT,
+        type: Sequelize.TEXT,
         allowNull: true,
         comment: 'Reason if payment was rejected'
       });
