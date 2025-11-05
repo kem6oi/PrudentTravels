@@ -137,19 +137,27 @@ module.exports = (sequelize) => {
   }, {
     timestamps: true,
     hooks: {
-      beforeCreate: (booking) => {
-        // Generate booking number
-        const date = new Date();
-        const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-        booking.bookingNumber = `PT${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, '0')}${random}`;
-        
-        // Calculate total guests
-        booking.totalGuests = booking.adults + booking.children + booking.infants;
+      beforeValidate: (booking) => {
+        // Generate booking number if not already set (for new bookings)
+        if (!booking.bookingNumber) {
+          const date = new Date();
+          const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+          booking.bookingNumber = `PT${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, '0')}${random}`;
+        }
+
+        // Calculate total guests (handles undefined values with || 0)
+        const adults = booking.adults || 0;
+        const children = booking.children || 0;
+        const infants = booking.infants || 0;
+        booking.totalGuests = adults + children + infants;
       },
       beforeUpdate: (booking) => {
         // Recalculate total guests if any guest count changed
         if (booking.changed('adults') || booking.changed('children') || booking.changed('infants')) {
-          booking.totalGuests = booking.adults + booking.children + booking.infants;
+          const adults = booking.adults || 0;
+          const children = booking.children || 0;
+          const infants = booking.infants || 0;
+          booking.totalGuests = adults + children + infants;
         }
       }
     }

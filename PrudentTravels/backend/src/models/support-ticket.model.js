@@ -92,11 +92,13 @@ module.exports = (sequelize) => {
   }, {
     timestamps: true,
     hooks: {
-      beforeCreate: (ticket) => {
-        // Generate ticket number
-        const date = new Date();
-        const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-        ticket.ticketNumber = `TKT${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, '0')}${random}`;
+      beforeValidate: (ticket) => {
+        // Generate ticket number if not already set
+        if (!ticket.ticketNumber) {
+          const date = new Date();
+          const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+          ticket.ticketNumber = `TKT${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, '0')}${random}`;
+        }
       }
     }
   });
