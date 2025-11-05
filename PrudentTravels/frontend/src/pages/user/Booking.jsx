@@ -151,8 +151,9 @@ const Booking = () => {
       const response = await api.post(apiEndpoints.bookings.create, fullBookingData);
 
       if (response.data.success) {
-        toast.success('Booking created successfully!');
-        navigate(`/user/bookings`);
+        const bookingId = response.data.data.id;
+        toast.success('Booking created successfully! Redirecting to payment...');
+        navigate(`/user/payment/${bookingId}`);
       }
     } catch (error) {
       console.error('Error creating booking:', error);

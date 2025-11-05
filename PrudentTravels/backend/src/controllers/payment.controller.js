@@ -132,11 +132,67 @@ const handleWebhook = async (req, res) => {
   }
 };
 
+/**
+ * Get all pending payments (admin only)
+ */
+const getPendingPayments = async (req, res) => {
+  try {
+    const payments = await paymentService.getPendingPayments();
+
+    return successResponse(res, payments, 'Pending payments fetched successfully');
+  } catch (error) {
+    console.error('Error fetching pending payments:', error);
+    return errorResponse(res, 'Error fetching pending payments', 500);
+  }
+};
+
+/**
+ * Verify/approve payment (admin only)
+ */
+const verifyPayment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const adminId = req.user.id;
+
+    const payment = await paymentService.verifyPayment(id, adminId);
+
+    return successResponse(res, payment, 'Payment verified successfully');
+  } catch (error) {
+    console.error('Error verifying payment:', error);
+    return errorResponse(res, error.message || 'Error verifying payment', 400);
+  }
+};
+
+/**
+ * Reject payment (admin only)
+ */
+const rejectPayment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body;
+    const adminId = req.user.id;
+
+    if (!reason) {
+      return errorResponse(res, 'Rejection reason is required', 400);
+    }
+
+    const payment = await paymentService.rejectPayment(id, adminId, reason);
+
+    return successResponse(res, payment, 'Payment rejected');
+  } catch (error) {
+    console.error('Error rejecting payment:', error);
+    return errorResponse(res, error.message || 'Error rejecting payment', 400);
+  }
+};
+
 module.exports = {
   createPaymentIntent,
   confirmPayment,
   getPaymentDetails,
   getUserPayments,
   processRefund,
-  handleWebhook
+  handleWebhook,
+  getPendingPayments,
+  verifyPayment,
+  rejectPayment
 };

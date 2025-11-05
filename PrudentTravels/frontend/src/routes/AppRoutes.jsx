@@ -21,6 +21,7 @@ import UserProfile from '../pages/user/Profile';
 import UserBooking from '../pages/user/Booking';
 import UserBookings from '../pages/user/Bookings';
 import UserBookingDetail from '../pages/user/BookingDetail';
+import PaymentSubmission from '../pages/user/PaymentSubmission';
 import UserWishlist from '../pages/user/Wishlist';
 import UserReviews from '../pages/user/Reviews';
 import UserSettings from '../pages/user/Settings';
@@ -34,6 +35,8 @@ import EditDestination from '../pages/admin/EditDestination';
 import BookingManager from '../pages/admin/BookingManager';
 import UserManager from '../pages/admin/UserManager';
 import PromoManager from '../pages/admin/PromoManager';
+import PaymentMethodManager from '../pages/admin/PaymentMethodManager';
+import PaymentVerification from '../pages/admin/PaymentVerification';
 import AdminSettings from '../pages/admin/Settings';
 
 // Support Pages
@@ -64,6 +67,7 @@ const AppRoutes = () => {
         <Route path="/booking/:id" element={<UserBooking />} />
         <Route path="/user/bookings" element={<UserBookings />} />
         <Route path="/user/bookings/:id" element={<UserBookingDetail />} />
+        <Route path="/user/payment/:bookingId" element={<PaymentSubmission />} />
         <Route path="/user/wishlist" element={<UserWishlist />} />
         <Route path="/user/reviews" element={<UserReviews />} />
         <Route path="/user/settings" element={<UserSettings />} />
@@ -79,6 +83,8 @@ const AppRoutes = () => {
         <Route path="/admin/bookings" element={<BookingManager />} />
         <Route path="/admin/users" element={<UserManager />} />
         <Route path="/admin/promos" element={<PromoManager />} />
+        <Route path="/admin/payment-methods" element={<PaymentMethodManager />} />
+        <Route path="/admin/payment-verification" element={<PaymentVerification />} />
         <Route path="/admin/settings" element={<AdminSettings />} />
       </Route>
 

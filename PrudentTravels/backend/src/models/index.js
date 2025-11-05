@@ -8,6 +8,7 @@ const DestinationImage = require('./destination-image.model')(sequelize);
 const Booking = require('./booking.model')(sequelize);
 const Review = require('./review.model')(sequelize);
 const Payment = require('./payment.model')(sequelize);
+const PaymentMethod = require('./payment-method.model')(sequelize);
 const SupportTicket = require('./support-ticket.model')(sequelize);
 const PromoCode = require('./promo-code.model')(sequelize);
 
@@ -43,6 +44,7 @@ Review.belongsTo(Booking, { foreignKey: 'bookingId', as: 'booking' });
 // Payment associations
 Payment.belongsTo(Booking, { foreignKey: 'bookingId', as: 'booking' });
 Payment.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+Payment.belongsTo(PaymentMethod, { foreignKey: 'paymentMethodId', as: 'paymentMethod' });
 
 // SupportTicket associations
 SupportTicket.belongsTo(User, { foreignKey: 'userId', as: 'user' });
@@ -66,6 +68,7 @@ module.exports = {
   Booking,
   Review,
   Payment,
+  PaymentMethod,
   SupportTicket,
   PromoCode
 };

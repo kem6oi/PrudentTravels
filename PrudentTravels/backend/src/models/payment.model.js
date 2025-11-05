@@ -72,6 +72,36 @@ module.exports = (sequelize) => {
     metadata: {
       type: DataTypes.JSON,
       defaultValue: {}
+    },
+    paymentMethodId: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      comment: 'Reference to payment method used'
+    },
+    transactionCode: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      comment: 'Transaction code/reference provided by user'
+    },
+    paymentProof: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      comment: 'URL to payment proof screenshot (if uploaded)'
+    },
+    verifiedBy: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      comment: 'Admin ID who verified the payment'
+    },
+    verifiedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      comment: 'When the payment was verified'
+    },
+    rejectionReason: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      comment: 'Reason if payment was rejected'
     }
   }, {
     timestamps: true,
