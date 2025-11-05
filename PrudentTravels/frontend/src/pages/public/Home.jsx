@@ -27,7 +27,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="min-h-screen overflow-hidden">
+    <div className="min-h-screen overflow-hidden bg-slate-900">
       {/* Full Screen Background Slideshow */}
       <AnimatePresence mode="wait">
         <motion.div
@@ -41,52 +41,53 @@ const Home = () => {
             backgroundImage: `url(${backgroundImages[currentImageIndex]})`,
           }}
         >
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"></div>
+          {/* Darker, softer overlay for eye comfort */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-800/75 to-slate-900/80"></div>
         </motion.div>
       </AnimatePresence>
 
       {/* Content */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center px-4">
-        <div className="w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          {/* Minimal Brand/Text */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-8">
+        <div className="w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          {/* Minimal Brand/Text - Responsive */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="text-center lg:text-left space-y-4"
+            className="text-center lg:text-left space-y-3 lg:space-y-4"
           >
-            <h1 className="text-6xl md:text-8xl font-serif font-bold text-white text-shadow-xl">
-              PrudentTravels
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif font-bold text-slate-100 text-shadow-xl leading-tight">
+              Prudent<span className="block sm:inline">Travels</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/80 font-light tracking-wide">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-slate-300 font-light tracking-wide">
               Your journey begins here
             </p>
           </motion.div>
 
-          {/* Transparent Login Form */}
+          {/* Transparent Login Form - Darker theme */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
             className="w-full max-w-md mx-auto"
           >
-            <div className="bg-white/10 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/20 p-8">
+            <div className="bg-slate-900/40 backdrop-blur-2xl rounded-3xl shadow-2xl border border-slate-700/50 p-6 sm:p-8">
               <LoginForm transparent={true} />
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Slideshow Indicators */}
-      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
+      {/* Slideshow Indicators - Softer colors */}
+      <div className="fixed bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
         {backgroundImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentImageIndex(index)}
             className={`h-1.5 rounded-full transition-all duration-500 ${
               index === currentImageIndex
-                ? 'w-8 bg-white'
-                : 'w-1.5 bg-white/40 hover:bg-white/60'
+                ? 'w-8 bg-slate-300'
+                : 'w-1.5 bg-slate-400/40 hover:bg-slate-400/60'
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
