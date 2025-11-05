@@ -81,18 +81,18 @@ const Dashboard = () => {
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen bg-sky-50">
+      <div className="flex h-screen bg-slate-900">
         <Sidebar />
         <div className="flex-1 overflow-auto">
           <Navbar title="Dashboard" />
-        
+
         <main className="p-8">
           {/* Welcome Section */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-serif font-bold text-slate-100 mb-2">
               Welcome back, {user?.firstName}!
             </h1>
-            <p className="text-gray-600">
+            <p className="text-slate-300">
               Here's what's happening with your travels
             </p>
           </div>
@@ -103,14 +103,14 @@ const Dashboard = () => {
               <Link
                 key={index}
                 to={stat.link}
-                className="card p-6 hover:shadow-lg transition-shadow"
+                className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6 hover:bg-slate-800/70 hover:border-slate-600/50 transition-all duration-300 hover:scale-105"
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-gray-600 text-sm mb-1">{stat.label}</p>
-                    <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                    <p className="text-slate-400 text-sm mb-1">{stat.label}</p>
+                    <p className="text-3xl font-bold text-slate-100">{stat.value}</p>
                   </div>
-                  <div className={`${stat.color} text-white p-4 rounded-lg`}>
+                  <div className={`${stat.color} text-white p-4 rounded-xl opacity-90`}>
                     <stat.icon className="text-2xl" />
                   </div>
                 </div>
@@ -119,40 +119,40 @@ const Dashboard = () => {
           </div>
 
           {/* Recent Bookings */}
-          <div className="card p-6">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Recent Bookings</h2>
-              <Link to="/user/bookings" className="text-primary-600 hover:text-primary-700 font-medium">
+              <h2 className="text-2xl font-serif font-bold text-slate-100">Recent Bookings</h2>
+              <Link to="/user/bookings" className="text-slate-300 hover:text-slate-100 font-medium transition-colors">
                 View All
               </Link>
             </div>
 
             {loading ? (
-              <p className="text-gray-600 text-center py-8">Loading...</p>
+              <p className="text-slate-400 text-center py-8">Loading...</p>
             ) : recentBookings.length > 0 ? (
               <div className="space-y-4">
                 {recentBookings.map((booking) => (
                   <div
                     key={booking.id}
-                    className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center justify-between p-4 bg-slate-700/30 border border-slate-600/30 rounded-xl hover:bg-slate-700/50 hover:border-slate-600/50 transition-all"
                   >
                     <div className="flex items-center gap-4">
                       <img
                         src={booking.destination?.mainImage || 'https://via.placeholder.com/80'}
                         alt={booking.destination?.name}
-                        className="w-16 h-16 rounded-lg object-cover"
+                        className="w-16 h-16 rounded-xl object-cover"
                       />
                       <div>
-                        <h3 className="font-semibold text-gray-900">
+                        <h3 className="font-semibold text-slate-100">
                           {booking.destination?.name}
                         </h3>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-slate-400">
                           {booking.checkInDate && format(new Date(booking.checkInDate), 'MMM dd, yyyy')}
                         </p>
-                        <span className={`badge ${
-                          booking.status === 'confirmed' ? 'badge-success' :
-                          booking.status === 'pending' ? 'badge-warning' :
-                          'badge-danger'
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium mt-1 ${
+                          booking.status === 'confirmed' ? 'bg-green-500/20 text-green-300 border border-green-500/30' :
+                          booking.status === 'pending' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' :
+                          'bg-red-500/20 text-red-300 border border-red-500/30'
                         }`}>
                           {booking.status}
                         </span>
@@ -160,7 +160,7 @@ const Dashboard = () => {
                     </div>
                     <Link
                       to={`/user/bookings/${booking.id}`}
-                      className="btn-primary text-sm"
+                      className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-100 font-medium rounded-lg transition-colors text-sm"
                     >
                       View Details
                     </Link>
@@ -169,14 +169,14 @@ const Dashboard = () => {
               </div>
             ) : (
               <div className="text-center py-12">
-                <FaPlane className="mx-auto text-6xl text-gray-300 mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <FaPlane className="mx-auto text-6xl text-slate-600 mb-4" />
+                <h3 className="text-xl font-semibold text-slate-200 mb-2">
                   No bookings yet
                 </h3>
-                <p className="text-gray-600 mb-6">
+                <p className="text-slate-400 mb-6">
                   Start exploring amazing destinations
                 </p>
-                <Link to="/destinations" className="btn-primary">
+                <Link to="/destinations" className="inline-flex items-center px-6 py-3 bg-slate-700 hover:bg-slate-600 text-slate-100 font-semibold rounded-xl transition-colors">
                   Browse Destinations
                 </Link>
               </div>

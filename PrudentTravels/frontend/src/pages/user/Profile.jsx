@@ -54,18 +54,18 @@ const Profile = () => {
 
   return (
     <SidebarProvider>
-    <div className="flex h-screen bg-sky-50">
+    <div className="flex h-screen bg-slate-900">
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Navbar title="My Profile" />
-        
+
         <main className="p-8">
           <div className="max-w-4xl mx-auto">
             {/* Profile Header */}
-            <div className="card p-8 mb-6">
+            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8 mb-6">
               <div className="flex items-center gap-6">
                 <div className="relative">
-                  <div className="w-32 h-32 rounded-full overflow-hidden bg-gray-200">
+                  <div className="w-32 h-32 rounded-full overflow-hidden bg-slate-700">
                     {imagePreview ? (
                       <img
                         src={imagePreview}
@@ -73,14 +73,14 @@ const Profile = () => {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                      <div className="w-full h-full flex items-center justify-center text-slate-400">
                         <HiUser className="text-6xl" />
                       </div>
                     )}
                   </div>
                   <label
                     htmlFor="profileImage"
-                    className="absolute bottom-0 right-0 bg-primary-600 text-white p-2 rounded-full cursor-pointer hover:bg-primary-700 transition-colors"
+                    className="absolute bottom-0 right-0 bg-slate-700 text-slate-100 p-2 rounded-full cursor-pointer hover:bg-slate-600 transition-colors"
                   >
                     <HiCamera className="text-xl" />
                     <input
@@ -93,11 +93,11 @@ const Profile = () => {
                   </label>
                 </div>
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                  <h2 className="text-3xl font-serif font-bold text-slate-100 mb-2">
                     {user?.firstName} {user?.lastName}
                   </h2>
-                  <p className="text-gray-600">{user?.email}</p>
-                  <p className="text-sm text-gray-500 mt-1 capitalize">
+                  <p className="text-slate-300">{user?.email}</p>
+                  <p className="text-sm text-slate-400 mt-1 capitalize">
                     Member since {new Date(user?.createdAt).getFullYear()}
                   </p>
                 </div>
@@ -105,8 +105,8 @@ const Profile = () => {
             </div>
 
             {/* Profile Form */}
-            <div className="card p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">
+            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8">
+              <h3 className="text-2xl font-serif font-bold text-slate-100 mb-6">
                 Personal Information
               </h3>
               
@@ -114,12 +114,12 @@ const Profile = () => {
                 {/* Name Fields */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="firstName" className="label">
+                    <label htmlFor="firstName" className="block text-sm font-medium text-slate-200 mb-2">
                       First Name
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <HiUser className="h-5 w-5 text-gray-400" />
+                        <HiUser className="h-5 w-5 text-slate-400" />
                       </div>
                       <input
                         id="firstName"
@@ -127,16 +127,16 @@ const Profile = () => {
                         {...register('firstName', {
                           required: 'First name is required',
                         })}
-                        className="input-field pl-10"
+                        className="w-full px-4 py-2.5 pl-10 bg-slate-800/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all"
                       />
                     </div>
                     {errors.firstName && (
-                      <p className="error-text">{errors.firstName.message}</p>
+                      <p className="mt-1 text-sm text-red-300">{errors.firstName.message}</p>
                     )}
                   </div>
 
                   <div>
-                    <label htmlFor="lastName" className="label">
+                    <label htmlFor="lastName" className="block text-sm font-medium text-slate-200 mb-2">
                       Last Name
                     </label>
                     <input
@@ -145,22 +145,22 @@ const Profile = () => {
                       {...register('lastName', {
                         required: 'Last name is required',
                       })}
-                      className="input-field"
+                      className="w-full px-4 py-2.5 bg-slate-800/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all"
                     />
                     {errors.lastName && (
-                      <p className="error-text">{errors.lastName.message}</p>
+                      <p className="mt-1 text-sm text-red-300">{errors.lastName.message}</p>
                     )}
                   </div>
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="label">
+                  <label htmlFor="email" className="block text-sm font-medium text-slate-200 mb-2">
                     Email Address
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <HiMail className="h-5 w-5 text-gray-400" />
+                      <HiMail className="h-5 w-5 text-slate-400" />
                     </div>
                     <input
                       id="email"
@@ -172,28 +172,28 @@ const Profile = () => {
                           message: 'Invalid email address',
                         },
                       })}
-                      className="input-field pl-10"
+                      className="w-full px-4 py-2.5 pl-10 bg-slate-800/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all"
                     />
                   </div>
                   {errors.email && (
-                    <p className="error-text">{errors.email.message}</p>
+                    <p className="mt-1 text-sm text-red-300">{errors.email.message}</p>
                   )}
                 </div>
 
                 {/* Phone */}
                 <div>
-                  <label htmlFor="phone" className="label">
+                  <label htmlFor="phone" className="block text-sm font-medium text-slate-200 mb-2">
                     Phone Number
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <HiPhone className="h-5 w-5 text-gray-400" />
+                      <HiPhone className="h-5 w-5 text-slate-400" />
                     </div>
                     <input
                       id="phone"
                       type="tel"
                       {...register('phone')}
-                      className="input-field pl-10"
+                      className="w-full px-4 py-2.5 pl-10 bg-slate-800/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all"
                     />
                   </div>
                 </div>
@@ -203,11 +203,11 @@ const Profile = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="btn-primary px-8"
+                    className="px-8 py-3 bg-gradient-to-r from-slate-700 to-slate-600 text-slate-100 font-semibold rounded-xl hover:from-slate-600 hover:to-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/50 transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50"
                   >
                     {loading ? 'Saving...' : 'Save Changes'}
                   </button>
-                  <button type="button" className="btn-ghost px-8">
+                  <button type="button" className="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium rounded-xl transition-colors">
                     Cancel
                   </button>
                 </div>

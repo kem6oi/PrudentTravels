@@ -40,29 +40,29 @@ const LoginForm = ({ transparent = false }) => {
 
   // Conditional class names based on transparent prop
   const labelClass = transparent
-    ? 'block text-sm font-medium text-white/90 mb-2'
+    ? 'block text-sm font-medium text-slate-200 mb-2'
     : 'label';
   const inputClass = transparent
-    ? 'w-full px-4 py-3 pl-10 bg-white/10 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all'
+    ? 'w-full px-4 py-3 pl-10 bg-slate-800/50 backdrop-blur-sm border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all'
     : 'input-field pl-10';
   const inputClassWithButton = transparent
-    ? 'w-full px-4 py-3 pl-10 pr-10 bg-white/10 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent transition-all'
+    ? 'w-full px-4 py-3 pl-10 pr-10 bg-slate-800/50 backdrop-blur-sm border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all'
     : 'input-field pl-10 pr-10';
-  const iconClass = transparent ? 'h-5 w-5 text-white/70' : 'h-5 w-5 text-gray-400';
+  const iconClass = transparent ? 'h-5 w-5 text-slate-400' : 'h-5 w-5 text-gray-400';
   const errorClass = transparent
     ? 'mt-1 text-sm text-red-300'
     : 'error-text';
   const linkClass = transparent
-    ? 'text-sm font-medium text-white hover:text-white/80 transition-colors'
+    ? 'text-sm font-medium text-slate-300 hover:text-slate-100 transition-colors'
     : 'text-sm font-medium text-primary-600 hover:text-primary-500';
   const buttonClass = transparent
-    ? 'w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-cyan-600 focus:outline-none focus:ring-2 focus:ring-white/50 transform hover:scale-[1.02] transition-all duration-300 shadow-lg'
+    ? 'w-full py-3 px-6 bg-gradient-to-r from-slate-700 to-slate-600 text-slate-100 font-semibold rounded-xl hover:from-slate-600 hover:to-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/50 transform hover:scale-[1.02] transition-all duration-300 shadow-lg'
     : 'w-full btn-primary py-3 text-base';
   const textClass = transparent
-    ? 'text-center text-sm text-white/80'
+    ? 'text-center text-sm text-slate-300'
     : 'text-center text-sm text-gray-600';
   const checkboxTextClass = transparent
-    ? 'ml-2 block text-sm text-white/90'
+    ? 'ml-2 block text-sm text-slate-200'
     : 'ml-2 block text-sm text-gray-700';
 
   return (
@@ -150,7 +150,7 @@ const LoginForm = ({ transparent = false }) => {
               type="checkbox"
               className={
                 transparent
-                  ? 'h-4 w-4 bg-white/10 border-white/30 rounded focus:ring-white/50'
+                  ? 'h-4 w-4 bg-slate-700/50 border-slate-500 rounded focus:ring-slate-500/50 text-slate-400'
                   : 'h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded'
               }
             />
@@ -177,7 +177,7 @@ const LoginForm = ({ transparent = false }) => {
           Don't have an account?{' '}
           <Link
             to="/register"
-            className={transparent ? 'font-bold text-white hover:text-white/80' : 'font-medium text-primary-600 hover:text-primary-500'}
+            className={transparent ? 'font-semibold text-slate-200 hover:text-slate-100 underline decoration-slate-400' : 'font-medium text-primary-600 hover:text-primary-500'}
           >
             Sign up
           </Link>

@@ -29,31 +29,31 @@ const Wishlist = () => {
 
   return (
     <SidebarProvider>
-    <div className="flex h-screen bg-sky-50">
+    <div className="flex h-screen bg-slate-900">
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Navbar title="My Wishlist" />
-        
+
         <main className="p-8">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-serif font-bold text-slate-100 mb-2">
               Saved Destinations
             </h2>
-            <p className="text-gray-600">
+            <p className="text-slate-300">
               {wishlistItems.length} {wishlistItems.length === 1 ? 'destination' : 'destinations'} saved
             </p>
           </div>
 
           {!loading && wishlistItems.length === 0 ? (
-            <div className="card p-12 text-center">
-              <HiHeart className="mx-auto text-6xl text-gray-300 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-12 text-center">
+              <HiHeart className="mx-auto text-6xl text-slate-600 mb-4" />
+              <h3 className="text-xl font-semibold text-slate-200 mb-2">
                 Your wishlist is empty
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-slate-400 mb-6">
                 Start adding destinations you'd like to visit
               </p>
-              <a href="/destinations" className="btn-primary">
+              <a href="/destinations" className="inline-flex items-center px-6 py-3 bg-slate-700 hover:bg-slate-600 text-slate-100 font-semibold rounded-xl transition-colors">
                 Browse Destinations
               </a>
             </div>
