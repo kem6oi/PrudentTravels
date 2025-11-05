@@ -76,11 +76,13 @@ module.exports = (sequelize) => {
   }, {
     timestamps: true,
     hooks: {
-      beforeCreate: (payment) => {
-        // Generate transaction ID
-        const date = new Date();
-        const random = Math.floor(Math.random() * 100000).toString().padStart(5, '0');
-        payment.transactionId = `TXN${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}${random}`;
+      beforeValidate: (payment) => {
+        // Generate transaction ID if not already set
+        if (!payment.transactionId) {
+          const date = new Date();
+          const random = Math.floor(Math.random() * 100000).toString().padStart(5, '0');
+          payment.transactionId = `TXN${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getDate().toString().padStart(2, '0')}${random}`;
+        }
       }
     }
   });
