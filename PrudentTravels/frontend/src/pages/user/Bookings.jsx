@@ -72,11 +72,11 @@ const Bookings = () => {
 
   return (
     <SidebarProvider>
-    <div className="flex h-screen bg-sky-50">
+    <div className="flex h-screen bg-slate-900">
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Navbar title="My Bookings" />
-        
+
         <main className="p-8">
           {/* Filter Tabs */}
           <div className="flex gap-4 mb-6 overflow-x-auto">
@@ -84,10 +84,10 @@ const Bookings = () => {
               <button
                 key={f.value}
                 onClick={() => setFilter(f.value)}
-                className={`px-6 py-3 rounded-lg font-medium transition-colors whitespace-nowrap ${
+                className={`px-6 py-3 rounded-xl font-medium transition-all whitespace-nowrap ${
                   filter === f.value
-                    ? 'bg-primary-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-gray-50'
+                    ? 'bg-slate-700 text-slate-100'
+                    : 'bg-slate-800/50 text-slate-300 hover:bg-slate-800'
                 }`}
               >
                 {f.label} ({f.count})
@@ -108,56 +108,56 @@ const Bookings = () => {
                 const totalGuests = (booking.adults || 0) + (booking.children || 0) + (booking.infants || 0);
 
                 return (
-                  <div key={booking.id} className="card p-6">
+                  <div key={booking.id} className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6">
                     <div className="flex flex-col md:flex-row gap-6">
                       {/* Destination Image */}
                       <img
                         src={booking.destination?.mainImage || 'https://via.placeholder.com/200'}
                         alt={booking.destination?.name}
-                        className="w-full md:w-48 h-48 rounded-lg object-cover"
+                        className="w-full md:w-48 h-48 rounded-xl object-cover"
                       />
 
                       {/* Booking Details */}
                       <div className="flex-1">
                         <div className="flex items-start justify-between mb-4">
                           <div>
-                            <h3 className="text-2xl font-bold text-gray-900 mb-1">
+                            <h3 className="text-2xl font-serif font-bold text-slate-100 mb-1">
                               {booking.destination?.name}
                             </h3>
-                            <p className="text-gray-600">
+                            <p className="text-slate-300">
                               {booking.destination?.city}, {booking.destination?.country}
                             </p>
                           </div>
-                          <span className={`badge ${
-                            booking.status === 'confirmed' ? 'badge-success' :
-                            booking.status === 'pending' ? 'badge-warning' :
-                            booking.status === 'completed' ? 'badge-info' :
-                            'badge-danger'
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            booking.status === 'confirmed' ? 'bg-green-500/20 text-green-300 border border-green-500/30' :
+                            booking.status === 'pending' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' :
+                            booking.status === 'completed' ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' :
+                            'bg-red-500/20 text-red-300 border border-red-500/30'
                           }`}>
                             {booking.status}
                           </span>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <HiCalendar className="text-primary-600" />
+                          <div className="flex items-center gap-2 text-slate-300">
+                            <HiCalendar className="text-slate-400" />
                             <div className="text-sm">
                               <p className="font-medium">Check-in</p>
-                              <p>{format(new Date(booking.checkInDate), 'MMM dd, yyyy')}</p>
+                              <p className="text-slate-400">{format(new Date(booking.checkInDate), 'MMM dd, yyyy')}</p>
                             </div>
                           </div>
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <HiCalendar className="text-primary-600" />
+                          <div className="flex items-center gap-2 text-slate-300">
+                            <HiCalendar className="text-slate-400" />
                             <div className="text-sm">
                               <p className="font-medium">Check-out</p>
-                              <p>{format(new Date(booking.checkOutDate), 'MMM dd, yyyy')}</p>
+                              <p className="text-slate-400">{format(new Date(booking.checkOutDate), 'MMM dd, yyyy')}</p>
                             </div>
                           </div>
-                          <div className="flex items-center gap-2 text-gray-600">
-                            <HiUsers className="text-primary-600" />
+                          <div className="flex items-center gap-2 text-slate-300">
+                            <HiUsers className="text-slate-400" />
                             <div className="text-sm">
                               <p className="font-medium">Guests</p>
-                              <p>{totalGuests} guests, {nights} nights</p>
+                              <p className="text-slate-400">{totalGuests} guests, {nights} nights</p>
                             </div>
                           </div>
                         </div>
@@ -166,14 +166,14 @@ const Bookings = () => {
                         <div className="flex gap-3">
                           <Link
                             to={`/user/bookings/${booking.id}`}
-                            className="btn-primary text-sm"
+                            className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-100 font-medium rounded-lg transition-colors text-sm"
                           >
                             View Details
                           </Link>
                           {booking.status === 'confirmed' && (
                             <button
                               onClick={() => handleCancelBooking(booking.id)}
-                              className="btn-outline text-sm border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
+                              className="px-4 py-2 border border-red-500/50 text-red-300 hover:bg-red-500/20 rounded-lg transition-colors text-sm font-medium"
                             >
                               Cancel Booking
                             </button>
@@ -183,8 +183,8 @@ const Bookings = () => {
 
                       {/* Price */}
                       <div className="text-right">
-                        <p className="text-sm text-gray-600 mb-1">Total Price</p>
-                        <p className="text-3xl font-bold text-primary-600">
+                        <p className="text-sm text-slate-400 mb-1">Total Price</p>
+                        <p className="text-3xl font-bold text-slate-100">
                           ${Number(booking.totalAmount).toFixed(2)}
                         </p>
                       </div>
@@ -194,17 +194,17 @@ const Bookings = () => {
               })}
             </div>
           ) : (
-            <div className="card p-12 text-center">
-              <HiClock className="mx-auto text-6xl text-gray-300 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-12 text-center">
+              <HiClock className="mx-auto text-6xl text-slate-600 mb-4" />
+              <h3 className="text-xl font-semibold text-slate-200 mb-2">
                 No bookings found
               </h3>
-              <p className="text-gray-600 mb-6">
-                {filter === 'all' 
+              <p className="text-slate-400 mb-6">
+                {filter === 'all'
                   ? "You haven't made any bookings yet"
                   : `No ${filter} bookings`}
               </p>
-              <Link to="/destinations" className="btn-primary">
+              <Link to="/destinations" className="inline-flex items-center px-6 py-3 bg-slate-700 hover:bg-slate-600 text-slate-100 font-semibold rounded-xl transition-colors">
                 Browse Destinations
               </Link>
             </div>

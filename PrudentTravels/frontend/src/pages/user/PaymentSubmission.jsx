@@ -167,7 +167,7 @@ const PaymentSubmission = () => {
   }
 
   return (
-    <div className="min-h-screen bg-sky-50">
+    <div className="min-h-screen bg-slate-900">
       <Header />
 
       <div className="container-custom section-padding py-8">

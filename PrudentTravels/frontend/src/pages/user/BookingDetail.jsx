@@ -50,7 +50,7 @@ const BookingDetail = () => {
   if (loading) {
     return (
       <SidebarProvider>
-        <div className="flex h-screen bg-sky-50">
+        <div className="flex h-screen bg-slate-900">
           <Sidebar />
           <div className="flex-1 overflow-auto">
             <Navbar title="Booking Details" />
@@ -66,7 +66,7 @@ const BookingDetail = () => {
   if (!booking) {
     return (
       <SidebarProvider>
-        <div className="flex h-screen bg-sky-50">
+        <div className="flex h-screen bg-slate-900">
           <Sidebar />
           <div className="flex-1 overflow-auto">
             <Navbar title="Booking Details" />
@@ -92,7 +92,7 @@ const BookingDetail = () => {
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen bg-sky-50">
+      <div className="flex h-screen bg-slate-900">
         <Sidebar />
         <div className="flex-1 overflow-auto">
           <Navbar title="Booking Details" />

@@ -213,34 +213,34 @@ const Booking = () => {
   }
 
   return (
-    <div className="min-h-screen bg-sky-50">
+    <div className="min-h-screen bg-slate-900">
       <Header />
 
       <div className="container-custom section-padding py-8">
         {/* Progress Steps */}
         <div className="mb-8">
           <div className="flex items-center justify-center gap-4">
-            <div className={`flex items-center ${currentStep >= 1 ? 'text-primary-600' : 'text-gray-400'}`}>
+            <div className={`flex items-center ${currentStep >= 1 ? 'text-slate-100' : 'text-slate-500'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                currentStep >= 1 ? 'bg-primary-600 text-white' : 'bg-gray-200'
+                currentStep >= 1 ? 'bg-slate-700 text-slate-100' : 'bg-slate-800'
               }`}>
                 1
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Select Dates</span>
             </div>
-            <div className="w-12 h-0.5 bg-gray-300"></div>
-            <div className={`flex items-center ${currentStep >= 2 ? 'text-primary-600' : 'text-gray-400'}`}>
+            <div className="w-12 h-0.5 bg-slate-700"></div>
+            <div className={`flex items-center ${currentStep >= 2 ? 'text-slate-100' : 'text-slate-500'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                currentStep >= 2 ? 'bg-primary-600 text-white' : 'bg-gray-200'
+                currentStep >= 2 ? 'bg-slate-700 text-slate-100' : 'bg-slate-800'
               }`}>
                 2
               </div>
               <span className="ml-2 font-medium hidden sm:inline">Booking Details</span>
             </div>
-            <div className="w-12 h-0.5 bg-gray-300"></div>
-            <div className={`flex items-center ${currentStep >= 3 ? 'text-primary-600' : 'text-gray-400'}`}>
+            <div className="w-12 h-0.5 bg-slate-700"></div>
+            <div className={`flex items-center ${currentStep >= 3 ? 'text-slate-100' : 'text-slate-500'}`}>
               <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                currentStep >= 3 ? 'bg-primary-600 text-white' : 'bg-gray-200'
+                currentStep >= 3 ? 'bg-slate-700 text-slate-100' : 'bg-slate-800'
               }`}>
                 3
               </div>
@@ -252,8 +252,8 @@ const Booking = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Column - Booking Form */}
           <div className="lg:col-span-2">
-            <div className="card p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-6">
+              <h2 className="text-2xl font-serif font-bold text-slate-100 mb-6">
                 {currentStep === 1 && 'Select Your Dates'}
                 {currentStep === 2 && 'Booking Details'}
               </h2>
