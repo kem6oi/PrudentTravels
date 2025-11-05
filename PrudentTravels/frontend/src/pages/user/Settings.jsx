@@ -122,21 +122,21 @@ const Settings = () => {
             <input type="checkbox" defaultChecked className="w-4 h-4 text-primary-600" />
             <div>
               <p className="font-medium">Booking Confirmations</p>
-              <p className="text-sm text-gray-600">Receive confirmations for your bookings</p>
+              <p className="text-sm text-slate-400">Receive confirmations for your bookings</p>
             </div>
           </label>
           <label className="flex items-center gap-3">
             <input type="checkbox" defaultChecked className="w-4 h-4 text-primary-600" />
             <div>
               <p className="font-medium">Promotional Emails</p>
-              <p className="text-sm text-gray-600">Get exclusive deals and offers</p>
+              <p className="text-sm text-slate-400">Get exclusive deals and offers</p>
             </div>
           </label>
           <label className="flex items-center gap-3">
             <input type="checkbox" className="w-4 h-4 text-primary-600" />
             <div>
               <p className="font-medium">Newsletter</p>
-              <p className="text-sm text-gray-600">Weekly travel tips and destination highlights</p>
+              <p className="text-sm text-slate-400">Weekly travel tips and destination highlights</p>
             </div>
           </label>
         </div>
@@ -149,14 +149,14 @@ const Settings = () => {
             <input type="checkbox" defaultChecked className="w-4 h-4 text-primary-600" />
             <div>
               <p className="font-medium">Booking Updates</p>
-              <p className="text-sm text-gray-600">Updates about your bookings</p>
+              <p className="text-sm text-slate-400">Updates about your bookings</p>
             </div>
           </label>
           <label className="flex items-center gap-3">
             <input type="checkbox" className="w-4 h-4 text-primary-600" />
             <div>
               <p className="font-medium">Special Offers</p>
-              <p className="text-sm text-gray-600">Notifications about special deals</p>
+              <p className="text-sm text-slate-400">Notifications about special deals</p>
             </div>
           </label>
         </div>
@@ -219,21 +219,21 @@ const Settings = () => {
           <input type="checkbox" defaultChecked className="w-4 h-4 text-primary-600" />
           <div>
             <p className="font-medium">Make Profile Public</p>
-            <p className="text-sm text-gray-600">Allow others to see your profile</p>
+            <p className="text-sm text-slate-400">Allow others to see your profile</p>
           </div>
         </label>
         <label className="flex items-center gap-3">
           <input type="checkbox" defaultChecked className="w-4 h-4 text-primary-600" />
           <div>
             <p className="font-medium">Show Reviews</p>
-            <p className="text-sm text-gray-600">Display your reviews publicly</p>
+            <p className="text-sm text-slate-400">Display your reviews publicly</p>
           </div>
         </label>
         <label className="flex items-center gap-3">
           <input type="checkbox" className="w-4 h-4 text-primary-600" />
           <div>
             <p className="font-medium">Share Travel History</p>
-            <p className="text-sm text-gray-600">Let others see where you've traveled</p>
+            <p className="text-sm text-slate-400">Let others see where you've traveled</p>
           </div>
         </label>
       </div>
@@ -243,7 +243,7 @@ const Settings = () => {
         <button className="btn-danger px-8">
           Delete Account
         </button>
-        <p className="text-sm text-gray-600 mt-2">
+        <p className="text-sm text-slate-400 mt-2">
           This action cannot be undone. All your data will be permanently deleted.
         </p>
       </div>
@@ -252,14 +252,14 @@ const Settings = () => {
 
   return (
     <SidebarProvider>
-    <div className="flex h-screen bg-sky-50">
+    <div className="flex h-screen bg-slate-900">
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Navbar title="Settings" />
-        
+
         <main className="p-8">
           <div className="max-w-5xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-900 mb-8">Settings</h1>
+            <h1 className="text-3xl font-serif font-bold text-slate-100 mb-8">Settings</h1>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
               {/* Tabs */}
@@ -269,10 +269,10 @@ const Settings = () => {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                         activeTab === tab.id
-                          ? 'bg-primary-50 text-primary-600'
-                          : 'text-gray-700 hover:bg-sky-50'
+                          ? 'bg-slate-700 text-slate-100'
+                          : 'text-slate-300 hover:bg-slate-800/50'
                       }`}
                     >
                       <tab.icon className="text-xl" />
@@ -283,7 +283,7 @@ const Settings = () => {
               </div>
 
               {/* Content */}
-              <div className="lg:col-span-3 card p-8">
+              <div className="lg:col-span-3 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-8">
                 {activeTab === 'password' && renderPasswordTab()}
                 {activeTab === 'notifications' && renderNotificationsTab()}
                 {activeTab === 'preferences' && renderPreferencesTab()}
