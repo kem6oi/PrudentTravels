@@ -76,7 +76,11 @@ module.exports = (sequelize) => {
     paymentMethodId: {
       type: DataTypes.UUID,
       allowNull: true,
-      comment: 'Reference to payment method used'
+      comment: 'Reference to payment method used',
+      references: {
+        model: 'PaymentMethods',
+        key: 'id'
+      }
     },
     transactionCode: {
       type: DataTypes.STRING,
@@ -91,7 +95,11 @@ module.exports = (sequelize) => {
     verifiedBy: {
       type: DataTypes.UUID,
       allowNull: true,
-      comment: 'Admin ID who verified the payment'
+      comment: 'Admin ID who verified the payment',
+      references: {
+        model: 'Users',
+        key: 'id'
+      }
     },
     verifiedAt: {
       type: DataTypes.DATE,
