@@ -185,7 +185,7 @@ const Bookings = () => {
                       <div className="text-right">
                         <p className="text-sm text-gray-600 mb-1">Total Price</p>
                         <p className="text-3xl font-bold text-primary-600">
-                          ${booking.totalPrice}
+                          ${Number(booking.totalAmount).toFixed(2)}
                         </p>
                       </div>
                     </div>
