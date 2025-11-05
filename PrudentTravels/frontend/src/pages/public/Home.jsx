@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaArrowRight } from 'react-icons/fa';
 import { HiShieldCheck, HiCurrencyDollar, HiUserGroup } from 'react-icons/hi';
 import Header from '../../components/common/Header';
@@ -12,9 +12,29 @@ import api, { apiEndpoints } from '../../services/api';
 const Home = () => {
   const [featuredDestinations, setFeaturedDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Beautiful travel-themed background images
+  const backgroundImages = [
+    'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920&q=80', // Mountain road
+    'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=80', // Beach sunset
+    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80', // Mountain lake
+    'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80', // City skyline
+    'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=1920&q=80', // Northern lights
+  ];
 
   useEffect(() => {
     fetchFeaturedDestinations();
+
+    // Change background image every 5 seconds
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) =>
+        (prevIndex + 1) % backgroundImages.length
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchFeaturedDestinations = async () => {
@@ -47,78 +67,142 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-sky-50">
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800">
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1920)',
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/40"></div>
+      {/* Hero Section with Slideshow Background */}
+      <section className="relative overflow-hidden min-h-screen flex items-center">
+        {/* Animated Background Slideshow */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentImageIndex}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${backgroundImages[currentImageIndex]})`,
+            }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/60"></div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Slideshow Indicators */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
+          {backgroundImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                index === currentImageIndex
+                  ? 'w-8 bg-white'
+                  : 'w-2 bg-white/50 hover:bg-white/70'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
 
-        <div className="relative z-10 container-custom section-padding py-16 lg:py-24">
+        <div className="relative z-10 container-custom section-padding py-16 lg:py-24 w-full">
           <div className="grid gap-12 lg:grid-cols-[1.1fr,0.9fr] items-center">
+            {/* Left Side - Hero Content */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
               className="text-white text-center lg:text-left space-y-6"
             >
-              <span className="inline-flex items-center px-4 py-2 text-sm font-semibold bg-white/10 rounded-full backdrop-blur-sm border border-white/20">
-                Seamless access for travelers & admins
-              </span>
-              <h1 className="text-4xl md:text-6xl font-display font-bold leading-tight">
-                Discover Your Next Adventure
-              </h1>
-              <p className="text-lg md:text-2xl text-white/90 max-w-2xl mx-auto lg:mx-0">
-                Explore breathtaking destinations around the world and manage every journey from a single login.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
-                <Link to="/destinations" className="btn-primary text-lg px-8 py-4">
+              <motion.span
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="inline-flex items-center px-5 py-2.5 text-sm font-semibold bg-white/10 rounded-full backdrop-blur-md border border-white/20 shadow-lg"
+              >
+                Your Gateway to Extraordinary Journeys
+              </motion.span>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="text-5xl md:text-7xl font-display font-bold leading-tight tracking-tight"
+              >
+                Discover Your Next
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-teal-400">
+                  Adventure
+                </span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+              >
+                Explore breathtaking destinations, create unforgettable memories, and embark on journeys that inspire.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center pt-4"
+              >
+                <Link
+                  to="/destinations"
+                  className="group btn-primary text-lg px-8 py-4 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
+                >
                   Explore Destinations
-                  <FaArrowRight className="ml-2 inline" />
+                  <FaArrowRight className="ml-2 inline group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link
                   to="/register"
-                  className="btn bg-white text-primary-600 hover:bg-gray-100 text-lg px-8 py-4"
+                  className="btn bg-white/10 backdrop-blur-md border-2 border-white/30 text-white hover:bg-white hover:text-gray-900 text-lg px-8 py-4 shadow-xl transition-all duration-300"
                 >
-                  Create Traveler Account
+                  Start Your Journey
                 </Link>
-              </div>
+              </motion.div>
             </motion.div>
 
+            {/* Right Side - Transparent Login Form */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
               className="w-full max-w-md mx-auto lg:mx-0"
             >
-              <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6 sm:p-8">
-                <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
-                  <div>
-                    <p className="text-sm font-semibold uppercase tracking-wide text-primary-600">
-                      Portal Login
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      Travelers, admins and support teams sign in below
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
+              <div className="bg-white/15 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 p-6 sm:p-8">
+                <div className="mb-6">
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.5 }}
+                    className="text-lg font-bold text-white mb-2 tracking-wide"
+                  >
+                    Welcome Back
+                  </motion.p>
+                  <p className="text-sm text-white/80">
+                    Sign in to continue your adventure
+                  </p>
+                </div>
+                <LoginForm transparent={true} />
+                <div className="mt-6 pt-6 border-t border-white/20">
+                  <p className="text-xs text-center text-white/70 mb-3">
+                    Multiple access levels
+                  </p>
+                  <div className="flex justify-center gap-2 flex-wrap">
                     {['Traveler', 'Admin', 'Support'].map((role) => (
                       <span
                         key={role}
-                        className="px-3 py-1 text-xs font-semibold uppercase tracking-wide bg-primary-50 text-primary-700 rounded-full"
+                        className="px-3 py-1 text-xs font-semibold bg-white/10 backdrop-blur-sm text-white rounded-full border border-white/20"
                       >
                         {role}
                       </span>
                     ))}
                   </div>
                 </div>
-                <LoginForm />
               </div>
             </motion.div>
           </div>

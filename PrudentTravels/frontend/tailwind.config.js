@@ -46,7 +46,8 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['Poppins', 'sans-serif']
+        display: ['Poppins', 'sans-serif'],
+        serif: ['Playfair Display', 'Georgia', 'serif']
       },
       animation: {
         'slide-in': 'slideIn 0.3s ease-out',
