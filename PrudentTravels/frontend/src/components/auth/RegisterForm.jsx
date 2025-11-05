@@ -34,21 +34,21 @@ const RegisterForm = () => {
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
-        <p className="text-gray-600">Join us and start your travel journey</p>
+      <div className="text-center mb-6">
+        <h2 className="text-2xl md:text-3xl font-serif font-bold text-slate-100 mb-2">Create Account</h2>
+        <p className="text-slate-300">Begin your travel journey</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* First Name & Last Name */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label htmlFor="firstName" className="label">
+            <label htmlFor="firstName" className="block text-sm font-medium text-slate-200 mb-2">
               First Name
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <HiUser className="h-5 w-5 text-gray-400" />
+                <HiUser className="h-5 w-5 text-slate-400" />
               </div>
               <input
                 id="firstName"
@@ -60,17 +60,17 @@ const RegisterForm = () => {
                     message: 'Must be at least 2 characters',
                   },
                 })}
-                className="input-field pl-10"
+                className="w-full px-4 py-2.5 pl-10 bg-slate-800/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all"
                 placeholder="John"
               />
             </div>
             {errors.firstName && (
-              <p className="error-text">{errors.firstName.message}</p>
+              <p className="mt-1 text-sm text-red-300">{errors.firstName.message}</p>
             )}
           </div>
 
           <div>
-            <label htmlFor="lastName" className="label">
+            <label htmlFor="lastName" className="block text-sm font-medium text-slate-200 mb-2">
               Last Name
             </label>
             <input
@@ -83,23 +83,23 @@ const RegisterForm = () => {
                   message: 'Must be at least 2 characters',
                 },
               })}
-              className="input-field"
+              className="w-full px-4 py-2.5 bg-slate-800/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all"
               placeholder="Doe"
             />
             {errors.lastName && (
-              <p className="error-text">{errors.lastName.message}</p>
+              <p className="mt-1 text-sm text-red-300">{errors.lastName.message}</p>
             )}
           </div>
         </div>
 
         {/* Email */}
         <div>
-          <label htmlFor="email" className="label">
+          <label htmlFor="email" className="block text-sm font-medium text-slate-200 mb-2">
             Email Address
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <HiMail className="h-5 w-5 text-gray-400" />
+              <HiMail className="h-5 w-5 text-slate-400" />
             </div>
             <input
               id="email"
@@ -111,23 +111,23 @@ const RegisterForm = () => {
                   message: 'Invalid email address',
                 },
               })}
-              className="input-field pl-10"
+              className="w-full px-4 py-2.5 pl-10 bg-slate-800/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all"
               placeholder="you@example.com"
             />
           </div>
           {errors.email && (
-            <p className="error-text">{errors.email.message}</p>
+            <p className="mt-1 text-sm text-red-300">{errors.email.message}</p>
           )}
         </div>
 
         {/* Phone */}
         <div>
-          <label htmlFor="phone" className="label">
+          <label htmlFor="phone" className="block text-sm font-medium text-slate-200 mb-2">
             Phone Number
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <HiPhone className="h-5 w-5 text-gray-400" />
+              <HiPhone className="h-5 w-5 text-slate-400" />
             </div>
             <input
               id="phone"
@@ -139,23 +139,23 @@ const RegisterForm = () => {
                   message: 'Invalid phone number',
                 },
               })}
-              className="input-field pl-10"
+              className="w-full px-4 py-2.5 pl-10 bg-slate-800/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all"
               placeholder="+1 (555) 000-0000"
             />
           </div>
           {errors.phone && (
-            <p className="error-text">{errors.phone.message}</p>
+            <p className="mt-1 text-sm text-red-300">{errors.phone.message}</p>
           )}
         </div>
 
         {/* Password */}
         <div>
-          <label htmlFor="password" className="label">
+          <label htmlFor="password" className="block text-sm font-medium text-slate-200 mb-2">
             Password
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <HiLockClosed className="h-5 w-5 text-gray-400" />
+              <HiLockClosed className="h-5 w-5 text-slate-400" />
             </div>
             <input
               id="password"
@@ -171,7 +171,7 @@ const RegisterForm = () => {
                   message: 'Must contain uppercase, lowercase, and number',
                 },
               })}
-              className="input-field pl-10 pr-10"
+              className="w-full px-4 py-2.5 pl-10 pr-10 bg-slate-800/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all"
               placeholder="••••••••"
             />
             <button
@@ -180,25 +180,25 @@ const RegisterForm = () => {
               className="absolute inset-y-0 right-0 pr-3 flex items-center"
             >
               {showPassword ? (
-                <HiEyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                <HiEyeOff className="h-5 w-5 text-slate-400 hover:text-slate-300 transition-colors" />
               ) : (
-                <HiEye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                <HiEye className="h-5 w-5 text-slate-400 hover:text-slate-300 transition-colors" />
               )}
             </button>
           </div>
           {errors.password && (
-            <p className="error-text">{errors.password.message}</p>
+            <p className="mt-1 text-sm text-red-300">{errors.password.message}</p>
           )}
         </div>
 
         {/* Confirm Password */}
         <div>
-          <label htmlFor="confirmPassword" className="label">
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-200 mb-2">
             Confirm Password
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <HiLockClosed className="h-5 w-5 text-gray-400" />
+              <HiLockClosed className="h-5 w-5 text-slate-400" />
             </div>
             <input
               id="confirmPassword"
@@ -208,7 +208,7 @@ const RegisterForm = () => {
                 validate: (value) =>
                   value === password || 'Passwords do not match',
               })}
-              className="input-field pl-10 pr-10"
+              className="w-full px-4 py-2.5 pl-10 pr-10 bg-slate-800/50 border border-slate-600/50 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all"
               placeholder="••••••••"
             />
             <button
@@ -217,57 +217,57 @@ const RegisterForm = () => {
               className="absolute inset-y-0 right-0 pr-3 flex items-center"
             >
               {showConfirmPassword ? (
-                <HiEyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                <HiEyeOff className="h-5 w-5 text-slate-400 hover:text-slate-300 transition-colors" />
               ) : (
-                <HiEye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                <HiEye className="h-5 w-5 text-slate-400 hover:text-slate-300 transition-colors" />
               )}
             </button>
           </div>
           {errors.confirmPassword && (
-            <p className="error-text">{errors.confirmPassword.message}</p>
+            <p className="mt-1 text-sm text-red-300">{errors.confirmPassword.message}</p>
           )}
         </div>
 
         {/* Terms & Conditions */}
-        <div className="flex items-start">
+        <div className="flex items-start pt-2">
           <input
             id="terms"
             type="checkbox"
             {...register('terms', {
               required: 'You must accept the terms and conditions',
             })}
-            className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded mt-1"
+            className="h-4 w-4 bg-slate-700/50 border-slate-500 rounded focus:ring-slate-500/50 text-slate-400 mt-1"
           />
-          <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
+          <label htmlFor="terms" className="ml-2 block text-sm text-slate-300">
             I agree to the{' '}
-            <Link to="/terms" className="text-primary-600 hover:text-primary-500">
+            <Link to="/terms" className="text-slate-200 hover:text-slate-100 underline decoration-slate-400">
               Terms and Conditions
             </Link>{' '}
             and{' '}
-            <Link to="/privacy" className="text-primary-600 hover:text-primary-500">
+            <Link to="/privacy" className="text-slate-200 hover:text-slate-100 underline decoration-slate-400">
               Privacy Policy
             </Link>
           </label>
         </div>
         {errors.terms && (
-          <p className="error-text">{errors.terms.message}</p>
+          <p className="mt-1 text-sm text-red-300">{errors.terms.message}</p>
         )}
 
         {/* Submit Button */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full btn-primary py-3 text-base"
+          className="w-full py-3 px-6 bg-gradient-to-r from-slate-700 to-slate-600 text-slate-100 font-semibold rounded-xl hover:from-slate-600 hover:to-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/50 transform hover:scale-[1.02] transition-all duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? 'Creating Account...' : 'Create Account'}
         </button>
 
         {/* Sign In Link */}
-        <p className="text-center text-sm text-gray-600">
+        <p className="text-center text-sm text-slate-300">
           Already have an account?{' '}
           <Link
             to="/login"
-            className="font-medium text-primary-600 hover:text-primary-500"
+            className="font-semibold text-slate-200 hover:text-slate-100 underline decoration-slate-400"
           >
             Sign in
           </Link>
