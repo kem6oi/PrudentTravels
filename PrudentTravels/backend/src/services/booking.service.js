@@ -132,7 +132,7 @@ class BookingService {
           },
           {
             model: Payment,
-            as: 'payments'
+            as: 'payment'
           }
         ]
       });

@@ -53,10 +53,25 @@ const isTraveler = (req, res, next) => {
 const isOwnerOrAdmin = (modelName, idParam = 'id') => {
   return async (req, res, next) => {
     try {
-      const Model = require('../models')[modelName];
-      const resource = await Model.findByPk(req.params[idParam]);
+      const models = require('../models');
+      const Model = models[modelName];
+
+      if (!Model) {
+        console.error(`[isOwnerOrAdmin] Model "${modelName}" not found in models`);
+        console.error('[isOwnerOrAdmin] Available models:', Object.keys(models));
+        return res.status(500).json({
+          success: false,
+          message: 'Internal server error'
+        });
+      }
+
+      const resourceId = req.params[idParam];
+      console.log(`[isOwnerOrAdmin] Checking authorization for ${modelName} with id: ${resourceId}`);
+
+      const resource = await Model.findByPk(resourceId);
 
       if (!resource) {
+        console.log(`[isOwnerOrAdmin] ${modelName} not found with id: ${resourceId}`);
         return res.status(404).json({
           success: false,
           message: `${modelName} not found`
@@ -66,6 +81,8 @@ const isOwnerOrAdmin = (modelName, idParam = 'id') => {
       // Check if user is admin or owner
       const isOwner = resource.userId && resource.userId === req.user.id;
       const isAdmin = req.user.role === ROLES.ADMIN;
+
+      console.log(`[isOwnerOrAdmin] Authorization check - isOwner: ${isOwner}, isAdmin: ${isAdmin}, userId: ${req.user.id}, resourceUserId: ${resource.userId}`);
 
       if (!isOwner && !isAdmin) {
         return res.status(403).json({
@@ -77,7 +94,11 @@ const isOwnerOrAdmin = (modelName, idParam = 'id') => {
       req.resource = resource;
       next();
     } catch (error) {
-      console.error(error);
+      console.error('[isOwnerOrAdmin] Error checking authorization:', error);
+      console.error('[isOwnerOrAdmin] Error stack:', error.stack);
+      console.error('[isOwnerOrAdmin] Model name:', modelName);
+      console.error('[isOwnerOrAdmin] ID param:', idParam);
+      console.error('[isOwnerOrAdmin] Request params:', req.params);
       return res.status(500).json({
         success: false,
         message: 'Error checking authorization'
