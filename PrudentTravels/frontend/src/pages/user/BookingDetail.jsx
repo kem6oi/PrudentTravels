@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { HiCalendar, HiUsers, HiCreditCard, HiTicket, HiArrowLeft } from 'react-icons/hi';
+import { HiCalendar, HiUsers, HiCreditCard, HiArrowLeft } from 'react-icons/hi';
 import Sidebar from '../../components/common/Sidebar';
 import { SidebarProvider } from '../../contexts/SidebarContext';
 import Navbar from '../../components/common/Navbar';
@@ -15,10 +15,6 @@ const BookingDetail = () => {
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchBookingDetails();
-  }, [id]);
-
   const fetchBookingDetails = async () => {
     try {
       const response = await api.get(apiEndpoints.bookings.getOne(id));
@@ -31,6 +27,11 @@ const BookingDetail = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchBookingDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   const handleCancelBooking = async () => {
     if (!window.confirm('Are you sure you want to cancel this booking?')) {
