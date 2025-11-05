@@ -45,10 +45,13 @@ class AnalyticsService {
       });
 
       return {
-        totalBookings,
-        bookingsByStatus: bookingsByStatus.map(b => b.toJSON()),
-        totalRevenue: totalRevenue || 0,
-        averageBookingValue: parseFloat(averageBookingValue?.dataValues?.average || 0)
+        totalBookings: Number(totalBookings) || 0,
+        bookingsByStatus: bookingsByStatus.map(b => ({
+          status: b.status,
+          count: Number(b.dataValues.count) || 0
+        })),
+        totalRevenue: Number(totalRevenue) || 0,
+        averageBookingValue: Number(averageBookingValue?.dataValues?.average) || 0
       };
     } catch (error) {
       console.error('Error fetching booking stats:', error);
@@ -88,11 +91,14 @@ class AnalyticsService {
       });
 
       return {
-        totalUsers,
-        usersByRole: usersByRole.map(u => u.toJSON()),
-        activeUsers,
-        verifiedUsers,
-        newUsersThisMonth
+        totalUsers: Number(totalUsers) || 0,
+        usersByRole: usersByRole.map(u => ({
+          role: u.role,
+          count: Number(u.dataValues.count) || 0
+        })),
+        activeUsers: Number(activeUsers) || 0,
+        verifiedUsers: Number(verifiedUsers) || 0,
+        newUsersThisMonth: Number(newUsersThisMonth) || 0
       };
     } catch (error) {
       console.error('Error fetching user stats:', error);
@@ -132,10 +138,15 @@ class AnalyticsService {
           [sequelize.fn('COUNT', sequelize.col('id')), 'bookings']
         ],
         group: ['period'],
-        order: [[sequelize.literal('period'), 'ASC']]
+        order: [[sequelize.literal('period'), 'ASC']],
+        raw: true
       });
 
-      return revenue.map(r => r.toJSON());
+      return revenue.map(r => ({
+        period: r.period,
+        revenue: Number(r.revenue) || 0,
+        bookings: Number(r.bookings) || 0
+      }));
     } catch (error) {
       console.error('Error fetching revenue analytics:', error);
       throw error;
@@ -246,21 +257,21 @@ class AnalyticsService {
 
       return {
         currentMonth: {
-          bookings: currentMonthBookings,
-          revenue: currentMonthRevenue || 0
+          bookings: Number(currentMonthBookings) || 0,
+          revenue: Number(currentMonthRevenue) || 0
         },
         lastMonth: {
-          bookings: lastMonthBookings,
-          revenue: lastMonthRevenue || 0
+          bookings: Number(lastMonthBookings) || 0,
+          revenue: Number(lastMonthRevenue) || 0
         },
         growth: {
-          bookings: parseFloat(bookingGrowth),
-          revenue: parseFloat(revenueGrowth)
+          bookings: Number(bookingGrowth) || 0,
+          revenue: Number(revenueGrowth) || 0
         },
         totals: {
-          users: totalUsers,
-          destinations: totalDestinations,
-          pendingBookings
+          users: Number(totalUsers) || 0,
+          destinations: Number(totalDestinations) || 0,
+          pendingBookings: Number(pendingBookings) || 0
         }
       };
     } catch (error) {
@@ -290,7 +301,10 @@ class AnalyticsService {
         raw: true
       });
 
-      return bookings;
+      return bookings.map(b => ({
+        date: b.date,
+        count: Number(b.count) || 0
+      }));
     } catch (error) {
       console.error('Error fetching booking trends:', error);
       throw error;
