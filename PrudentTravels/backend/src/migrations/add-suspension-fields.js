@@ -9,7 +9,7 @@ module.exports = {
 
     if (!tableDescription.isSuspended) {
       await queryInterface.addColumn('Users', 'isSuspended', {
-        type: DataTypes.BOOLEAN,
+        type: Sequelize.BOOLEAN,
         defaultValue: false,
         allowNull: false
       });
@@ -20,7 +20,7 @@ module.exports = {
 
     if (!tableDescription.suspendedAt) {
       await queryInterface.addColumn('Users', 'suspendedAt', {
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
         allowNull: true
       });
       console.log('✅ Added suspendedAt column');
@@ -30,7 +30,7 @@ module.exports = {
 
     if (!tableDescription.suspensionReason) {
       await queryInterface.addColumn('Users', 'suspensionReason', {
-        type: DataTypes.TEXT,
+        type: Sequelize.TEXT,
         allowNull: true
       });
       console.log('✅ Added suspensionReason column');
