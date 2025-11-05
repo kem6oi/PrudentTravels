@@ -349,7 +349,7 @@ const PaymentSubmission = () => {
               <div className="space-y-3 mb-4">
                 <div>
                   <p className="text-sm text-gray-600">Destination</p>
-                  <p className="font-semibold text-gray-900">{booking.destination?.title}</p>
+                  <p className="font-semibold text-gray-900">{booking.destination?.name}</p>
                 </div>
 
                 <div>
