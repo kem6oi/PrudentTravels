@@ -13,7 +13,9 @@ import {
   HiUserGroup,
   HiTicket,
   HiGlobe,
-  HiSupport
+  HiSupport,
+  HiCreditCard,
+  HiCurrencyDollar
 } from 'react-icons/hi';
 import { FaGlobe } from 'react-icons/fa';
 import { logout } from '../../store/slices/authSlice';
@@ -49,6 +51,8 @@ const Sidebar = () => {
         { path: '/admin/destinations', icon: HiGlobe, label: 'Destinations' },
         { path: '/admin/bookings', icon: HiCalendar, label: 'Bookings' },
         { path: '/admin/users', icon: HiUserGroup, label: 'Users' },
+        { path: '/admin/payment-verification', icon: HiCurrencyDollar, label: 'Payment Verification' },
+        { path: '/admin/payment-methods', icon: HiCreditCard, label: 'Payment Methods' },
         { path: '/admin/promos', icon: HiTicket, label: 'Promo Codes' },
         { path: '/admin/settings', icon: HiCog, label: 'Settings' },
       ],
