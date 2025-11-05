@@ -379,6 +379,60 @@ class BookingService {
       throw error;
     }
   }
+
+  /**
+   * Submit payment for a booking
+   */
+  async submitPayment(paymentData) {
+    try {
+      const { bookingId, userId, paymentMethodId, transactionCode, paymentProof } = paymentData;
+
+      // Verify booking exists and belongs to user
+      const booking = await Booking.findOne({
+        where: {
+          id: bookingId,
+          userId
+        }
+      });
+
+      if (!booking) {
+        throw new Error('Booking not found or does not belong to you');
+      }
+
+      // Check if payment already exists for this booking
+      const existingPayment = await Payment.findOne({
+        where: { bookingId }
+      });
+
+      if (existingPayment) {
+        throw new Error('Payment already submitted for this booking');
+      }
+
+      // Create payment record
+      const payment = await Payment.create({
+        bookingId,
+        userId,
+        paymentMethodId,
+        transactionCode,
+        paymentProof,
+        amount: booking.totalAmount,
+        currency: booking.currency || 'USD',
+        status: 'pending',
+        method: 'manual',
+        provider: 'manual'
+      });
+
+      // Update booking payment status
+      await booking.update({
+        paymentStatus: 'pending'
+      });
+
+      return payment;
+    } catch (error) {
+      console.error('Error submitting payment:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = new BookingService();

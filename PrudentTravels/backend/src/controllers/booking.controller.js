@@ -161,6 +161,37 @@ const checkAvailability = async (req, res) => {
   }
 };
 
+/**
+ * Submit payment for a booking
+ */
+const submitPayment = async (req, res) => {
+  try {
+    const { bookingId, paymentMethodId, transactionCode } = req.body;
+    const userId = req.user.id;
+
+    // Get uploaded file if present
+    const paymentProof = req.file ? `/uploads/temp/${req.file.filename}` : null;
+
+    // Validate required fields
+    if (!bookingId || !paymentMethodId || !transactionCode) {
+      return errorResponse(res, 'Booking ID, payment method, and transaction code are required', 400);
+    }
+
+    const payment = await bookingService.submitPayment({
+      bookingId,
+      userId,
+      paymentMethodId,
+      transactionCode,
+      paymentProof
+    });
+
+    return successResponse(res, payment, 'Payment submitted successfully. Awaiting verification.');
+  } catch (error) {
+    console.error('Error submitting payment:', error);
+    return errorResponse(res, error.message || 'Error submitting payment', 400);
+  }
+};
+
 module.exports = {
   createBooking,
   getBookingById,
@@ -168,5 +199,6 @@ module.exports = {
   getAllBookings,
   updateBookingStatus,
   cancelBooking,
-  checkAvailability
+  checkAvailability,
+  submitPayment
 };

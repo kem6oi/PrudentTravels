@@ -4,6 +4,7 @@ const { protect } = require('../middleware/auth.middleware');
 const { isAdmin, isOwnerOrAdmin } = require('../middleware/role.middleware');
 const { validateBooking } = require('../middleware/validation.middleware');
 const bookingController = require('../controllers/booking.controller');
+const upload = require('../middleware/upload.middleware');
 
 // All routes require authentication
 router.use(protect);
@@ -11,6 +12,7 @@ router.use(protect);
 // User routes
 router.post('/', validateBooking, bookingController.createBooking);
 router.get('/my-bookings', bookingController.getUserBookings);
+router.post('/submit-payment', upload.single('paymentProof'), bookingController.submitPayment);
 
 // Admin routes
 router.get('/', isAdmin, bookingController.getAllBookings);
