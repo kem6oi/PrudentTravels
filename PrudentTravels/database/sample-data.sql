@@ -1,6 +1,10 @@
 -- PrudentTravels Sample Data
 -- This file contains sample data for testing and development
--- Safe to run multiple times (uses ON CONFLICT to handle duplicates)
+--
+-- IMPORTANT: This script is designed to be run on a fresh database or after
+-- clearing existing data. Some tables (like DestinationImages) will create
+-- duplicates if run multiple times. Other tables use ON CONFLICT to handle
+-- duplicates for core entities (Users, Destinations, Bookings, etc.)
 
 -- ============================================
 -- 1. USERS
@@ -130,8 +134,7 @@ INSERT INTO "DestinationImages" ("destinationId", url, caption, "isMain", "order
 -- Swiss Alps images
 ('d3d3d3d3-3333-4333-8333-333333333333', 'https://images.unsplash.com/photo-1531366936337-7c912a4589a7', 'Matterhorn peak', true, 0, NOW(), NOW()),
 ('d3d3d3d3-3333-4333-8333-333333333333', 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4', 'Alpine meadow trail', false, 1, NOW(), NOW()),
-('d3d3d3d3-3333-4333-8333-333333333333', 'https://images.unsplash.com/photo-1531973576160-7125cd663d86', 'Mountain lake', false, 2, NOW(), NOW())
-ON CONFLICT ("destinationId", url) DO NOTHING;
+('d3d3d3d3-3333-4333-8333-333333333333', 'https://images.unsplash.com/photo-1531973576160-7125cd663d86', 'Mountain lake', false, 2, NOW(), NOW());
 
 -- ============================================
 -- 4. PROMO CODES
