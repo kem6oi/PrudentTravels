@@ -65,17 +65,17 @@ const Reviews = () => {
 
   return (
     <SidebarProvider>
-    <div className="flex h-screen bg-sky-50">
+    <div className="flex h-screen bg-slate-900">
       <Sidebar />
       <div className="flex-1 overflow-auto">
         <Navbar title="My Reviews" />
-        
+
         <main className="p-8">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            <h2 className="text-2xl font-serif font-bold text-slate-100 mb-2">
               Your Reviews
             </h2>
-            <p className="text-gray-600">
+            <p className="text-slate-300">
               {reviews.length} {reviews.length === 1 ? 'review' : 'reviews'} written
             </p>
           </div>
@@ -95,15 +95,15 @@ const Reviews = () => {
               ))}
             </div>
           ) : (
-            <div className="card p-12 text-center">
-              <HiStar className="mx-auto text-6xl text-gray-300 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl p-12 text-center">
+              <HiStar className="mx-auto text-6xl text-slate-600 mb-4" />
+              <h3 className="text-xl font-semibold text-slate-200 mb-2">
                 No reviews yet
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-slate-400 mb-6">
                 Share your travel experiences with others
               </p>
-              <a href="/user/bookings" className="btn-primary">
+              <a href="/user/bookings" className="inline-flex items-center px-6 py-3 bg-slate-700 hover:bg-slate-600 text-slate-100 font-semibold rounded-xl transition-colors">
                 View My Bookings
               </a>
             </div>
