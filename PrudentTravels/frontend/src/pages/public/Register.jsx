@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaGlobe, HiSparkles, HiShieldCheck, HiCurrencyDollar } from 'react-icons/fa';
+import { FaGlobe } from 'react-icons/fa';
 import RegisterForm from '../../components/auth/RegisterForm';
 
 const Register = () => {
