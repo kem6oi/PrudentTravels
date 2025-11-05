@@ -3,21 +3,40 @@ const { DataTypes } = require('sequelize');
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // Add suspension-related columns to Users table
-    await queryInterface.addColumn('Users', 'isSuspended', {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-      allowNull: false
-    });
 
-    await queryInterface.addColumn('Users', 'suspendedAt', {
-      type: DataTypes.DATE,
-      allowNull: true
-    });
+    // Check if columns already exist before adding them
+    const tableDescription = await queryInterface.describeTable('Users');
 
-    await queryInterface.addColumn('Users', 'suspensionReason', {
-      type: DataTypes.TEXT,
-      allowNull: true
-    });
+    if (!tableDescription.isSuspended) {
+      await queryInterface.addColumn('Users', 'isSuspended', {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      });
+      console.log('✅ Added isSuspended column');
+    } else {
+      console.log('⏭️  isSuspended column already exists');
+    }
+
+    if (!tableDescription.suspendedAt) {
+      await queryInterface.addColumn('Users', 'suspendedAt', {
+        type: DataTypes.DATE,
+        allowNull: true
+      });
+      console.log('✅ Added suspendedAt column');
+    } else {
+      console.log('⏭️  suspendedAt column already exists');
+    }
+
+    if (!tableDescription.suspensionReason) {
+      await queryInterface.addColumn('Users', 'suspensionReason', {
+        type: DataTypes.TEXT,
+        allowNull: true
+      });
+      console.log('✅ Added suspensionReason column');
+    } else {
+      console.log('⏭️  suspensionReason column already exists');
+    }
 
     console.log('✅ Successfully added suspension fields to Users table');
   },
