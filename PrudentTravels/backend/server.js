@@ -2,6 +2,7 @@ const app = require('./src/app');
 const { testConnection, sequelize } = require('./src/config/database');
 const { createInitialAdmin } = require('./src/utils/seeders');
 const { initializeDatabase } = require('./src/utils/initDatabase');
+const { runMigrations } = require('./src/utils/runMigrations');
 const fs = require('fs');
 const path = require('path');
 
@@ -46,6 +47,10 @@ const startServer = async () => {
       console.log('🔧 Initializing production database...');
       await initializeDatabase();
     }
+
+    // Run database migrations
+    console.log('🔄 Running database migrations...');
+    await runMigrations();
 
     // Create initial admin user if not exists (both dev and prod)
     await createInitialAdmin();

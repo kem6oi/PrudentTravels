@@ -39,7 +39,7 @@ const PaymentMethodManager = () => {
   const fetchPaymentMethods = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/api/v1/payment-methods');
+      const response = await api.get('/payment-methods');
       setPaymentMethods(response.data.data || []);
     } catch (error) {
       console.error('Error fetching payment methods:', error);
@@ -88,10 +88,10 @@ const PaymentMethodManager = () => {
 
     try {
       if (editingMethod) {
-        await api.put(`/api/v1/payment-methods/${editingMethod.id}`, formData);
+        await api.put(`/payment-methods/${editingMethod.id}`, formData);
         toast.success('Payment method updated successfully');
       } else {
-        await api.post('/api/v1/payment-methods', formData);
+        await api.post('/payment-methods', formData);
         toast.success('Payment method created successfully');
       }
       fetchPaymentMethods();
@@ -108,7 +108,7 @@ const PaymentMethodManager = () => {
     }
 
     try {
-      await api.delete(`/api/v1/payment-methods/${id}`);
+      await api.delete(`/payment-methods/${id}`);
       toast.success('Payment method deleted successfully');
       fetchPaymentMethods();
     } catch (error) {
