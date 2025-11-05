@@ -120,7 +120,7 @@ const BookingManager = () => {
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen bg-sky-50">
+      <div className="flex h-screen bg-slate-900">
         <Sidebar />
         <div className="flex-1 overflow-auto">
           <Navbar title="Manage Bookings" />
