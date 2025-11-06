@@ -24,7 +24,8 @@ const RegisterForm = () => {
     const { confirmPassword, ...userData } = data;
     const result = await registerUser(userData);
     if (result.success) {
-      navigate('/user/dashboard');
+      // Redirect to email verification page
+      navigate('/verify-email', { state: { email: data.email } });
     }
   };
 

@@ -6,6 +6,7 @@ import ProtectedRoute from '../components/auth/ProtectedRoute';
 import Home from '../pages/public/Home';
 import Login from '../pages/public/Login';
 import Register from '../pages/public/Register';
+import VerifyEmail from '../pages/public/VerifyEmail';
 import Destinations from '../pages/public/Destinations';
 import DestinationDetail from '../pages/public/DestinationDetail';
 import About from '../pages/public/About';
@@ -53,6 +54,7 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/suspended" element={<Suspended />} />
       <Route path="/destinations" element={<Destinations />} />
