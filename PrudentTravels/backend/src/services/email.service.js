@@ -2,32 +2,65 @@ const nodemailer = require('nodemailer');
 
 class EmailService {
   constructor() {
-    this.transporter = nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env.EMAIL_PORT,
-      secure: process.env.EMAIL_PORT === '465',
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-      }
-    });
+    // Check if email credentials are configured
+    const hasEmailConfig = process.env.EMAIL_USER && process.env.EMAIL_PASS;
+
+    if (hasEmailConfig) {
+      this.transporter = nodemailer.createTransport({
+        host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+        port: process.env.EMAIL_PORT || 587,
+        secure: process.env.EMAIL_PORT === '465',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        }
+      });
+      this.mode = 'smtp';
+      console.log('📧 Email service initialized with SMTP');
+    } else {
+      // Development mode - log emails to console instead of sending
+      this.mode = 'console';
+      console.log('📧 Email service initialized in CONSOLE mode (no SMTP credentials found)');
+      console.log('💡 To enable real emails, configure EMAIL_USER and EMAIL_PASS in .env file');
+    }
   }
 
   async sendEmail(options) {
     try {
       const mailOptions = {
-        from: `${process.env.EMAIL_FROM_NAME || 'PrudentTravels'} <${process.env.EMAIL_FROM}>`,
+        from: `${process.env.EMAIL_FROM_NAME || 'PrudentTravels'} <${process.env.EMAIL_FROM || 'noreply@prudenttravels.com'}>`,
         to: options.to,
         subject: options.subject,
         html: options.html,
         text: options.text
       };
 
+      if (this.mode === 'console') {
+        // Log email to console in development
+        console.log('\n' + '='.repeat(80));
+        console.log('📧 EMAIL (Console Mode - Not Actually Sent)');
+        console.log('='.repeat(80));
+        console.log(`To: ${mailOptions.to}`);
+        console.log(`From: ${mailOptions.from}`);
+        console.log(`Subject: ${mailOptions.subject}`);
+        console.log('-'.repeat(80));
+        console.log('HTML Content:');
+        console.log(mailOptions.html);
+        console.log('='.repeat(80) + '\n');
+
+        return { messageId: 'console-' + Date.now(), accepted: [mailOptions.to] };
+      }
+
       const info = await this.transporter.sendMail(mailOptions);
-      console.log('Email sent:', info.messageId);
+      console.log('✅ Email sent:', info.messageId);
       return info;
     } catch (error) {
-      console.error('Email sending failed:', error);
+      console.error('❌ Email sending failed:', error.message);
+      // Don't throw in development mode, just log the error
+      if (this.mode === 'console') {
+        console.log('💡 Email would have been sent if SMTP was configured');
+        return { messageId: 'error-' + Date.now(), error: error.message };
+      }
       throw error;
     }
   }
